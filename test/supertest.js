@@ -59,15 +59,17 @@ describe('request(app)', function(){
     it('should assert the response body', function(done){
       var app = express();
 
+      app.set('json spaces', 0);
+
       app.get('/', function(req, res){
-        res.send('heys');
+        res.send({ foo: 'bar' });
       });
 
       request(app)
       .get('/')
       .expect('hey')
       .end(function(err, res){
-        err.message.should.equal('expected "hey" response body, got "heys"');
+        err.message.should.equal('expected \'hey\' response body, got \'{"foo":"bar"}\'');
         done();
       });
     })
