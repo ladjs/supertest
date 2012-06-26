@@ -74,4 +74,22 @@ describe('request(app)', function(){
       });
     })
   })
+
+  describe('.expect(field, value[, fn])', function(){
+    it('should assert the header field value', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send({ foo: 'bar' });
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html')
+      .end(function(err, res){
+        err.message.should.equal('expected "Content-Type" of "text/html", got "application/json; charset=utf-8"');
+        done();
+      });
+    })
+  })
 })
