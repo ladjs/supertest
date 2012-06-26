@@ -49,7 +49,7 @@ describe('request(app)', function(){
       .get('/')
       .expect(404)
       .end(function(err, res){
-        err.message.should.equal('expected 404 response, got 200');
+        err.message.should.equal('expected 404 "Not Found", got 200 "OK"');
         done();
       });
     })
