@@ -7,7 +7,8 @@
     "test": "make test"
   },
   "dependencies": {
-    "superagent": "0.5.0"
+    "superagent": "0.5.0",
+    "methods": "0.0.1"
   },
   "devDependencies": {
     "mocha": "*",

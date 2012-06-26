@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var methods = require('./lib/methods')
+var methods = require('methods')
   , Test = require('./lib/test')
   , http = require('http');
 
