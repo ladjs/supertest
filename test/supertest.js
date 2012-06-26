@@ -76,6 +76,22 @@ describe('request(app)', function(){
   })
 
   describe('.expect(field, value[, fn])', function(){
+    it('should assert the header field presence', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send({ foo: 'bar' });
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Foo', 'bar')
+      .end(function(err, res){
+        err.message.should.equal('expected "Content-Foo" header field');
+        done();
+      });
+    })
+
     it('should assert the header field value', function(done){
       var app = express();
 
