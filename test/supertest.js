@@ -36,4 +36,10 @@ describe('request(app)', function(){
       });
     });
   })
+
+  describe('.expect(status[, fn])', function(){
+    it('should assert the response status', function(){
+      
+    })
+  })
 })
