@@ -107,5 +107,19 @@ describe('request(app)', function(){
         done();
       });
     })
+
+    it('should assert multiple fields', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', 'text/html; charset=utf-8')
+      .expect('Content-Length', '3')
+      .end(done);
+    })
   })
 })
