@@ -85,7 +85,6 @@ describe('request(app)', function(){
       .get('/')
       .expect(/^bar/)
       .end(function(err, res){
-        console.log(err.message);
         err.message.should.equal('expected body \'foobar\' to match /^bar/');
         done();
       });
