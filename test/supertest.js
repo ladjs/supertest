@@ -38,8 +38,19 @@ describe('request(app)', function(){
   })
 
   describe('.expect(status[, fn])', function(){
-    it('should assert the response status', function(){
-      
+    it('should assert the response status', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect(404, function(err){
+        err.message.should.equal('expected 404 response, got 200');
+        done();
+      });
     })
   })
 })
