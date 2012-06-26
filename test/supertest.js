@@ -37,6 +37,21 @@ describe('request(app)', function(){
     });
   })
 
+  it('should work with .send() etc', function(done){
+    var app = express();
+
+    app.use(express.bodyParser());
+
+    app.post('/', function(req, res){
+      res.send(req.body.name);
+    });
+
+    request(app)
+    .post('/')
+    .send({ name: 'tobi' })
+    .expect('tobi', done);
+  })
+
   it('should default redirects to 0', function(done){
     var app = express();
 
