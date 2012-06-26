@@ -12,7 +12,7 @@ describe('request(app)', function(){
 
     request(app)
     .get('/')
-    .end(function(res){
+    .end(function(err, res){
       res.should.have.status(200);
       res.text.should.equal('hey');
       done();
@@ -29,7 +29,7 @@ describe('request(app)', function(){
     var server = app.listen(4000, function(){
       request(server)
       .get('/')
-      .end(function(res){
+      .end(function(err, res){
         res.should.have.status(200);
         res.text.should.equal('hey');
         done();
@@ -47,7 +47,8 @@ describe('request(app)', function(){
 
       request(app)
       .get('/')
-      .expect(404, function(err){
+      .expect(404)
+      .end(function(err, res){
         err.message.should.equal('expected 404 response, got 200');
         done();
       });
