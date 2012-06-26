@@ -121,5 +121,21 @@ describe('request(app)', function(){
       .expect('Content-Length', '3')
       .end(done);
     })
+
+    it('should support regular expressions', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Type', /^application/)
+      .end(function(err){
+        err.message.should.equal('expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"');
+        done();
+      });
+    })
   })
 })
