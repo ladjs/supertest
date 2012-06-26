@@ -54,4 +54,22 @@ describe('request(app)', function(){
       });
     })
   })
+
+  describe('.expect(body[, fn])', function(){
+    it('should assert the response body', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('heys');
+      });
+
+      request(app)
+      .get('/')
+      .expect('hey')
+      .end(function(err, res){
+        err.message.should.equal('expected "hey" response body, got "heys"');
+        done();
+      });
+    })
+  })
 })
