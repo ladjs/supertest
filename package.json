@@ -1,0 +1,28 @@
+{
+  "name": "supertest",
+  "version": "0.0.1",
+  "description": "Super-agent driven library for testing HTTP servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "superagent": "0.5.0"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "express": "3.0.0beta4"
+  },
+  "keywords": [
+    "superagent",
+    "request",
+    "tdd",
+    "bdd",
+    "http",
+    "test",
+    "testing"
+  ],
+  "author": "TJ Holowaychuk",
+  "license": "MIT"
+}
