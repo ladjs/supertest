@@ -37,6 +37,18 @@ describe('request(app)', function(){
     });
   })
 
+  it('should default redirects to 0', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.redirect('/login');
+    });
+
+    request(app)
+    .get('/')
+    .expect(302, done);
+  })
+
   describe('.expect(status[, fn])', function(){
     it('should assert the response status', function(done){
       var app = express();
