@@ -73,6 +73,23 @@ describe('request(app)', function(){
         done();
       });
     })
+
+    it('should support regular expressions', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('foobar');
+      });
+
+      request(app)
+      .get('/')
+      .expect(/^bar/)
+      .end(function(err, res){
+        console.log(err.message);
+        err.message.should.equal('expected body \'foobar\' to match /^bar/');
+        done();
+      });
+    })
   })
 
   describe('.expect(field, value[, fn])', function(){
