@@ -36,3 +36,25 @@ request(app)
     if (err) throw err;
   });
 ```
+
+## API
+
+  You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
+  including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
+  for lower-level needs.
+
+### .expect(status[, fn])
+
+  Assert response `status` code.
+
+### .expect(body[, fn])
+
+  Assert response `body` text with a string or regular expression.
+
+### .expect(field, value[, fn])
+
+  Assert header `field` `value` with a string or regular expression.
+
+### .end(fn)
+
+  Perform the request and invoke `fn(err, res)`.
