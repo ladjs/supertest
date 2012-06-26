@@ -37,6 +37,20 @@ request(app)
   });
 ```
 
+  Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
+
+```js
+describe('GET /users', function(){
+  it('respond with json', function(done){
+    request(app)
+      .get('/user')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  })
+})
+```
+
 ## API
 
   You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
