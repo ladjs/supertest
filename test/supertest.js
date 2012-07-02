@@ -101,6 +101,20 @@ describe('request(app)', function(){
       });
     })
 
+    it('should assert the response text', function(done){
+      var app = express();
+
+      app.set('json spaces', 0);
+
+      app.get('/', function(req, res){
+        res.send({ foo: 'bar' });
+      });
+
+      request(app)
+      .get('/')
+      .expect('{"foo":"bar"}', done);
+    })
+
     it('should support regular expressions', function(done){
       var app = express();
 
