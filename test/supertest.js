@@ -115,6 +115,28 @@ describe('request(app)', function(){
       .expect('{"foo":"bar"}', done);
     })
 
+    it('should assert the parsed response body', function(done){
+      var app = express();
+
+      app.set('json spaces', 0);
+
+      app.get('/', function(req, res){
+        res.send({ foo: 'bar' });
+      });
+
+      request(app)
+      .get('/')
+      .expect({ foo: 'baz' })
+      .end(function(err, res){
+        err.message.should.equal('expected { foo: \'baz\' } response body, got { foo: \'bar\' }');
+
+        request(app)
+        .get('/')
+        .expect({ foo: 'bar' })
+        .end(done);
+      });
+    })
+
     it('should support regular expressions', function(done){
       var app = express();
 

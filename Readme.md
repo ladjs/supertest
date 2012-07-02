@@ -63,7 +63,8 @@ describe('GET /users', function(){
 
 ### .expect(body[, fn])
 
-  Assert response `body` text with a string or regular expression.
+  Assert response `body` text with a string, regular expression, or
+  parsed body object.
 
 ### .expect(field, value[, fn])
 
