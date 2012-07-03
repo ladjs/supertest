@@ -82,6 +82,21 @@ describe('request(app)', function(){
     })
   })
 
+  describe('.expect(status, body[, fn])', function(){
+    it('should assert the response body and status', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('foo');
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'foo')
+      .end(done);
+    })
+  })
+
   describe('.expect(body[, fn])', function(){
     it('should assert the response body', function(done){
       var app = express();
