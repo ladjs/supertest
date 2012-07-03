@@ -92,8 +92,7 @@ describe('request(app)', function(){
 
       request(app)
       .get('/')
-      .expect(200, 'foo')
-      .end(done);
+      .expect(200, 'foo', done)
     })
   })
 

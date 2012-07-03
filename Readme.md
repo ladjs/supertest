@@ -61,6 +61,10 @@ describe('GET /users', function(){
 
   Assert response `status` code.
 
+### .expect(status, body[, fn])
+
+  Assert response `status` code and `body`.
+
 ### .expect(body[, fn])
 
   Assert response `body` text with a string, regular expression, or
