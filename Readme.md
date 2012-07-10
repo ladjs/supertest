@@ -51,6 +51,15 @@ describe('GET /users', function(){
 })
 ```
 
+  Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
+
+```js
+request(app)
+.post('/')
+.attach('test/fixtures/homeboy.jpg', 'avatar')
+...
+```
+
 ## API
 
   You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
