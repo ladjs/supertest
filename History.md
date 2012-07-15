@@ -1,4 +1,9 @@
 
+0.1.2 / 2012-07-15 
+==================
+
+  * change bind address from 0.0.0.0 to 127.0.0.1 to prevent EADDRNOTAVAIL on windows
+
 0.1.1 / 2012-07-03 
 ==================
 
