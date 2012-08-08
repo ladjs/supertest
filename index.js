@@ -25,7 +25,6 @@ module.exports = function(app){
       ? 'del'
       : method;
 
-    method = method.toUpperCase();
     obj[name] = function(url){
       return new Test(app, method, url);
     };
