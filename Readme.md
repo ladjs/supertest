@@ -1,4 +1,3 @@
-
 # SuperTest
 
   HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
@@ -86,3 +85,11 @@ request(app)
 ### .end(fn)
 
   Perform the request and invoke `fn(err, res)`.
+
+## Notes
+
+  Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling.
+
+## License
+
+  MIT
