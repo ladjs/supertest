@@ -93,7 +93,25 @@ describe('request(app)', function(){
       request(app)
       .get('/')
       .expect(200, 'foo', done)
-    })
+    });
+
+    describe("when the body argument is an empty string", function() {
+      it("should not quietly pass on failure", function(done) {
+        var app = express();
+
+        app.get('/', function(req, res){
+          res.send('foo');
+        });
+
+        request(app)
+        .get('/')
+        .expect(200, '')
+        .end(function(err, res){
+          err.message.should.equal('expected \'\' response body, got \'foo\'');
+          done();
+        });
+      });
+    });
   })
 
   describe('.expect(body[, fn])', function(){
