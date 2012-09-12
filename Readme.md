@@ -17,7 +17,7 @@
   test framework at all:
 
 ```js
-var request = require('./')
+var request = require('supertest')
   , express = require('express');
 
 var app = express();
