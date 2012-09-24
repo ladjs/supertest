@@ -1,5 +1,8 @@
 
 var request = require('..')
+  , https = require('https')
+  , fs = require('fs')
+  , path = require('path')
   , express = require('express');
 
 describe('request(app)', function(){
@@ -34,6 +37,28 @@ describe('request(app)', function(){
         res.text.should.equal('hey');
         done();
       });
+    });
+  })
+
+  it('should work with a https server', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hey');
+    });
+
+    var fixtures = path.join(__dirname, 'fixtures');
+    var server = https.createServer({
+      key: fs.readFileSync(path.join(fixtures, 'test_key.pem')),
+      cert: fs.readFileSync(path.join(fixtures, 'test_cert.pem'))
+    }, app);
+
+    request(server)
+    .get('/')
+    .end(function(err, res){
+      res.should.have.status(200);
+      res.text.should.equal('hey');
+      done();
     });
   })
 
