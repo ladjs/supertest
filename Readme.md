@@ -50,6 +50,26 @@ describe('GET /users', function(){
 })
 ```
 
+  If you are using the `.end()` syntax with mocha, `expect()` assertions that fail will
+  not throw - they will return the assertion as an error to the `.end()` callback. In
+  order to fail the test case, you will need to rethrow or pass `err` to `done`, as follows:
+
+```js
+describe('GET /users', function(){
+  it('respond with json', function(done){
+    request(app)
+      .get('/user')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .end(function(err, res){
+        if (err)
+          done(err) // if response is 500 or 404, test case will fail
+        done()
+      });
+  })
+})
+```
+
   Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
 
 ```js
