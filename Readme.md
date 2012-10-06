@@ -50,9 +50,9 @@ describe('GET /users', function(){
 })
 ```
 
-  If you are using the `.end()` syntax with mocha, `expect()` assertions that fail will
+  If you are using the `.end()` syntax with mocha, `.expect()` assertions that fail will
   not throw - they will return the assertion as an error to the `.end()` callback. In
-  order to fail the test case, you will need to rethrow or pass `err` to `done`, as follows:
+  order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
 ```js
 describe('GET /users', function(){
