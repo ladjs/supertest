@@ -63,7 +63,7 @@ describe('GET /users', function(){
       .expect(200)
       .end(function(err, res){
         if (err)
-          done(err) // if response is 500 or 404, test case will fail
+          return done(err) // if response is 500 or 404, test case will fail
         done()
       });
   })
