@@ -50,7 +50,7 @@ describe('GET /users', function(){
 })
 ```
 
-  If you are using the `.end()` syntax with mocha, `.expect()` assertions that fail will
+  If you are using the `.end()` method `.expect()` assertions that fail will
   not throw - they will return the assertion as an error to the `.end()` callback. In
   order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
@@ -62,8 +62,7 @@ describe('GET /users', function(){
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res){
-        if (err)
-          return done(err) // if response is 500 or 404, test case will fail
+        if (err) return done(err);
         done()
       });
   })
