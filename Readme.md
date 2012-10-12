@@ -74,7 +74,7 @@ describe('GET /users', function(){
 ```js
 request(app)
 .post('/')
-.attach('test/fixtures/homeboy.jpg', 'avatar')
+.attach('avatar', 'test/fixtures/homeboy.jpg')
 ...
 ```
 
