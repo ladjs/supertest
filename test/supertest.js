@@ -40,6 +40,24 @@ describe('request(app)', function(){
     });
   })
 
+  it('should work with remote server', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hey');
+    });
+
+    var server = app.listen(4001, function(){
+      request('http://localhost:4001')
+      .get('/')
+      .end(function(err, res){
+        res.should.have.status(200);
+        res.text.should.equal('hey');
+        done();
+      });
+    });
+  })
+
   it('should work with a https server', function(done){
     var app = express();
 
