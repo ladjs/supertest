@@ -35,7 +35,7 @@ describe('request(app)', function(){
       .end(function(err, res){
         res.should.have.status(200);
         res.text.should.equal('hey');
-        server.close(done)
+        done();
       });
     });
   })
@@ -47,13 +47,13 @@ describe('request(app)', function(){
       res.send('hey');
     });
 
-    var server = app.listen(4000, function(){
-      request('http://localhost:4000')
+    var server = app.listen(4001, function(){
+      request('http://localhost:4001')
       .get('/')
       .end(function(err, res){
         res.should.have.status(200);
         res.text.should.equal('hey');
-        server.close(done)
+        done();
       });
     });
   })
