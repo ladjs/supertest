@@ -35,7 +35,25 @@ describe('request(app)', function(){
       .end(function(err, res){
         res.should.have.status(200);
         res.text.should.equal('hey');
-        done();
+        server.close(done)
+      });
+    });
+  })
+
+  it('should work with remote server', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hey');
+    });
+
+    var server = app.listen(4000, function(){
+      request('http://localhost:4000')
+      .get('/')
+      .end(function(err, res){
+        res.should.have.status(200);
+        res.text.should.equal('hey');
+        server.close(done)
       });
     });
   })
