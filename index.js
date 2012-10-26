@@ -17,7 +17,6 @@ var methods = require('methods')
  */
 
 module.exports = function(app){
-  if ('function' == typeof app) app = http.createServer(app);
   var obj = {};
 
   methods.forEach(function(method){

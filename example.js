@@ -14,7 +14,9 @@ request(app)
   .expect('Content-Length', '20')
   .expect(201)
   .end(function(err, res){
-    if (err) throw err;
-    console.log('done');
-    process.exit();
+      if (err) {
+          throw err;
+      }
+      console.log('done');
+      process.exit();
   });
