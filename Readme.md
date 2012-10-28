@@ -78,6 +78,21 @@ request(app)
 ...
 ```
 
+  When using supertest with a url instead of passing a server or "app",
+  you may bind the initial value to prevent redundancy:
+
+```js
+request = request.bind(request, 'http://localhost:5555');
+
+request.get('/').expect(200, function(err){
+  console.log(err);
+});
+
+request.get('/').expect('heya', function(err){
+  console.log(err);
+});
+```
+
 ## API
 
   You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
