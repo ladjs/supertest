@@ -7,7 +7,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "superagent": "0.9.0"
+    "superagent": "git://github.com/twojcik/superagent.git#master"
   },
   "devDependencies": {
     "mocha": "*",
