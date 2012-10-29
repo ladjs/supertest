@@ -1,34 +1,45 @@
-
 /**
  * Module dependencies.
  */
 
-var methods = require('methods')
-  , Test = require('./lib/test')
-  , http = require('http');
+var http = require('http')
+    , https = require('https')
+    , util = require('util')
+    , request = require('superagent')
+    , Request = request.Request
+    , Supertestable = require('./lib/supertestable');
+
+/**
+ * Starting port.
+ */
+var port = 3456;
+
+Supertestable(Request.prototype);
 
 /**
  * Test against the given `app`,
- * returning a new `Test`.
+ * returning `enhanced superagent request`.
  *
  * @param {Function|Server} app
- * @return {Test}
+ * @return {Request}
  * @api public
  */
 
-module.exports = function(app){
-  if ('function' == typeof app) app = http.createServer(app);
-  var obj = {};
+module.exports = function (app) {
+    if ('function' == typeof app) app = http.createServer(app);
+    var addr = app.address();
+    var portno = addr ? addr.port : port++;
+    if (!addr) app.listen(portno);
+    var protocol = app instanceof https.Server ? 'https' : 'http';
+    var host = protocol + '://127.0.0.1:' + portno;
 
-  methods.forEach(function(method){
-    var name = 'delete' == method
-      ? 'del'
-      : method;
+    request.Request = function (method, url) {
+        var request = new Request(method, host + url);
+        request._fields = {};
+        request.redirects(0);
 
-    obj[name] = function(url){
-      return new Test(app, method, url);
-    };
-  });
+        return request;
+    }
 
-  return obj;
+    return request;
 };
