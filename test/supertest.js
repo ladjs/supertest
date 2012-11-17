@@ -95,6 +95,18 @@ describe('request(app)', function(){
     .expect('tobi', done);
   })
 
+  it('should work when unbuffered', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.end('Hello');
+    });
+
+    request(app)
+    .get('/')
+    .expect('Hello', done);
+  })
+
   it('should default redirects to 0', function(done){
     var app = express();
 
