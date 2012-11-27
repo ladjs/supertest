@@ -239,6 +239,24 @@ describe('request(app)', function(){
         done();
       });
     })
+
+    it('should assert response body multiple times', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('hey tj');
+      });
+
+      request(app)
+      .get('/')
+      .expect(/tj/)
+      .expect('hey')
+      .expect('hey tj')
+      .end(function (err, res) {
+        err.message.should.equal("expected 'hey' response body, got 'hey tj'");
+        done();
+      });
+    })
   })
 
   describe('.expect(field, value[, fn])', function(){
