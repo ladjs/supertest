@@ -257,6 +257,20 @@ describe('request(app)', function(){
         done();
       });
     })
+
+    it('should assert response body multiple times with no exception', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('hey tj');
+      });
+
+      request(app)
+      .get('/')
+      .expect(/tj/)
+      .expect(/^hey/)
+      .expect('hey tj', done);
+    })
   })
 
   describe('.expect(field, value[, fn])', function(){
