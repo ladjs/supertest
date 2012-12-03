@@ -202,6 +202,21 @@ describe('request(app)', function(){
       .expect('{"foo":"bar"}', done);
     })
 
+    it('should assert the response text after expect(status)', function(done){
+      var app = express();
+
+      app.set('json spaces', 0);
+
+      app.get('/', function(req, res){
+        res.send({ foo: 'bar' });
+      });
+
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('{"foo":"bar"}', done);
+    })
+
     it('should assert the parsed response body', function(done){
       var app = express();
 
