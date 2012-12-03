@@ -118,6 +118,34 @@ describe('request(app)', function(){
     .get('/')
     .expect(302, done);
   })
+  it('should expose a object body to expect callback', function(done){
+    var app = express();
+    app.set('json spaces', 0);
+    app.get('/', function(req, res){
+      res.send({foo: 'bar'});
+    });
+
+    request(app)
+    .get('/')
+    .expect(200, function(err, req, body) {
+      body.should.equal('{"foo":"bar"}')
+      done()
+    })
+  })
+  it('should expose a text body in expect callback', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('foo');
+    });
+
+    request(app)
+    .get('/')
+    .expect(200, function(err, req, body) {
+      body.should.equal('foo')
+      done()
+    })
+  })
 
   describe('.expect(status[, fn])', function(){
     it('should assert the response status', function(done){
