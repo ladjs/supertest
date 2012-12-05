@@ -119,6 +119,36 @@ describe('request(app)', function(){
     .expect(302, done);
   })
 
+  it('should redirect many times', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.redirect('/redirect1');
+    });
+    
+    app.get('/redirect1', function(req, res){
+      res.redirect('/redirect2');
+    });
+    
+    app.get('/redirect2', function(req, res){
+      res.redirect('/redirect3');
+    });
+
+    app.get('/redirect3', function(req, res){
+      res.send(200, 'Redirected 3 times');
+    });
+
+    request(app)
+    .get('/')
+    .redirects(5)
+    .end(function(err, res) {
+      res.should.have.status(200);
+      res.redirects.should.have.length(3);
+      res.text.should.equal('Redirected 3 times');
+      done()
+    });
+  })
+
   describe('.expect(status[, fn])', function(){
     it('should assert the response status', function(done){
       var app = express();
