@@ -3,7 +3,8 @@ var request = require('..')
   , https = require('https')
   , fs = require('fs')
   , path = require('path')
-  , express = require('express');
+  , express = require('express')
+  , should = require('should');
 
 describe('request(app)', function(){
   it('should fire up the app on an ephemeral port', function(done){
@@ -146,6 +147,38 @@ describe('request(app)', function(){
       res.redirects.should.have.length(3);
       res.text.should.equal('Redirected 3 times');
       done()
+    });
+  })
+
+  it('should throw an error during redirects', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.redirect('/redirect1');
+    });
+    
+    app.get('/redirect1', function(req, res){
+      res.redirect('/redirect2');
+    });
+    
+    app.get('/redirect2', function(req, res){
+      setTimeout(function() {
+        res.send(200, 'Should not see me!');
+      }, 200);
+    });
+    
+    var timeout = 10;
+
+    request(app)
+    .get('/')
+    .timeout(timeout)
+    .redirects(5)
+    .on('error', function(err) {
+      err.timeout.should.equal(timeout);
+      done();
+    })
+    .end(function(err, res) {
+      should.fail('There was supposed to be an error');
     });
   })
 
