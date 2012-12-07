@@ -137,6 +137,21 @@ describe('request(app)', function(){
     })
   })
 
+  describe('.expect(status)', function () {
+    it('should assert only status', function (done) {
+      var app = express();
+
+      app.get('/', function (req, res) {
+        res.send('hey');
+      })
+
+      request(app)
+      .get('/')
+      .expect(200)
+      .end(done)
+    })
+  })
+
   describe('.expect(status, body[, fn])', function(){
     it('should assert the response body and status', function(done){
       var app = express();
