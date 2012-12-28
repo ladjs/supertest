@@ -13,7 +13,7 @@
   already listening for connections then it is bound to an ephemeral port for you so
   there is no need to keep track of ports.
 
-  SuperTest works with any test framework, here is an example without using any 
+  SuperTest works with any test framework, here is an example without using any
   test framework at all:
 
 ```js
@@ -78,11 +78,12 @@ request(app)
 ...
 ```
 
-  When using supertest with a url instead of passing a server or "app",
-  you may bind the initial value to prevent redundancy:
+  Passing the app or url each time is not necessary, if you're testing
+  the same host you may simply re-assign the request variable with the
+  initialization app or url, a new `Test` is created per `request.VERB()` call.
 
 ```js
-request = request.bind(request, 'http://localhost:5555');
+request = request('http://localhost:5555');
 
 request.get('/').expect(200, function(err){
   console.log(err);
