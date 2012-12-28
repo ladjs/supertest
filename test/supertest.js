@@ -5,6 +5,23 @@ var request = require('..')
   , path = require('path')
   , express = require('express');
 
+describe('request(url)', function(){
+  it('should be supported', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hello');
+    });
+
+    var s = app.listen(function(){
+      var url = 'http://localhost:' + s.address().port;
+      request(url)
+      .get('/')
+      .expect("hello", done);
+    });
+  })
+})
+
 describe('request(app)', function(){
   it('should fire up the app on an ephemeral port', function(done){
     var app = express();
