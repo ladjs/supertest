@@ -32,3 +32,15 @@ module.exports = function(app){
 
   return obj;
 };
+
+/**
+ * Expose `Test`
+ */
+
+module.exports.Test = Test;
+
+/**
+ * Expose the agent function
+ */
+
+module.exports.agent = require('./lib/agent');
