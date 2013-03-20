@@ -34,6 +34,12 @@ module.exports = function(app){
 };
 
 /**
+ * Expose `Test`
+ */
+
+module.exports.Test = Test;
+
+/**
  * Expose the agent function
  */
 
