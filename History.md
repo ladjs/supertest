@@ -1,4 +1,11 @@
 
+0.6.0 / 2013-04-15 
+==================
+
+  * add exposing of `Test` to enable extensibility
+  * add request.agent(app) support
+  * add request(url) test. Closes #33
+
 0.5.1 2012-12-07 
 ==================
 
