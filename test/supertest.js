@@ -381,7 +381,7 @@ describe('request.agent(app)', function(){
   });
 
   app.get('/return', function(req, res){
-    if(req.cookies.cookie) res.send(req.cookies.cookie);
+    if (req.cookies.cookie) res.send(req.cookies.cookie);
     else res.send(':(')
   });
 
