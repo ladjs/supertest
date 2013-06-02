@@ -3,6 +3,7 @@ var request = require('..')
   , https = require('https')
   , fs = require('fs')
   , path = require('path')
+  , should = require('should')
   , express = require('express');
 
 describe('request(url)', function(){
@@ -91,6 +92,7 @@ describe('request(app)', function(){
     request(server)
     .get('/')
     .end(function(err, res){
+      if (err) return done(err);
       res.should.have.status(200);
       res.text.should.equal('hey');
       done();
@@ -134,6 +136,21 @@ describe('request(app)', function(){
     request(app)
     .get('/')
     .expect(302, done);
+  })
+
+  it('should handle socket errors', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.destroy();
+    });
+
+    request(app)
+    .get('/')
+    .end(function(err) {
+      should.exist(err);
+      done();
+    });
   })
 
   describe('.expect(status[, fn])', function(){
