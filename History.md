@@ -1,4 +1,10 @@
 
+0.6.1 / 2013-06-02 
+==================
+
+ * fix: EADDRINUSE errnos, use ephemeral ports now
+ * fix: handling of socket errors
+
 0.6.0 / 2013-04-15 
 ==================
 
