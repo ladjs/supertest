@@ -1,4 +1,9 @@
 
+0.7.0 / 2013-06-04 
+==================
+
+ * add error properties so test frameworks can show diffs etc. Closes #65
+
 0.6.1 / 2013-06-02 
 ==================
 
