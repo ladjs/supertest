@@ -126,6 +126,42 @@ describe('request(app)', function(){
     .expect('Hello', done);
   })
 
+  // Problem 1: .pipe returns this.end().req.on(...). `this` of .on is
+  // http(s) Request, not supertest, meaning calls to `expect`, `assert`,
+  // etc fail because they don't exist
+  it('should retain supertest methods when piped', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.end('Hello');
+    });
+
+    request(app)
+    .get('/')
+    .pipe(process.stdout)
+    .expect('Hello', done);
+  })
+
+  // Problem 2: .pipe, defined in superagent Request#pipe, calls
+  // `this.end()...` without an fn arg. `this.end` is actually Test#end, which
+  // has no guards for an undefined callback.
+  // What should the behavior of `this.end` with no callback be in supertest
+  // when there are errors?
+  it('should allow further `end` calls when piped', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.end('Hello');
+    });
+
+    request(app)
+    .get('/')
+    .pipe(process.stdout)
+    .end(function(err, res){
+      done(err);
+    })
+  })
+
   it('should default redirects to 0', function(done){
     var app = express();
 
