@@ -384,6 +384,74 @@ describe('request(app)', function(){
         done();
       });
     })
+
+    describe('handling multiple assertions per field', function(){
+
+      it('should work', function(done){
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', /text/)
+        .expect('Content-Type', /html/)
+        .end(done);
+      });
+
+      it('should return an error if the first one fails', function(done){
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', /bloop/)
+        .expect('Content-Type', /html/)
+        .end(function(err){
+          err.message.should.equal('expected "Content-Type" matching /bloop/, got "text/html; charset=utf-8"');
+          done();
+        });
+      });
+
+      it('should return an error if a middle one fails', function(done){
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', /text/)
+        .expect('Content-Type', /bloop/)
+        .expect('Content-Type', /html/)
+        .end(function(err){
+          err.message.should.equal('expected "Content-Type" matching /bloop/, got "text/html; charset=utf-8"');
+          done();
+        });
+      });
+
+      it('should return an error if the last one fails', function(done){
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect('Content-Type', /text/)
+        .expect('Content-Type', /html/)
+        .expect('Content-Type', /bloop/)
+        .end(function(err){
+          err.message.should.equal('expected "Content-Type" matching /bloop/, got "text/html; charset=utf-8"');
+          done();
+        });
+      });
+
+    });
+
   })
 })
 
