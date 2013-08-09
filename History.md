@@ -1,4 +1,9 @@
 
+0.8.0 / 2013-08-09 
+==================
+
+ * add ability for multiple assertions per header
+
 0.7.1 / 2013-07-02 
 ==================
 
