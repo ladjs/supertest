@@ -58,7 +58,24 @@ describe('request(app)', function(){
     });
   })
 
-  it('should work with remote server', function(done){
+  it('should close down the server if it started it', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hey');
+    });
+
+
+    var testReq = request(app)
+    .get('/')
+    .end(function(err, res){
+      res.should.have.status(200);
+      res.text.should.equal('hey');
+    });
+    testReq.app.on('close', function(){done();});
+  })
+
+  it('should not close down an already started server', function(done){
     var app = express();
 
     app.get('/', function(req, res){
@@ -66,7 +83,27 @@ describe('request(app)', function(){
     });
 
     var server = app.listen(4001, function(){
-      request('http://localhost:4001')
+      var testReq = request(server)
+      .get('/')
+      .end(function(err, res){
+        res.should.have.status(200);
+        res.text.should.equal('hey');
+        testReq.close().should.be.false;
+        done();
+      });
+    });
+
+  })
+
+  it('should work with remote server', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hey');
+    });
+
+    var server = app.listen(4002, function(){
+      request('http://localhost:4002')
       .get('/')
       .end(function(err, res){
         res.should.have.status(200);
