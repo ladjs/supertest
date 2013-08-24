@@ -25,5 +25,9 @@
     "testing"
   ],
   "author": "TJ Holowaychuk",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/visionmedia/supertest.git"
+  }
 }
