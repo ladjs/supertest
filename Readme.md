@@ -1,20 +1,16 @@
 # SuperTest
 
-  HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
+  通过[super-agent](http://github.com/visionmedia/superagent)来使得HTTP断言更简单。
 
-## About
+## 关于
 
-  The motivation with this module is to provide a high-level abstraction for testing
-  HTTP, while still allowing you to drop down to the lower-level API provided by super-agent.
+  （写）该模块的动机是为了对HTTP测试提供高层级抽象的同时也允许你使用super-agent提供的低层级API
 
-## Example
+## 例子
 
-  You may pass an `http.Server`, or a `Function` to `request()` - if the server is not
-  already listening for connections then it is bound to an ephemeral port for you so
-  there is no need to keep track of ports.
+  你可以传入个`http.Server`或`Function`给`request()` - 如果服务器还未监听链接则它将为你绑定到一个随机的端口这样你就不需要跟踪端口。
 
-  SuperTest works with any test framework, here is an example without using any
-  test framework at all:
+  SuperTest（可以与）任何测试框架一起工作，这里是个没有使用任何测试框架的例子：
 
 ```js
 var request = require('supertest')
@@ -36,7 +32,7 @@ request(app)
   });
 ```
 
-  Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
+  这里是个与mocha（测试框架）工作的例子，注意你可以通过直接传递 `done` （参数）给任意的 `.expect()` 调用：
 
 ```js
 describe('GET /users', function(){
@@ -50,7 +46,7 @@ describe('GET /users', function(){
 })
 ```
 
-  If you are using the `.end()` method `.expect()` assertions that fail will
+  如果你是用 `.end()` 方法If you are using the `.end()` method `.expect()` assertions that fail will
   not throw - they will return the assertion as an error to the `.end()` callback. In
   order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
