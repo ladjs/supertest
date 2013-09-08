@@ -46,9 +46,7 @@ describe('GET /users', function(){
 })
 ```
 
-  如果你是用 `.end()` 方法If you are using the `.end()` method `.expect()` assertions that fail will
-  not throw - they will return the assertion as an error to the `.end()` callback. In
-  order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
+  如果你是用 `.end()` 方法 `.expect()` 断言错误将会不被抛出 - 它们将断言作为错误返回给 `.end()` 回调。为了使得该测试用例错误，你需要重新抛出或传递 `err` 给 `done()`，如下所示：
 
 ```js
 describe('GET /users', function(){
@@ -65,7 +63,7 @@ describe('GET /users', function(){
 })
 ```
 
-  Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
+  任何你在superagent所做的，可以在supertest上做 - 例如多重文件上传！
 
 ```js
 request(app)
@@ -74,9 +72,7 @@ request(app)
 ...
 ```
 
-  Passing the app or url each time is not necessary, if you're testing
-  the same host you may simply re-assign the request variable with the
-  initialization app or url, a new `Test` is created per `request.VERB()` call.
+  不需要每次都传递app或者url，如果你测试相同的主机你可以基于初始化的app或url简单的重新分配请求变量，一个新的 `Test` 将在每个 `request.VERB()` 调用时被建立。
 
 ```js
 request = request('http://localhost:5555');
@@ -92,35 +88,32 @@ request.get('/').expect('heya', function(err){
 
 ## API
 
-  You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
-  including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
-  for lower-level needs.
+  你可以使用任何[super-agent](http://github.com/visionmedia/superagent)方法，包括 `.write()`, `.pipe()` 及在 `.end()` 回调执行低级别需求的断言。
 
 ### .expect(status[, fn])
 
-  Assert response `status` code.
+  断言响应 `status` 码。
 
 ### .expect(status, body[, fn])
 
-  Assert response `status` code and `body`.
+  断言响应 `status` 码和 `body`。
 
 ### .expect(body[, fn])
 
-  Assert response `body` text with a string, regular expression, or
-  parsed body object.
+   以一个字符串或正则表达式或解析过的body对象断言响应 `body` 文本。
 
 ### .expect(field, value[, fn])
 
-  Assert header `field` `value` with a string or regular expression.
+  以一个字符串或正则表达式断言头 `field` `value`。
 
 ### .end(fn)
 
-  Perform the request and invoke `fn(err, res)`.
+  执行请求及调用 `fn(err, res)`。
 
-## Notes
+## 备注
 
-  Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling.
+  灵感来自 [api-easy](https://github.com/flatiron/api-easy) 融合少许vows。
 
-## License
+## 许可
 
   MIT
