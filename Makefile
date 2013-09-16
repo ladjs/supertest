@@ -1,6 +1,6 @@
 
-test:
-	@./node_modules/.bin/mocha \
+check test:
+	PATH=./node_modules/.bin:${PATH} mocha \
 		--require should \
 		--reporter spec
 
