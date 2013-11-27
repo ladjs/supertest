@@ -1,6 +1,6 @@
 {
   "name": "supertest",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Super-agent driven library for testing HTTP servers",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "superagent": "0.15.7",
-    "methods": "0.0.1"
+    "methods": "0.1.0"
   },
   "devDependencies": {
     "mocha": "*",
@@ -25,5 +25,9 @@
     "testing"
   ],
   "author": "TJ Holowaychuk",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/visionmedia/supertest.git"
+  }
 }

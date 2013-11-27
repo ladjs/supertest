@@ -1,4 +1,14 @@
 
+0.8.1 / 2013-10-28
+==================
+
+ * merge pull request #82 from jonathanong/patch-1
+ * bump node-methods
+ * merge pull request #79 from menzoic/patch-1
+ * update Readme.md
+ * Merge pull request #73 from repoify/add/repository
+ * add repository field to readme
+
 0.8.0 / 2013-08-09 
 ==================
 
