@@ -21,6 +21,21 @@ describe('request(url)', function(){
       .expect("hello", done);
     });
   })
+
+  describe('.end(cb)', function() {
+    it('should set `this` to the test object when calling cb', function(done) {
+      var app = express();
+
+      var s = app.listen(function(){
+        var url = 'http://localhost:' + s.address().port;
+        var test = request(url).get('/');
+        test.end(function(err, res) {
+          this.should.eql(test);
+          done();
+        });
+      });
+    })
+  })
 })
 
 describe('request(app)', function(){
