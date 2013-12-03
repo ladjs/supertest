@@ -400,6 +400,101 @@ describe('request(app)', function(){
       });
     })
 
+    describe('handling arbitrary expect functions', function(){
+      it('reports errors',function(done) {
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect(function(res) {
+          throw new Error("failed")
+        })
+        .end(function(err) {
+          err.message.should.equal('failed');
+          done()
+        });
+      });
+      it('ensures truthy non-errors returned from asserts are promoted to errors',function(done) {
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect(function(res) {
+          return "some descriptive error";
+        })
+        .end(function(err) {
+          err.message.should.equal('some descriptive error');
+          done()
+        });
+      });
+      it("doesn't create false negatives",function(done) {
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect(function(res) {})
+        .end(done);
+      });
+      it("handles multiple asserts",function(done) {
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        var calls = [];
+        request(app)
+        .get('/')
+        .expect(function(res) { calls[0] = 1 })
+        .expect(function(res) { calls[1] = 1 })
+        .expect(function(res) { calls[2] = 1 })
+        .end(function() {
+          var callCount = [0,1,2].reduce(function(count,i) {
+            return count + calls[i]
+          },0);
+          callCount.should.equal(3,"didn't see all assertions run");
+          done();
+        });
+      });
+      it("plays well with normal assertions - no false positives",function(done) {
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect(function(res) {})
+        .expect('Content-Type', /json/)
+        .end(function(err) {
+          err.message.should.match(/Content-Type/);
+          done();
+        })
+      });
+      it("plays well with normal assertions - no false negatives",function(done) {
+        var app = express();
+        app.get('/', function(req, res){
+          res.send('hey');
+        });
+
+        request(app)
+        .get('/')
+        .expect(function(res) {})
+        .expect('Content-Type', /html/)
+        .expect(function(res) {})
+        .expect('Content-Type', /text/)
+        .end(done)
+      });
+    });
+
     describe('handling multiple assertions per field', function(){
 
       it('should work', function(done){
