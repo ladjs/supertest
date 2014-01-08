@@ -1,6 +1,6 @@
 {
   "name": "supertest",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Super-agent driven library for testing HTTP servers",
   "main": "index.js",
   "scripts": {
