@@ -117,6 +117,24 @@ request.get('/').expect('heya', function(err){
 
   Assert header `field` `value` with a string or regular expression.
 
+### .expect(function(res) {})
+
+  Pass a custom assertion function. It'll be given the response object to check. If the response is ok, it should return falsy, most commonly by not returning anything. If the check fails, throw an error or return a truthy value like a string that'll be turned into an error. 
+
+  Here the string or error throwing options are both demonstrated:
+
+  ```js
+  request(app)
+    .get('/')
+    .expect(hasPreviousAndNextKeys)
+    .end(done);
+
+  function hasPreviousAndNextKeys(res) {
+    if (!('next' in res.body)) return "missing next key";
+    if (!('prev' in res.body)) throw new Error("missing prev key");
+  }
+  ```
+
 ### .end(fn)
 
   Perform the request and invoke `fn(err, res)`.
