@@ -417,7 +417,8 @@ describe('request(app)', function(){
           done()
         });
       });
-      it('ensures truthy non-errors returned from asserts are promoted to errors',function(done) {
+
+      it('ensures truthy non-errors returned from asserts are promoted to errors',function(done){
         var app = express();
         app.get('/', function(req, res){
           res.send('hey');
@@ -433,7 +434,8 @@ describe('request(app)', function(){
           done()
         });
       });
-      it("doesn't create false negatives",function(done) {
+
+      it("doesn't create false negatives", function(done){
         var app = express();
         app.get('/', function(req, res){
           res.send('hey');
@@ -444,7 +446,8 @@ describe('request(app)', function(){
         .expect(function(res) {})
         .end(done);
       });
-      it("handles multiple asserts",function(done) {
+
+      it("handles multiple asserts", function(done){
         var app = express();
         app.get('/', function(req, res){
           res.send('hey');
@@ -464,7 +467,8 @@ describe('request(app)', function(){
           done();
         });
       });
-      it("plays well with normal assertions - no false positives",function(done) {
+
+      it("plays well with normal assertions - no false positives", function(done){
         var app = express();
         app.get('/', function(req, res){
           res.send('hey');
@@ -479,7 +483,8 @@ describe('request(app)', function(){
           done();
         })
       });
-      it("plays well with normal assertions - no false negatives",function(done) {
+
+      it("plays well with normal assertions - no false negatives", function(done){
         var app = express();
         app.get('/', function(req, res){
           res.send('hey');
