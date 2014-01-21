@@ -129,6 +129,24 @@ describe('request(app)', function(){
     .expect('tobi', done);
   })
 
+  it('should display custom error messages', function(done){
+    var app = express();
+
+    app.use(express.bodyParser());
+
+    app.get('/private', function(req, res){
+      res.send(500, {error: "I don't think so"});
+    });
+
+    request(app)
+    .get('/private')
+    .expect(200)
+    .end(function(err, res){
+      err.message.should.endWith('"'+res.body.error+'"');
+      done();
+    });
+  })
+
   it('should work when unbuffered', function(done){
     var app = express();
 
