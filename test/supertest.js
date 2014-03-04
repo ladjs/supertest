@@ -400,6 +400,22 @@ describe('request(app)', function(){
       });
     })
 
+    it('should support numbers', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('hey');
+      });
+
+      request(app)
+      .get('/')
+      .expect('Content-Length', 4)
+      .end(function(err){
+        err.message.should.equal('expected "Content-Length" of "4", got "3"');
+        done();
+      });
+    })
+
     describe('handling arbitrary expect functions', function(){
       it('reports errors',function(done) {
         var app = express();
