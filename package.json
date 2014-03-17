@@ -7,7 +7,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "superagent": "0.16.0",
+    "superagent": "0.17.0",
     "methods": "0.1.0"
   },
   "devDependencies": {
