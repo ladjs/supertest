@@ -1,3 +1,9 @@
+0.10.0 / 2014-03-20
+==================
+
+  * assert respond body prior to the status code
+  * add documentation for .agent()
+
 0.9.2 / 2014-03-17
 ==================
 
