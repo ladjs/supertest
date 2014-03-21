@@ -252,6 +252,25 @@ describe('request(app)', function(){
       });
     })
 
+    it('should assert the body before the status', function (done) {
+      var app = express();
+
+      app.set('json spaces', 0);
+
+      app.get('/', function(req, res){
+        res.send(500, { message: 'something went wrong' });
+      });
+
+      request(app)
+      .get('/')
+      .expect(200)
+      .expect('hey')
+      .end(function(err, res){
+        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+        done();
+      });
+    });
+
     it('should assert the response text', function(done){
       var app = express();
 
@@ -615,3 +634,4 @@ describe('request.agent(app)', function(){
     .expect('hey', done);
   })
 })
+
