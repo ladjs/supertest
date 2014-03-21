@@ -93,6 +93,49 @@ request.get('/').expect('heya', function(err){
   console.log(err);
 });
 ```
+  Here's an example with mocha that shows how to persist a request and its cookies:
+
+```js
+var request = require('supertest')
+   , should = require('should')
+   , express = require('express');
+
+  
+ var app = express(); 
+  app.use(express.cookieParser());
+
+
+describe('request.agent(app)', function(){
+  var app = express();
+
+  app.use(express.cookieParser());
+
+  app.get('/', function(req, res){
+    res.cookie('cookie', 'hey');
+    res.send();
+  });
+
+  app.get('/return', function(req, res){
+    if (req.cookies.cookie) res.send(req.cookies.cookie);
+    else res.send(':(')
+  });
+
+  var agent = request.agent(app);
+
+  it('should save cookies', function(done){
+    agent
+    .get('/')
+    .expect('set-cookie', 'cookie=hey; Path=/', done);
+  })
+
+  it('should send cookies', function(done){
+    agent
+    .get('/return')
+    .expect('hey', done);
+  })
+})
+```
+  There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
 
 ## API
 
