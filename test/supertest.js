@@ -168,6 +168,24 @@ describe('request(app)', function(){
     });
   })
 
+  describe('.end(fn)', function(){
+    it('should close server', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('supertest FTW!');
+      });
+
+      test = request(app)
+      .get('/')
+      .end(function(){});
+
+      test._server.on('close', function(){
+        done();
+      });
+    });
+  });
+
   describe('.expect(status[, fn])', function(){
     it('should assert the response status', function(done){
       var app = express();
