@@ -653,3 +653,55 @@ describe('request.agent(app)', function(){
   })
 })
 
+describe(".<http verb> works as expected", function(){
+    it(".delete should work", function (done){
+        var app = express();
+        app.delete('/', function(req, res){
+          res.send(200);
+        });
+
+        request(app)
+        .del('/')
+        .expect(200, done);
+    });
+    it(".del should still work", function (done){
+        var app = express();
+        app.del('/', function(req, res){
+          res.send(200);
+        });
+
+        request(app)
+        .del('/')
+        .expect(200, done);
+    });
+    it(".get should work", function (done){
+        var app = express();
+        app.get('/', function(req, res){
+          res.send(200);
+        });
+
+        request(app)
+        .get('/')
+        .expect(200, done);
+    });
+    it(".post should work", function (done){
+        var app = express();
+        app.post('/', function(req, res){
+          res.send(200);
+        });
+
+        request(app)
+        .post('/')
+        .expect(200, done);
+    });
+    it(".put should work", function (done){
+        var app = express();
+        app.put('/', function(req, res){
+          res.send(200);
+        });
+
+        request(app)
+        .put('/')
+        .expect(200, done);
+    });
+});

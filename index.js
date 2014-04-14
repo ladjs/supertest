@@ -21,14 +21,13 @@ module.exports = function(app){
   var obj = {};
 
   methods.forEach(function(method){
-    var name = 'delete' == method
-      ? 'del'
-      : method;
-
-    obj[name] = function(url){
+    obj[method] = function(url){
       return new Test(app, method, url);
     };
   });
+
+  // Support previous use of del
+  obj.del = obj.delete;
 
   return obj;
 };
