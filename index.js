@@ -27,7 +27,7 @@ module.exports = function(app){
   });
 
   // Support previous use of del
-  obj.del = obj.delete;
+  obj.del = obj['delete'];
 
   return obj;
 };
