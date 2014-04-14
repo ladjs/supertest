@@ -661,10 +661,10 @@ describe(".<http verb> works as expected", function(){
         });
 
         request(app)
-        .del('/')
+        .delete('/')
         .expect(200, done);
     });
-    it(".del should still work", function (done){
+    it(".del should work", function (done){
         var app = express();
         app.del('/', function(req, res){
           res.send(200);
