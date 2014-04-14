@@ -1,3 +1,9 @@
+0.11.0 / 2014-04-14
+==================
+
+  * close internal server upon test end
+  * add .delete() method (aliases .del())
+
 0.10.0 / 2014-03-20
 ==================
 
