@@ -4,7 +4,9 @@ var request = require('..')
   , fs = require('fs')
   , path = require('path')
   , should = require('should')
-  , express = require('express');
+  , express = require('express')
+  , cookieParser = require('cookie-parser')
+  , bodyParser = require('body-parser');
 
 describe('request(url)', function(){
   it('should be supported', function(done){
@@ -117,7 +119,7 @@ describe('request(app)', function(){
   it('should work with .send() etc', function(done){
     var app = express();
 
-    app.use(express.bodyParser());
+    app.use(bodyParser());
 
     app.post('/', function(req, res){
       res.send(req.body.name);
@@ -402,7 +404,7 @@ describe('request(app)', function(){
       .get('/')
       .expect('Content-Type', 'text/html')
       .end(function(err, res){
-        err.message.should.equal('expected "Content-Type" of "text/html", got "application/json; charset=utf-8"');
+        err.message.should.equal('expected "Content-Type" of "text/html", got "application/json"');
         done();
       });
     })
@@ -626,7 +628,7 @@ describe('request(app)', function(){
 describe('request.agent(app)', function(){
   var app = express();
 
-  app.use(express.cookieParser());
+  app.use(cookieParser());
 
   app.get('/', function(req, res){
     res.cookie('cookie', 'hey');
