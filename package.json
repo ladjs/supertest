@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "superagent": "0.18.0",
-    "methods": "0.1.0"
+    "methods": "1.0.0"
   },
   "devDependencies": {
     "mocha": "*",
