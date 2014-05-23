@@ -1,3 +1,9 @@
+0.13.0 / 2014-05-22
+===================
+
+  * Wait for server close before invoke the callback for `end()`
+  * Fix global leak in tests
+
 0.12.1 / 2014-05-09
 ===================
 
