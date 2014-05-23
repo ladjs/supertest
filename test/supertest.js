@@ -176,7 +176,7 @@ describe('request(app)', function(){
         res.send('supertest FTW!');
       });
 
-      test = request(app)
+      var test = request(app)
       .get('/')
       .end(function(){});
 
@@ -193,7 +193,7 @@ describe('request(app)', function(){
         res.send('supertest FTW!');
       });
 
-      test = request(app)
+      var test = request(app)
       .get('/')
       .end(function(){
         closed.should.be.true;
