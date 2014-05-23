@@ -11,9 +11,9 @@
     "methods": "1.0.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*",
-    "express": "3.1.0"
+    "express": "3.1.0",
+    "mocha": "1.19.0",
+    "should": "3.3.1"
   },
   "keywords": [
     "superagent",
