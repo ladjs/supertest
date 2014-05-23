@@ -176,12 +176,54 @@ describe('request(app)', function(){
         res.send('supertest FTW!');
       });
 
-      test = request(app)
+      var test = request(app)
       .get('/')
       .end(function(){});
 
       test._server.on('close', function(){
         done();
+      });
+    });
+
+    it('should wait for server to close before invoking fn', function(done){
+      var app = express();
+      var closed = false;
+
+      app.get('/', function(req, res){
+        res.send('supertest FTW!');
+      });
+
+      var test = request(app)
+      .get('/')
+      .end(function(){
+        closed.should.be.true;
+        done();
+      });
+
+      test._server.on('close', function(){
+        closed = true;
+      });
+    });
+
+    it('should support nested requests', function(done){
+      var app = express();
+      var test = request(app);
+
+      app.get('/', function(req, res){
+        res.send('supertest FTW!');
+      });
+
+      test
+      .get('/')
+      .end(function(){
+        test
+        .get('/')
+        .end(function(err, res){
+          (err === null).should.be.true;
+          res.should.have.status(200);
+          res.text.should.equal('supertest FTW!');
+          done();
+        });
       });
     });
   });
