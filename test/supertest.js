@@ -496,14 +496,22 @@ describe('request(app)', function(){
     })
 
     describe('handling arbitrary expect functions', function(){
-      it('reports errors',function(done) {
-        var app = express();
+
+
+      var app, get;
+      before(function(){
+        app = express();
         app.get('/', function(req, res){
           res.send('hey');
         });
+      });
 
-        request(app)
-        .get('/')
+      beforeEach(function(){
+        get = request(app).get('/');
+      });
+
+      it('reports errors',function(done) {
+        get
         .expect(function(res) {
           throw new Error("failed")
         })
@@ -514,13 +522,7 @@ describe('request(app)', function(){
       });
 
       it('ensures truthy non-errors returned from asserts are not promoted to errors',function(done){
-        var app = express();
-        app.get('/', function(req, res){
-          res.send('hey');
-        });
-
-        request(app)
-        .get('/')
+        get
         .expect(function(res) {
           return "some descriptive error";
         })
@@ -530,27 +532,27 @@ describe('request(app)', function(){
         });
       });
 
-      it("doesn't create false negatives", function(done){
-        var app = express();
-        app.get('/', function(req, res){
-          res.send('hey');
+      it('ensures truthy errors returned from asserts are throw to end',function(done){
+        get
+        .expect(function(res) {
+          return new Error("some descriptive error");
+        })
+        .end(function(err) {
+          err.message.should.equal("some descriptive error");
+          (err instanceof Error).should.be.true;
+          done();
         });
+      });
 
-        request(app)
-        .get('/')
+      it("doesn't create false negatives", function(done){
+        get
         .expect(function(res) {})
         .end(done);
       });
 
       it("handles multiple asserts", function(done){
-        var app = express();
-        app.get('/', function(req, res){
-          res.send('hey');
-        });
-
         var calls = [];
-        request(app)
-        .get('/')
+        get
         .expect(function(res) { calls[0] = 1 })
         .expect(function(res) { calls[1] = 1 })
         .expect(function(res) { calls[2] = 1 })
@@ -564,13 +566,7 @@ describe('request(app)', function(){
       });
 
       it("plays well with normal assertions - no false positives", function(done){
-        var app = express();
-        app.get('/', function(req, res){
-          res.send('hey');
-        });
-
-        request(app)
-        .get('/')
+        get
         .expect(function(res) {})
         .expect('Content-Type', /json/)
         .end(function(err) {
@@ -580,13 +576,7 @@ describe('request(app)', function(){
       });
 
       it("plays well with normal assertions - no false negatives", function(done){
-        var app = express();
-        app.get('/', function(req, res){
-          res.send('hey');
-        });
-
-        request(app)
-        .get('/')
+        get
         .expect(function(res) {})
         .expect('Content-Type', /html/)
         .expect(function(res) {})
