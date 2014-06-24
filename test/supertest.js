@@ -513,7 +513,7 @@ describe('request(app)', function(){
         });
       });
 
-      it('ensures truthy non-errors returned from asserts are promoted to errors',function(done){
+      it('ensures truthy non-errors returned from asserts are not promoted to errors',function(done){
         var app = express();
         app.get('/', function(req, res){
           res.send('hey');
@@ -525,7 +525,7 @@ describe('request(app)', function(){
           return "some descriptive error";
         })
         .end(function(err) {
-          err.message.should.equal('some descriptive error');
+          should.not.exist(err);
           done()
         });
       });
