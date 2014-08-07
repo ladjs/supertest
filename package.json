@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "superagent": "0.18.0",
-    "methods": "1.0.0"
+    "methods": "1.1.0"
   },
   "devDependencies": {
     "express": "3.1.0",
