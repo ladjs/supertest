@@ -20,7 +20,7 @@
 var request = require('supertest')
   , express = require('express');
 
-var app = express();
+var app = require('../app');
 
 app.get('/user', function(req, res){
   res.send(200, { name: 'tobi' });
