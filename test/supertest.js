@@ -168,6 +168,26 @@ describe('request(app)', function(){
     });
   })
 
+  describe('.use(fn)', function(){
+    it('should pass the Test into fn', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send(req.query.supertest);
+      });
+
+      function middleware(request){
+        request.url += '?supertest=awesome';
+        return request;
+      }
+
+      var test = request(app)
+      .get('/')
+      .use(middleware)
+      .expect(200, 'awesome', done);
+    });
+  });
+
   describe('.end(fn)', function(){
     it('should close server', function(done){
       var app = express();
