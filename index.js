@@ -23,7 +23,7 @@ module.exports = function(app, options){
   options = options || {};
   if ('function' == typeof app) {
     if (options.https) {
-      app = https.createServer(app);
+      app = https.createServer({key: options.key, cert: options.cert}, app);
     } else {
       app = http.createServer(app);
     }
