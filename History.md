@@ -2,6 +2,11 @@
 ===================
 
   * Update superagent dependency
+
+0.14.0 / 2014-09-29
+===================
+
+  * Update superagent dependency
   * Update methods dependency
 
 0.13.0 / 2014-05-22
