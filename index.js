@@ -16,13 +16,13 @@ var methods = require('methods')
  * @api public
  */
 
-module.exports = function(app){
+module.exports = function(app, options){
   if ('function' == typeof app) app = http.createServer(app);
   var obj = {};
 
   methods.forEach(function(method){
     obj[method] = function(url){
-      return new Test(app, method, url);
+      return new Test(app, method, url, options);
     };
   });
 
