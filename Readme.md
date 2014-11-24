@@ -23,13 +23,13 @@ var request = require('supertest')
 var app = express();
 
 app.get('/user', function(req, res){
-  res.send(200, { name: 'tobi' });
+  res.status(200).send({ name: 'tobi' });
 });
 
 request(app)
   .get('/user')
   .expect('Content-Type', /json/)
-  .expect('Content-Length', '20')
+  .expect('Content-Length', '15')
   .expect(200)
   .end(function(err, res){
     if (err) throw err;
