@@ -97,18 +97,15 @@ request.get('/').expect('heya', function(err){
 
 ```js
 var request = require('supertest')
-   , should = require('should')
-   , express = require('express');
+   , assert = require('assert')
+   , express = require('express')
+   , cookieParser = require('cookie-parser');
 
   
- var app = express(); 
-  app.use(express.cookieParser());
-
-
 describe('request.agent(app)', function(){
   var app = express();
 
-  app.use(express.cookieParser());
+  app.use(cookieParser());
 
   app.get('/', function(req, res){
     res.cookie('cookie', 'hey');
