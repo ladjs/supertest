@@ -7,8 +7,10 @@
     "test": "make test"
   },
   "dependencies": {
+    "express-xml-bodyparser": "0.0.6",
+    "methods": "1.x",
     "superagent": "~0.21.0",
-    "methods": "1.x"
+    "xml2js": "^0.4.4"
   },
   "devDependencies": {
     "express": "3.1.0",
