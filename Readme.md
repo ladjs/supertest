@@ -7,6 +7,15 @@
   The motivation with this module is to provide a high-level abstraction for testing
   HTTP, while still allowing you to drop down to the lower-level API provided by super-agent.
 
+## Getting Started
+
+  Install SuperTest as an npm module and save it to your package.json file as a development dependency:
+  ```
+npm install supertest --save-dev
+  ```
+
+  Once installed it can now be referenced by simply calling ```require("supertest");```
+
 ## Example
 
   You may pass an `http.Server`, or a `Function` to `request()` - if the server is not
@@ -100,8 +109,8 @@ var request = require('supertest')
    , should = require('should')
    , express = require('express');
 
-  
- var app = express(); 
+
+ var app = express();
   app.use(express.cookieParser());
 
 
@@ -162,7 +171,7 @@ describe('request.agent(app)', function(){
 
 ### .expect(function(res) {})
 
-  Pass a custom assertion function. It'll be given the response object to check. If the response is ok, it should return falsy, most commonly by not returning anything. If the check fails, throw an error or return a truthy value like a string that'll be turned into an error. 
+  Pass a custom assertion function. It'll be given the response object to check. If the response is ok, it should return falsy, most commonly by not returning anything. If the check fails, throw an error or return a truthy value like a string that'll be turned into an error.
 
   Here the string or error throwing options are both demonstrated:
 
