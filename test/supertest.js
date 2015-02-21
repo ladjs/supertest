@@ -312,7 +312,7 @@ describe('request(app)', function(){
       });
     })
 
-    it('should assert the body before the status', function (done) {
+    it('should assert the status before the body', function (done) {
       var app = express();
 
       app.set('json spaces', 0);
@@ -326,7 +326,7 @@ describe('request(app)', function(){
       .expect(200)
       .expect('hey')
       .end(function(err, res){
-        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+        err.message.should.equal('expected 200 \"OK\", got 500 \"Internal Server Error\"');
         done();
       });
     });
