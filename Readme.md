@@ -109,11 +109,6 @@ var request = require('supertest')
    , should = require('should')
    , express = require('express');
 
-
- var app = express();
-  app.use(express.cookieParser());
-
-
 describe('request.agent(app)', function(){
   var app = express();
 
