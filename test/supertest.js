@@ -26,6 +26,10 @@ describe('request(url)', function(){
     it('should set `this` to the test object when calling cb', function(done) {
       var app = express();
 
+      app.get('/', function(req, res){
+        res.send('hello');
+      });
+
       var s = app.listen(function(){
         var url = 'http://localhost:' + s.address().port;
         var test = request(url).get('/');
@@ -150,7 +154,7 @@ describe('request(app)', function(){
 
     request(app)
     .get('/')
-    .expect(302, done);
+    .expect(302, function() { done(); });
   })
 
   it('should handle socket errors', function(done) {
