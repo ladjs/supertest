@@ -1,3 +1,4 @@
+require('es6-promise').polyfill();
 
 var request = require('..')
   , https = require('https')
@@ -229,6 +230,21 @@ describe('request(app)', function(){
           done();
         });
       });
+    });
+  });
+
+  describe('.end()', function() {
+    it('should return a promise of the callback', function() {
+      var app = express();
+      var test = request(app);
+
+      app.get('/', function(req, res){
+        res.send('supertest FTW!');
+      });
+
+      return test
+        .get('/')
+        .end();
     });
   });
 
