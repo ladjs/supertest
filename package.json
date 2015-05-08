@@ -15,6 +15,9 @@
     "mocha": "1.19.0",
     "should": "3.3.1"
   },
+  "engines" : {
+    "node" : ">=0.10.0"
+  },
   "keywords": [
     "superagent",
     "request",
