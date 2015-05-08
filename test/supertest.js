@@ -742,7 +742,7 @@ describe(".<http verb> works as expected", function(){
     });
 });
 
-describe.only("request.get(url).query(vals) works as expected", function(){
+describe("request.get(url).query(vals) works as expected", function(){
 
   it("normal single query string value works", function(done) {
     var app = express();
