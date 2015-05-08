@@ -7,7 +7,7 @@
     "test": "make test"
   },
   "dependencies": {
-    "superagent": "^1.2.0",
+    "superagent": "~1.2.0",
     "methods": "1.x"
   },
   "devDependencies": {
@@ -16,7 +16,7 @@
     "should": "3.3.1"
   },
   "engines" : {
-    "node" : ">=0.10.0"
+    "node" : ">=0.8.0"
   },
   "keywords": [
     "superagent",
