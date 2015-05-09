@@ -5,6 +5,7 @@ var request = require('..')
   , path = require('path')
   , should = require('should')
   , express = require('express');
+var bodyParser = require('body-parser');
 
 describe('request(url)', function(){
   it('should be supported', function(done){
@@ -20,7 +21,7 @@ describe('request(url)', function(){
       .get('/')
       .expect("hello", done);
     });
-  })
+  });
 
   describe('.end(cb)', function() {
     it('should set `this` to the test object when calling cb', function(done) {
@@ -38,9 +39,9 @@ describe('request(url)', function(){
           done();
         });
       });
-    })
-  })
-})
+    });
+  });
+});
 
 describe('request(app)', function(){
   it('should fire up the app on an ephemeral port', function(done){
@@ -53,11 +54,11 @@ describe('request(app)', function(){
     request(app)
     .get('/')
     .end(function(err, res){
-      res.should.have.status(200);
+      res.status.should.equal(200);
       res.text.should.equal('hey');
       done();
     });
-  })
+  });
 
   it('should work with an active server', function(done){
     var app = express();
@@ -70,12 +71,12 @@ describe('request(app)', function(){
       request(server)
       .get('/')
       .end(function(err, res){
-        res.should.have.status(200);
+        res.status.should.equal(200);
         res.text.should.equal('hey');
         done();
       });
     });
-  })
+  });
 
   it('should work with remote server', function(done){
     var app = express();
@@ -88,12 +89,12 @@ describe('request(app)', function(){
       request('http://localhost:4001')
       .get('/')
       .end(function(err, res){
-        res.should.have.status(200);
+        res.status.should.equal(200);
         res.text.should.equal('hey');
         done();
       });
     });
-  })
+  });
 
   it('should work with a https server', function(done){
     var app = express();
@@ -112,16 +113,16 @@ describe('request(app)', function(){
     .get('/')
     .end(function(err, res){
       if (err) return done(err);
-      res.should.have.status(200);
+      res.status.should.equal(200);
       res.text.should.equal('hey');
       done();
     });
-  })
+  });
 
   it('should work with .send() etc', function(done){
     var app = express();
 
-    app.use(express.bodyParser());
+    app.use(bodyParser.json());
 
     app.post('/', function(req, res){
       res.send(req.body.name);
@@ -131,7 +132,7 @@ describe('request(app)', function(){
     .post('/')
     .send({ name: 'tobi' })
     .expect('tobi', done);
-  })
+  });
 
   it('should work when unbuffered', function(done){
     var app = express();
@@ -143,7 +144,7 @@ describe('request(app)', function(){
     request(app)
     .get('/')
     .expect('Hello', done);
-  })
+  });
 
   it('should default redirects to 0', function(done){
     var app = express();
@@ -155,7 +156,7 @@ describe('request(app)', function(){
     request(app)
     .get('/')
     .expect(302, function() { done(); });
-  })
+  });
 
   it('should handle socket errors', function(done) {
     var app = express();
@@ -170,7 +171,7 @@ describe('request(app)', function(){
       should.exist(err);
       done();
     });
-  })
+  });
 
   describe('.end(fn)', function(){
     it('should close server', function(done){
@@ -224,7 +225,7 @@ describe('request(app)', function(){
         .get('/')
         .end(function(err, res){
           (err === null).should.be.true;
-          res.should.have.status(200);
+          res.status.should.equal(200);
           res.text.should.equal('supertest FTW!');
           done();
         });
@@ -247,8 +248,8 @@ describe('request(app)', function(){
         err.message.should.equal('expected 404 "Not Found", got 200 "OK"');
         done();
       });
-    })
-  })
+    });
+  });
 
   describe('.expect(status)', function () {
     it('should assert only status', function (done) {
@@ -256,14 +257,14 @@ describe('request(app)', function(){
 
       app.get('/', function (req, res) {
         res.send('hey');
-      })
+      });
 
       request(app)
       .get('/')
       .expect(200)
       .end(done)
-    })
-  })
+    });
+  });
 
   describe('.expect(status, body[, fn])', function(){
     it('should assert the response body and status', function(done){
@@ -295,7 +296,7 @@ describe('request(app)', function(){
         });
       });
     });
-  })
+  });
 
   describe('.expect(body[, fn])', function(){
     it('should assert the response body', function(done){
@@ -314,7 +315,7 @@ describe('request(app)', function(){
         err.message.should.equal('expected \'hey\' response body, got \'{"foo":"bar"}\'');
         done();
       });
-    })
+    });
 
     it('should assert the body before the status', function (done) {
       var app = express();
@@ -347,7 +348,7 @@ describe('request(app)', function(){
       request(app)
       .get('/')
       .expect('{"foo":"bar"}', done);
-    })
+    });
 
     it('should assert the parsed response body', function(done){
       var app = express();
@@ -369,7 +370,7 @@ describe('request(app)', function(){
         .expect({ foo: 'bar' })
         .end(done);
       });
-    })
+    });
 
     it('should support regular expressions', function(done){
       var app = express();
@@ -385,7 +386,7 @@ describe('request(app)', function(){
         err.message.should.equal('expected body \'foobar\' to match /^bar/');
         done();
       });
-    })
+    });
 
     it('should assert response body multiple times', function(done){
       var app = express();
@@ -403,7 +404,7 @@ describe('request(app)', function(){
         err.message.should.equal("expected 'hey' response body, got 'hey tj'");
         done();
       });
-    })
+    });
 
     it('should assert response body multiple times with no exception', function(done){
       var app = express();
@@ -417,8 +418,8 @@ describe('request(app)', function(){
       .expect(/tj/)
       .expect(/^hey/)
       .expect('hey tj', done);
-    })
-  })
+    });
+  });
 
   describe('.expect(field, value[, fn])', function(){
     it('should assert the header field presence', function(done){
@@ -435,7 +436,7 @@ describe('request(app)', function(){
         err.message.should.equal('expected "Content-Foo" header field');
         done();
       });
-    })
+    });
 
     it('should assert the header field value', function(done){
       var app = express();
@@ -451,7 +452,7 @@ describe('request(app)', function(){
         err.message.should.equal('expected "Content-Type" of "text/html", got "application/json; charset=utf-8"');
         done();
       });
-    })
+    });
 
     it('should assert multiple fields', function(done){
       var app = express();
@@ -465,7 +466,7 @@ describe('request(app)', function(){
       .expect('Content-Type', 'text/html; charset=utf-8')
       .expect('Content-Length', '3')
       .end(done);
-    })
+    });
 
     it('should support regular expressions', function(done){
       var app = express();
@@ -481,7 +482,7 @@ describe('request(app)', function(){
         err.message.should.equal('expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"');
         done();
       });
-    })
+    });
 
     it('should support numbers', function(done){
       var app = express();
@@ -497,7 +498,7 @@ describe('request(app)', function(){
         err.message.should.equal('expected "Content-Length" of "4", got "3"');
         done();
       });
-    })
+    });
 
     describe('handling arbitrary expect functions', function(){
 
@@ -576,7 +577,7 @@ describe('request(app)', function(){
         .end(function(err) {
           err.message.should.match(/Content-Type/);
           done();
-        })
+        });
       });
 
       it("plays well with normal assertions - no false negatives", function(done){
@@ -653,11 +654,9 @@ describe('request(app)', function(){
           done();
         });
       });
-
     });
-
-  })
-})
+  });
+});
 
 describe('request.agent(app)', function(){
   var app = express();
@@ -680,14 +679,14 @@ describe('request.agent(app)', function(){
     agent
     .get('/')
     .expect('set-cookie', 'cookie=hey; Path=/', done);
-  })
+  });
 
   it('should send cookies', function(done){
     agent
     .get('/return')
     .expect('hey', done);
-  })
-})
+  });
+});
 
 describe(".<http verb> works as expected", function(){
     it(".delete should work", function (done){
@@ -702,7 +701,7 @@ describe(".<http verb> works as expected", function(){
     });
     it(".del should work", function (done){
         var app = express();
-        app.del('/', function(req, res){
+        app.delete('/', function(req, res){
           res.send(200);
         });
 
