@@ -741,3 +741,68 @@ describe(".<http verb> works as expected", function(){
         .expect(200, done);
     });
 });
+
+describe("request.get(url).query(vals) works as expected", function(){
+
+  it("normal single query string value works", function(done) {
+    var app = express();
+    app.get('/', function(req, res){
+      res.send(200, req.query.val);
+    });
+
+    request(app)
+    .get('/')
+    .query({val: "Test1"})
+    .expect(200, function(err, res) {
+      res.text.should.be.equal('Test1');
+      done();
+    });
+  });
+
+  it("array query string value works", function(done) {
+    var app = express();
+    app.get('/', function(req, res){
+      res.send(200, Array.isArray(req.query.val));
+    });
+
+    request(app)
+    .get('/')
+    .query({'val[]': ["Test1", "Test2"]})
+    .expect(200, function(err, res) {
+      res.req.path.should.be.equal('/?val%5B%5D=Test1&val%5B%5D=Test2');
+      res.text.should.be.equal('true');
+      done();
+    });
+  });
+
+  it("array query string value work even with single value", function(done) {
+    var app = express();
+    app.get('/', function(req, res){
+      res.send(200, Array.isArray(req.query.val));
+    });
+
+    request(app)
+    .get('/')
+    .query({'val[]': ["Test1"]})
+    .expect(200, function(err, res) {
+      res.req.path.should.be.equal('/?val%5B%5D=Test1');
+      res.text.should.be.equal('true');
+      done();
+    });
+  });
+
+  it("object query string value works", function(done) {
+    var app = express();
+    app.get('/', function(req, res){
+      res.send(200, req.query.val.test);
+    });
+
+    request(app)
+    .get('/')
+    .query({val: { test: 'Test1' } })
+    .expect(200, function(err, res) {
+      res.text.should.be.equal('Test1');
+      done();
+    });
+  });
+});
