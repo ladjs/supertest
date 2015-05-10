@@ -1,4 +1,10 @@
-0.14.0 / 2014-09-29
+1.0.0 / 2015-05-08
+===================
+
+  * Bumping version to 1.0.0!, big changes with superagent
+  * Update superagent dependency to 1.2.0
+
+0.15.0 / 2015-11-11
 ===================
 
   * Update superagent dependency

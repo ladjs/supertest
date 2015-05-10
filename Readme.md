@@ -1,4 +1,4 @@
-# SuperTest
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest)
 
   HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
 
@@ -59,6 +59,22 @@ describe('GET /users', function(){
 })
 ```
 
+One thing to note with the above statement is that superagent now sends any HTTP
+error (anything other than a 2XX response code) to the callback as the first arguement. Example:
+
+```js
+describe('GET /redirect-url', function(){
+  it('respond with 302 redirect', function(done){
+    request(app)
+      .get('/redirect-url')
+      .expect(302, function (error) {
+        (error !== null).should.be.true;
+        done();
+      });
+  })
+})
+```
+
   If you are using the `.end()` method `.expect()` assertions that fail will
   not throw - they will return the assertion as an error to the `.end()` callback. In
   order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
@@ -110,13 +126,8 @@ var request = require('supertest')
    , express = require('express');
 
 
- var app = express();
-  app.use(express.cookieParser());
-
-
 describe('request.agent(app)', function(){
   var app = express();
-
   app.use(express.cookieParser());
 
   app.get('/', function(req, res){
