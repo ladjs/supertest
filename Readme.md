@@ -99,6 +99,7 @@ describe('GET /users', function(){
 ```js
 request(app)
 .post('/')
+.field('name', 'my awesome avatar')
 .attach('avatar', 'test/fixtures/homeboy.jpg')
 ...
 ```
