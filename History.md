@@ -1,3 +1,8 @@
+1.0.1 / 2015-05-08
+===================
+
+  * PR-224 - Better expected error support as result of super-agent 1.x
+
 1.0.0 / 2015-05-08
 ===================
 
