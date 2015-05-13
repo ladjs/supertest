@@ -1,4 +1,6 @@
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 var request = require('..')
   , https = require('https')
   , fs = require('fs')
