@@ -155,7 +155,7 @@ describe('request(app)', function(){
 
     request(app)
     .get('/')
-    .expect(302, function() { done(); });
+    .expect(302, done);
   });
 
   it('should handle socket errors', function(done) {
