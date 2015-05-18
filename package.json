@@ -4,6 +4,7 @@
   "description": "Super-agent driven library for testing HTTP servers",
   "main": "index.js",
   "scripts": {
+    "pretest": "npm install",
     "test": "make test"
   },
   "dependencies": {
