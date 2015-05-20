@@ -9,7 +9,7 @@
   * Bumping version to 1.0.0!, big changes with superagent
   * Update superagent dependency to 1.2.0
 
-0.15.0 / 2015-11-11
+0.15.0 / 2014-11-11
 ===================
 
   * Update superagent dependency
