@@ -355,7 +355,7 @@ describe('request(app)', function(){
       });
     });
 
-    it('should assert the body before the status', function (done) {
+    it('should assert the status before the body', function (done) {
       var app = express();
 
       app.set('json spaces', 0);
@@ -369,7 +369,7 @@ describe('request(app)', function(){
       .expect(200)
       .expect('hey')
       .end(function(err, res){
-        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+          err.message.should.equal('expected 200 \"OK"\, got 500 \"Internal Server Error\"');
         done();
       });
     });
@@ -777,6 +777,66 @@ describe(".<http verb> works as expected", function(){
         .put('/')
         .expect(200, done);
     });
+});
+
+describe('assert ordering by call order', function() {
+  it('should assert the body before status', function(done) {
+    var app = express();
+
+    app.set('json spaces', 0);
+
+    app.get('/', function(req, res) {
+      res.send(500, {message: 'something went wrong'});
+    });
+
+    request(app)
+      .get('/')
+      .expect('hey')
+      .expect(200)
+      .end(function(err, res) {
+        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+        done();
+      });
+  });
+
+  it('should assert the status before body', function(done) {
+    var app = express();
+
+    app.set('json spaces', 0);
+
+    app.get('/', function(req, res) {
+      res.send(500, {message: 'something went wrong'});
+    });
+
+    request(app)
+      .get('/')
+      .expect(200)
+      .expect('hey')
+      .end(function(err, res) {
+        err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
+        done();
+      });
+  });
+
+
+  it('should assert the fields before body and status', function(done) {
+    var app = express();
+
+    app.set('json spaces', 0);
+
+    app.get('/', function(req, res) {
+      res.status(200).json({hello: 'world'});
+    });
+
+    request(app)
+      .get('/')
+      .expect('content-type', /html/)
+      .expect('hello')
+      .end(function(err, res) {
+        err.message.should.equal('expected "content-type" matching /html/, got "application/json; charset=utf-8"');
+        done();
+      });
+  });
 });
 
 describe("request.get(url).query(vals) works as expected", function(){
