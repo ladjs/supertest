@@ -231,6 +231,44 @@ describe('request(app)', function(){
         });
       });
     });
+
+    it('should include the response in the error callback', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('whatever');
+      });
+
+      request(app)
+      .get('/')
+      .expect(function() {
+        throw new Error('Some error');
+      })
+      .end(function(err, res){
+        should.exist(err);
+        should.exist(res);
+        // Duck-typing response, just in case.
+        res.status.should.equal(200);
+        done();
+      });
+    });
+
+    it('should set `this` to the test object when calling the error callback', function(done) {
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('whatever');
+      });
+
+      var test = request(app).get('/');
+      test.expect(function() {
+        throw new Error('Some error');
+      }).end(function(err, res){
+        should.exist(err);
+        this.should.eql(test);
+        done();
+      });
+    });
   });
 
   describe('.expect(status[, fn])', function(){
