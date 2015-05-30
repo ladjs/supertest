@@ -818,7 +818,6 @@ describe('assert ordering by call order', function() {
       });
   });
 
-
   it('should assert the fields before body and status', function(done) {
     var app = express();
 
@@ -836,6 +835,92 @@ describe('assert ordering by call order', function() {
         err.message.should.equal('expected "content-type" matching /html/, got "application/json; charset=utf-8"');
         done();
       });
+  });
+
+  it('should call the expect function in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.status(200).json({});
+    });
+
+    request(app)
+      .get('/')
+      .expect(function(res) {
+        res.body.first = 1;
+      })
+      .expect(function(res) {
+        (res.body.first === 1).should.be.true;
+        res.body.second = 2;
+      })
+      .end(function(err, res) {
+        if (err) return done(err);
+        (res.body.first === 1).should.be.true;
+        (res.body.second === 2).should.be.true;
+        done();
+      });
+  });
+
+  it('should call expect(fn) and expect(status, fn) in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.status(200).json({});
+    });
+
+    request(app)
+      .get('/')
+      .expect(function(res) {
+        res.body.first = 1;
+      })
+      .expect(200, function(err, res) {
+        (err === null).should.be.true;
+        (res.body.first === 1).should.be.true;
+        done();
+      });
+  });
+
+  it('should call expect(fn) and expect(header,value) in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res
+        .set('X-Some-Header', 'Some value')
+        .send();
+    });
+
+    request(app)
+      .get('/')
+      .expect('X-Some-Header', 'Some value')
+      .expect(function(res) {
+        res.headers['x-some-header'] = '';
+      })
+      .expect('X-Some-Header', '')
+      .end(done);
+  });
+
+  it('should call expect(fn) and expect(body) in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.json({somebody: 'some body value'});
+    });
+
+    request(app)
+      .get('/')
+      .expect(/some body value/)
+      .expect(function(res) {
+        res.body.somebody = 'nobody';
+      })
+      .expect(/some body value/)  // res.text should not be modified.
+      .expect({somebody: 'nobody'})
+      .expect(function(res) {
+        res.text = 'gone';
+      })
+      .expect('gone')
+      .expect(/gone/)
+      .expect({somebody: 'nobody'})  // res.body should not be modified
+      .expect('gone', done);
   });
 });
 
