@@ -29,6 +29,26 @@ module.exports = function(app){
   // Support previous use of del
   obj.del = obj['delete'];
 
+    /**
+     *
+      * @param cb
+     */
+  obj.destroy = function(cb){
+    if (app && app.close){
+      app.close(function(err){
+        //if its not running ignore the error
+        if(err && /not running/i.test(err.message)){
+          err = null;
+        }
+        cb(err);
+      })
+    } else {
+      process.nextTick(cb);
+    }
+    //clean up resources
+    app = obj = null;
+  };
+
   return obj;
 };
 

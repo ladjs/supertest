@@ -23,6 +23,24 @@ describe('request(url)', function(){
     });
   });
 
+  it('should destroy a request object', function(done){
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.send('hello');
+    });
+
+    var s = app.listen(function(){
+      var url = 'http://localhost:' + s.address().port,
+          requestApi = request(url);
+      requestApi
+          .get('/')
+          .expect("hello", function(){
+            requestApi.destroy(done);
+          });
+    });
+  });
+
   describe('.end(cb)', function() {
     it('should set `this` to the test object when calling cb', function(done) {
       var app = express();
@@ -41,6 +59,7 @@ describe('request(url)', function(){
       });
     });
   });
+
 });
 
 describe('request(app)', function(){
@@ -171,6 +190,23 @@ describe('request(app)', function(){
       should.exist(err);
       done();
     });
+  });
+
+  it('should destroy a request object', function(done){
+    var app = express(),
+        requestApi = request(app);
+
+    app.get('/', function(req, res){
+      res.send('hey');
+    });
+
+    requestApi
+        .get('/')
+        .end(function(err, res){
+          res.status.should.equal(200);
+          res.text.should.equal('hey');
+          requestApi.destroy(done);
+        });
   });
 
   describe('.end(fn)', function(){
@@ -686,6 +722,11 @@ describe('request.agent(app)', function(){
     .get('/return')
     .expect('hey', done);
   });
+
+  it('should destroy the agent instance', function(done){
+    agent.destroy(done);
+  })
+
 });
 
 describe(".<http verb> works as expected", function(){
