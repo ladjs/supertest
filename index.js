@@ -7,6 +7,8 @@ var methods = require('methods')
   , Test = require('./lib/test')
   , http = require('http');
 
+function noop(){};
+
 /**
  * Test against the given `app`,
  * returning a new `Test`.
@@ -34,6 +36,7 @@ module.exports = function(app){
       * @param cb
      */
   obj.destroy = function(cb){
+    cb = typeof cb === 'function' ? cb : noop;
     if (app && app.close){
       app.close(function(err){
         //if its not running ignore the error

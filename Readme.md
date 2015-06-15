@@ -186,11 +186,28 @@ describe('request.agent(app)', function(){
     if (!('prev' in res.body)) throw new Error("missing prev key");
   }
   ```
-
+  
 ### .end(fn)
 
-  Perform the request and invoke `fn(err, res)`.
+  Perform the request and invoke `fn(err, res)`.  
+  
+### .destroy(fn)
+  
+  When executing your tasks through a task runner such as [gulp](https://github.com/gulpjs/gulp) or [grunt](https://github.com/gruntjs/grunt) and you need to clean up so that your tasks end property you can destroy your request instance. This will unbind and servers created allowing nodejs to emit [exit](https://nodejs.org/api/process.html#process_event_exit) for the task runner. 
 
+  ```js
+  var requestApi = request(app);
+  requestApi
+    .get('/')
+    .expect(hasPreviousAndNextKeys)
+    .end(requestApi.destroy);
+
+  function hasPreviousAndNextKeys(res) {
+    if (!('next' in res.body)) return "missing next key";
+    if (!('prev' in res.body)) throw new Error("missing prev key");
+  }
+  ```
+  
 ## Notes
 
   Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling.
