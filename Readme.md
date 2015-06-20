@@ -48,7 +48,7 @@ request(app)
   Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
-describe('GET /users', function(){
+describe('GET /user', function(){
   it('respond with json', function(done){
     request(app)
       .get('/user')
