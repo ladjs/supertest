@@ -23,6 +23,18 @@ describe('request(url)', function(){
     });
   });
 
+  it.skip('should fail if the server is off', function(done) {
+    request('http://localhost/foo')
+    .get('/')
+    .expect(503)
+    .end(function(err, res) {
+      if(err) {
+        return done(err);
+      }
+      done();
+    });
+  });
+
   describe('.end(cb)', function() {
     it('should set `this` to the test object when calling cb', function(done) {
       var app = express();
