@@ -231,6 +231,27 @@ describe('request(app)', function(){
         });
       });
     });
+
+    it('should handle an undefined Response', function (done) {
+      var app = express();
+
+      app.get('/', function(req, res){
+        setTimeout( function () {
+          res.end();
+        }, 20);
+      });
+
+      var s = app.listen(function(){
+        var url = 'http://localhost:' + s.address().port;
+        request(url)
+        .get('/')
+        .timeout(1)
+        .expect(200, function (err) {
+          err.should.be.an.instanceof(Error);
+          return done();
+        });
+      });
+    });
   });
 
   describe('.expect(status[, fn])', function(){
