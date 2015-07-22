@@ -1,4 +1,4 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest)
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest)
 
   HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
 
