@@ -1,4 +1,4 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest)
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest)
 
   HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
 
@@ -48,7 +48,7 @@ request(app)
   Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
-describe('GET /users', function(){
+describe('GET /user', function(){
   it('respond with json', function(done){
     request(app)
       .get('/user')
