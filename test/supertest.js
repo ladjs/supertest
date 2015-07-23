@@ -5,7 +5,8 @@ var request = require('..')
   , path = require('path')
   , should = require('should')
   , express = require('express');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser');
 
 describe('request(url)', function(){
   it('should be supported', function(done){
@@ -323,7 +324,7 @@ describe('request(app)', function(){
       app.set('json spaces', 0);
 
       app.get('/', function(req, res){
-        res.send(500, { message: 'something went wrong' });
+        res.status(500).send({ message: 'something went wrong' });
       });
 
       request(app)
@@ -661,7 +662,7 @@ describe('request(app)', function(){
 describe('request.agent(app)', function(){
   var app = express();
 
-  app.use(express.cookieParser());
+  app.use(cookieParser());
 
   app.get('/', function(req, res){
     res.cookie('cookie', 'hey');
@@ -692,7 +693,7 @@ describe(".<http verb> works as expected", function(){
     it(".delete should work", function (done){
         var app = express();
         app.delete('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -702,7 +703,7 @@ describe(".<http verb> works as expected", function(){
     it(".del should work", function (done){
         var app = express();
         app.delete('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -712,7 +713,7 @@ describe(".<http verb> works as expected", function(){
     it(".get should work", function (done){
         var app = express();
         app.get('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -722,7 +723,7 @@ describe(".<http verb> works as expected", function(){
     it(".post should work", function (done){
         var app = express();
         app.post('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -732,7 +733,7 @@ describe(".<http verb> works as expected", function(){
     it(".put should work", function (done){
         var app = express();
         app.put('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -746,7 +747,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("normal single query string value works", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, req.query.val);
+      res.status(200).send(req.query.val);
     });
 
     request(app)
@@ -761,7 +762,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("array query string value works", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, Array.isArray(req.query.val));
+      res.status(200).send(Array.isArray(req.query.val));
     });
 
     request(app)
@@ -777,7 +778,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("array query string value work even with single value", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, Array.isArray(req.query.val));
+      res.status(200).send(Array.isArray(req.query.val));
     });
 
     request(app)
@@ -793,7 +794,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("object query string value works", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, req.query.val.test);
+      res.status(200).send(req.query.val.test);
     });
 
     request(app)
