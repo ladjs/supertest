@@ -60,6 +60,16 @@ describe('request(app)', function(){
       done();
     });
   });
+    
+  it('should fail if the server is not reachable', function(done) {
+    request('http://0.0.0.0')
+    .get('/')
+    .expect(200)
+    .end(function(err, res) {
+      err.message.should.equal('server is unreachable');
+      done();
+    });
+  });
 
   it('should work with an active server', function(done){
     var app = express();
