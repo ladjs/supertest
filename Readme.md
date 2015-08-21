@@ -76,10 +76,10 @@ describe('GET /users', function(){
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
-        done()
+        done();
       });
-  })
-})
+  });
+});
 ```
 
   Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
