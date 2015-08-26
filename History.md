@@ -1,3 +1,11 @@
+1.1.0 / 2015-08-26
+===================
+
+  * PR-235 - Update test framework to express 4, update other deps
+  * PR-239 - Core refactor to run expectations in order of definition
+  * PR-273 - Documentation update related to PR-239
+  * PR-268 - Bump superagent to 1.3.0
+
 1.0.1 / 2015-05-08
 ===================
 
