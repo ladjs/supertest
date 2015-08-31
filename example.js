@@ -5,7 +5,7 @@ var request = require('./')
 var app = express();
 
 app.get('/user', function(req, res){
-  res.send(201, { name: 'tobi' });
+  res.send(201, { name: 'john' });
 });
 
 request(app)

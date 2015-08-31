@@ -32,7 +32,7 @@ var request = require('supertest')
 var app = express();
 
 app.get('/user', function(req, res){
-  res.send(200, { name: 'tobi' });
+  res.send(200, { name: 'john' });
 });
 
 request(app)
@@ -87,7 +87,7 @@ describe('GET /users', function(){
 
 ```js
 describe('GET /user', function(){
-  it('user.name should be an case-insensitive match for "tobi"', function(done){
+  it('user.name should be an case-insensitive match for "john"', function(done){
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
@@ -97,7 +97,7 @@ describe('GET /user', function(){
       })
       .expect(200, {
         id: 'some fixed id',
-        name: 'TOBI'
+        name: 'JOHN'
       }, done);
   });
 });
@@ -110,7 +110,7 @@ describe('GET /user', function(){
 request(app)
 .post('/')
 .field('name', 'my awesome avatar')
-.attach('avatar', 'test/fixtures/homeboy.jpg')
+.attach('avatar', 'test/fixtures/avatar.jpg')
 ...
 ```
 
