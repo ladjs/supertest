@@ -1,4 +1,4 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest)
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest)
 
   HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
 
@@ -48,7 +48,7 @@ request(app)
   Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
-describe('GET /users', function(){
+describe('GET /user', function(){
   it('respond with json', function(done){
     request(app)
       .get('/user')
@@ -76,10 +76,32 @@ describe('GET /users', function(){
       .expect(200)
       .end(function(err, res){
         if (err) return done(err);
-        done()
+        done();
       });
-  })
-})
+  });
+});
+```
+
+  Expectations are run in the order of definition. This characteristic can be used
+  to modify the response body or headers before executing an assertion.
+
+```js
+describe('GET /user', function(){
+  it('user.name should be an case-insensitive match for "tobi"', function(done){
+    request(app)
+      .get('/user')
+      .set('Accept', 'application/json')
+      .expect(function(res) {
+        res.body.id = 'some fixed id';
+        res.body.name = res.body.name.toUpperCase();
+      })
+      .expect(200, {
+        id: 'some fixed id',
+        name: 'TOBI'
+      }, done);
+  });
+});
+
 ```
 
   Anything you can do with superagent, you can do with supertest - for example multipart file uploads!

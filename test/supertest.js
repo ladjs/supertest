@@ -5,7 +5,8 @@ var request = require('..')
   , path = require('path')
   , should = require('should')
   , express = require('express');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser')
+  , cookieParser = require('cookie-parser');
 
 describe('request(url)', function(){
   it('should be supported', function(done){
@@ -232,6 +233,44 @@ describe('request(app)', function(){
       });
     });
 
+    it('should include the response in the error callback', function(done){
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('whatever');
+      });
+
+      request(app)
+      .get('/')
+      .expect(function() {
+        throw new Error('Some error');
+      })
+      .end(function(err, res){
+        should.exist(err);
+        should.exist(res);
+        // Duck-typing response, just in case.
+        res.status.should.equal(200);
+        done();
+      });
+    });
+
+    it('should set `this` to the test object when calling the error callback', function(done) {
+      var app = express();
+
+      app.get('/', function(req, res){
+        res.send('whatever');
+      });
+
+      var test = request(app).get('/');
+      test.expect(function() {
+        throw new Error('Some error');
+      }).end(function(err, res){
+        should.exist(err);
+        this.should.eql(test);
+        done();
+      });
+    });
+
     it('should handle an undefined Response', function (done) {
       var app = express();
 
@@ -357,13 +396,13 @@ describe('request(app)', function(){
       });
     });
 
-    it('should assert the body before the status', function (done) {
+    it('should assert the status before the body', function (done) {
       var app = express();
 
       app.set('json spaces', 0);
 
       app.get('/', function(req, res){
-        res.send(500, { message: 'something went wrong' });
+        res.status(500).send({ message: 'something went wrong' });
       });
 
       request(app)
@@ -371,7 +410,7 @@ describe('request(app)', function(){
       .expect(200)
       .expect('hey')
       .end(function(err, res){
-        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+          err.message.should.equal('expected 200 \"OK"\, got 500 \"Internal Server Error\"');
         done();
       });
     });
@@ -701,7 +740,7 @@ describe('request(app)', function(){
 describe('request.agent(app)', function(){
   var app = express();
 
-  app.use(express.cookieParser());
+  app.use(cookieParser());
 
   app.get('/', function(req, res){
     res.cookie('cookie', 'hey');
@@ -732,7 +771,7 @@ describe(".<http verb> works as expected", function(){
     it(".delete should work", function (done){
         var app = express();
         app.delete('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -742,7 +781,7 @@ describe(".<http verb> works as expected", function(){
     it(".del should work", function (done){
         var app = express();
         app.delete('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -752,7 +791,7 @@ describe(".<http verb> works as expected", function(){
     it(".get should work", function (done){
         var app = express();
         app.get('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -762,7 +801,7 @@ describe(".<http verb> works as expected", function(){
     it(".post should work", function (done){
         var app = express();
         app.post('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -772,7 +811,7 @@ describe(".<http verb> works as expected", function(){
     it(".put should work", function (done){
         var app = express();
         app.put('/', function(req, res){
-          res.send(200);
+          res.sendStatus(200);
         });
 
         request(app)
@@ -781,12 +820,157 @@ describe(".<http verb> works as expected", function(){
     });
 });
 
+describe('assert ordering by call order', function() {
+  it('should assert the body before status', function(done) {
+    var app = express();
+
+    app.set('json spaces', 0);
+
+    app.get('/', function(req, res) {
+      res.send(500, {message: 'something went wrong'});
+    });
+
+    request(app)
+      .get('/')
+      .expect('hey')
+      .expect(200)
+      .end(function(err, res) {
+        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+        done();
+      });
+  });
+
+  it('should assert the status before body', function(done) {
+    var app = express();
+
+    app.set('json spaces', 0);
+
+    app.get('/', function(req, res) {
+      res.send(500, {message: 'something went wrong'});
+    });
+
+    request(app)
+      .get('/')
+      .expect(200)
+      .expect('hey')
+      .end(function(err, res) {
+        err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
+        done();
+      });
+  });
+
+  it('should assert the fields before body and status', function(done) {
+    var app = express();
+
+    app.set('json spaces', 0);
+
+    app.get('/', function(req, res) {
+      res.status(200).json({hello: 'world'});
+    });
+
+    request(app)
+      .get('/')
+      .expect('content-type', /html/)
+      .expect('hello')
+      .end(function(err, res) {
+        err.message.should.equal('expected "content-type" matching /html/, got "application/json; charset=utf-8"');
+        done();
+      });
+  });
+
+  it('should call the expect function in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.status(200).json({});
+    });
+
+    request(app)
+      .get('/')
+      .expect(function(res) {
+        res.body.first = 1;
+      })
+      .expect(function(res) {
+        (res.body.first === 1).should.be.true;
+        res.body.second = 2;
+      })
+      .end(function(err, res) {
+        if (err) return done(err);
+        (res.body.first === 1).should.be.true;
+        (res.body.second === 2).should.be.true;
+        done();
+      });
+  });
+
+  it('should call expect(fn) and expect(status, fn) in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.status(200).json({});
+    });
+
+    request(app)
+      .get('/')
+      .expect(function(res) {
+        res.body.first = 1;
+      })
+      .expect(200, function(err, res) {
+        (err === null).should.be.true;
+        (res.body.first === 1).should.be.true;
+        done();
+      });
+  });
+
+  it('should call expect(fn) and expect(header,value) in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res
+        .set('X-Some-Header', 'Some value')
+        .send();
+    });
+
+    request(app)
+      .get('/')
+      .expect('X-Some-Header', 'Some value')
+      .expect(function(res) {
+        res.headers['x-some-header'] = '';
+      })
+      .expect('X-Some-Header', '')
+      .end(done);
+  });
+
+  it('should call expect(fn) and expect(body) in order', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.json({somebody: 'some body value'});
+    });
+
+    request(app)
+      .get('/')
+      .expect(/some body value/)
+      .expect(function(res) {
+        res.body.somebody = 'nobody';
+      })
+      .expect(/some body value/)  // res.text should not be modified.
+      .expect({somebody: 'nobody'})
+      .expect(function(res) {
+        res.text = 'gone';
+      })
+      .expect('gone')
+      .expect(/gone/)
+      .expect({somebody: 'nobody'})  // res.body should not be modified
+      .expect('gone', done);
+  });
+});
+
 describe("request.get(url).query(vals) works as expected", function(){
 
   it("normal single query string value works", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, req.query.val);
+      res.status(200).send(req.query.val);
     });
 
     request(app)
@@ -801,7 +985,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("array query string value works", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, Array.isArray(req.query.val));
+      res.status(200).send(Array.isArray(req.query.val));
     });
 
     request(app)
@@ -817,7 +1001,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("array query string value work even with single value", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, Array.isArray(req.query.val));
+      res.status(200).send(Array.isArray(req.query.val));
     });
 
     request(app)
@@ -833,7 +1017,7 @@ describe("request.get(url).query(vals) works as expected", function(){
   it("object query string value works", function(done) {
     var app = express();
     app.get('/', function(req, res){
-      res.send(200, req.query.val.test);
+      res.status(200).send(req.query.val.test);
     });
 
     request(app)
