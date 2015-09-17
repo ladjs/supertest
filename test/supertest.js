@@ -827,7 +827,7 @@ describe('assert ordering by call order', function() {
     app.set('json spaces', 0);
 
     app.get('/', function(req, res) {
-      res.send(500, {message: 'something went wrong'});
+      res.status(500).json({message: 'something went wrong'});
     });
 
     request(app)
@@ -846,7 +846,7 @@ describe('assert ordering by call order', function() {
     app.set('json spaces', 0);
 
     app.get('/', function(req, res) {
-      res.send(500, {message: 'something went wrong'});
+      res.status(500).json({message: 'something went wrong'});
     });
 
     request(app)
