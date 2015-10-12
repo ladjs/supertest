@@ -159,6 +159,28 @@ describe('request(app)', function(){
     .expect(302, done);
   });
 
+  it('should handle redirects', function(done){
+    var app = express();
+
+    app.get('/login', function (req, res){
+      res.end('Login')
+    });
+
+    app.get('/', function(req, res){
+      res.redirect('/login');
+    });
+
+    request(app)
+    .get('/')
+    .redirects(1)
+    .end(function (err, res) {
+      should.exist(res)
+      res.status.should.be.equal(200)
+      res.text.should.be.equal('Login')
+      done()
+    })
+  });
+
   it('should handle socket errors', function(done) {
     var app = express();
 
