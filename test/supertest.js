@@ -198,6 +198,21 @@ describe('request(app)', function(){
     });
   });
 
+  it('should handle superagent errors', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res){
+      res.sendStatus(400);
+    });
+
+    request(app)
+    .get('/')
+    .end(function(err) {
+      should.exist(err);
+      done();
+    });
+  });
+
   describe('.end(fn)', function(){
     it('should close server', function(done){
       var app = express();
