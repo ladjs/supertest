@@ -32,7 +32,7 @@ var request = require('supertest')
 var app = express();
 
 app.get('/user', function(req, res){
-  res.send(200, { name: 'tobi' });
+  res.status(200).json({ name: 'tobi' });
 });
 
 request(app)
