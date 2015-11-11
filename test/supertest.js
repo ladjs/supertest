@@ -1029,3 +1029,26 @@ describe("request.get(url).query(vals) works as expected", function(){
     });
   });
 });
+
+
+describe('the execution context of expect and end', function() {
+  it('should be the same', function(done) {
+    var app = express();
+
+    app.get('/', function(req, res) {
+      res.end()
+    });
+
+    var executionContext
+
+    request(app)
+      .get('/')
+      .expect(function(){
+        executionContext = this
+      })
+      .end(function(err, res) {
+        executionContext.should.equal(this)
+        done();
+      });
+  });
+});
