@@ -815,6 +815,25 @@ describe('request.agent(app)', function() {
   });
 });
 
+describe('agent.host(host)', function() {
+  it('should set request hostname', function(done) {
+    var app = express();
+    var agent = request.agent(app);
+
+    app.get('/', function(req, res) {
+      res.send();
+    });
+
+    agent
+    .host('something.test')
+    .get('/')
+    .end(function(err, res) {
+      err.hostname.should.equal('something.test');
+      done();
+    });
+  });
+});
+
 describe('.<http verb> works as expected', function() {
   it('.delete should work', function (done) {
     var app = express();
