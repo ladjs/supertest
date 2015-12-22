@@ -5,13 +5,13 @@ var request = require('./')
 var app = express();
 
 app.get('/user', function(req, res){
-  res.send(201, { name: 'tobi' });
+  res.status(201).json({ name: 'tobi' });
 });
 
 request(app)
   .get('/user')
   .expect('Content-Type', /json/)
-  .expect('Content-Length', '20')
+  .expect('Content-Length', '15')
   .expect(201)
   .end(function(err, res){
     if (err) throw err;
