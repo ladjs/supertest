@@ -1,3 +1,11 @@
+1.2.0 / 2016-02-11
+===================
+
+  * PR-302 - Update to superagent ^1.7.2
+  * PR-313 - Update node versions on Travis CI
+  * PR-223 - Remove Makefile for running tests
+  * PR-286 - Fix bug with redirects
+
 1.1.0 / 2015-08-26
 ===================
 
