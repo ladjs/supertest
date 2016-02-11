@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
-    "test": "make test"
+    "test": "mocha --require should --reporter spec --check-leaks"
   },
   "dependencies": {
     "superagent": "^1.7.2",
