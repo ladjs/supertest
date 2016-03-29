@@ -1,40 +1,41 @@
+var request = require('..');
+var https = require('https');
+var fs = require('fs');
+var path = require('path');
+var should = require('should');
+var express = require('express');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-var request = require('..')
-  , https = require('https')
-  , fs = require('fs')
-  , path = require('path')
-  , should = require('should')
-  , express = require('express');
-var bodyParser = require('body-parser')
-  , cookieParser = require('cookie-parser');
-
-describe('request(url)', function(){
-  it('should be supported', function(done){
+describe('request(url)', function() {
+  it('should be supported', function(done) {
     var app = express();
+    var s;
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.send('hello');
     });
 
-    var s = app.listen(function(){
+    s = app.listen(function() {
       var url = 'http://localhost:' + s.address().port;
       request(url)
       .get('/')
-      .expect("hello", done);
+      .expect('hello', done);
     });
   });
 
   describe('.end(cb)', function() {
     it('should set `this` to the test object when calling cb', function(done) {
       var app = express();
+      var s;
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hello');
       });
 
-      var s = app.listen(function(){
+      s = app.listen(function() {
         var url = 'http://localhost:' + s.address().port;
         var test = request(url).get('/');
         test.end(function(err, res) {
@@ -46,34 +47,35 @@ describe('request(url)', function(){
   });
 });
 
-describe('request(app)', function(){
-  it('should fire up the app on an ephemeral port', function(done){
+describe('request(app)', function() {
+  it('should fire up the app on an ephemeral port', function(done) {
     var app = express();
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.send('hey');
     });
 
     request(app)
     .get('/')
-    .end(function(err, res){
+    .end(function(err, res) {
       res.status.should.equal(200);
       res.text.should.equal('hey');
       done();
     });
   });
 
-  it('should work with an active server', function(done){
+  it('should work with an active server', function(done) {
     var app = express();
+    var server;
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.send('hey');
     });
 
-    var server = app.listen(4000, function(){
+    server = app.listen(4000, function() {
       request(server)
       .get('/')
-      .end(function(err, res){
+      .end(function(err, res) {
         res.status.should.equal(200);
         res.text.should.equal('hey');
         done();
@@ -81,17 +83,17 @@ describe('request(app)', function(){
     });
   });
 
-  it('should work with remote server', function(done){
+  it('should work with remote server', function(done) {
     var app = express();
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.send('hey');
     });
 
-    var server = app.listen(4001, function(){
+    app.listen(4001, function() {
       request('http://localhost:4001')
       .get('/')
-      .end(function(err, res){
+      .end(function(err, res) {
         res.status.should.equal(200);
         res.text.should.equal('hey');
         done();
@@ -99,22 +101,21 @@ describe('request(app)', function(){
     });
   });
 
-  it('should work with a https server', function(done){
+  it('should work with a https server', function(done) {
     var app = express();
-
-    app.get('/', function(req, res){
-      res.send('hey');
-    });
-
     var fixtures = path.join(__dirname, 'fixtures');
     var server = https.createServer({
       key: fs.readFileSync(path.join(fixtures, 'test_key.pem')),
       cert: fs.readFileSync(path.join(fixtures, 'test_cert.pem'))
     }, app);
 
+    app.get('/', function(req, res) {
+      res.send('hey');
+    });
+
     request(server)
     .get('/')
-    .end(function(err, res){
+    .end(function(err, res) {
       if (err) return done(err);
       res.status.should.equal(200);
       res.text.should.equal('hey');
@@ -122,12 +123,12 @@ describe('request(app)', function(){
     });
   });
 
-  it('should work with .send() etc', function(done){
+  it('should work with .send() etc', function(done) {
     var app = express();
 
     app.use(bodyParser.json());
 
-    app.post('/', function(req, res){
+    app.post('/', function(req, res) {
       res.send(req.body.name);
     });
 
@@ -137,10 +138,10 @@ describe('request(app)', function(){
     .expect('tobi', done);
   });
 
-  it('should work when unbuffered', function(done){
+  it('should work when unbuffered', function(done) {
     var app = express();
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.end('Hello');
     });
 
@@ -149,10 +150,10 @@ describe('request(app)', function(){
     .expect('Hello', done);
   });
 
-  it('should default redirects to 0', function(done){
+  it('should default redirects to 0', function(done) {
     var app = express();
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.redirect('/login');
     });
 
@@ -161,14 +162,14 @@ describe('request(app)', function(){
     .expect(302, done);
   });
 
-  it('should handle redirects', function(done){
+  it('should handle redirects', function(done) {
     var app = express();
 
-    app.get('/login', function (req, res){
-      res.end('Login')
+    app.get('/login', function (req, res) {
+      res.end('Login');
     });
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.redirect('/login');
     });
 
@@ -176,17 +177,17 @@ describe('request(app)', function(){
     .get('/')
     .redirects(1)
     .end(function (err, res) {
-      should.exist(res)
-      res.status.should.be.equal(200)
-      res.text.should.be.equal('Login')
-      done()
-    })
+      should.exist(res);
+      res.status.should.be.equal(200);
+      res.text.should.be.equal('Login');
+      done();
+    });
   });
 
   it('should handle socket errors', function(done) {
     var app = express();
 
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.destroy();
     });
 
@@ -198,57 +199,59 @@ describe('request(app)', function(){
     });
   });
 
-  describe('.end(fn)', function(){
-    it('should close server', function(done){
+  describe('.end(fn)', function() {
+    it('should close server', function(done) {
       var app = express();
+      var test;
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('supertest FTW!');
       });
 
-      var test = request(app)
+      test = request(app)
       .get('/')
-      .end(function(){});
+      .end(function() {});
 
-      test._server.on('close', function(){
+      test._server.on('close', function() {
         done();
       });
     });
 
-    it('should wait for server to close before invoking fn', function(done){
+    it('should wait for server to close before invoking fn', function(done) {
       var app = express();
       var closed = false;
+      var test;
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('supertest FTW!');
       });
 
-      var test = request(app)
+      test = request(app)
       .get('/')
-      .end(function(){
+      .end(function() {
         closed.should.be.true;
         done();
       });
 
-      test._server.on('close', function(){
+      test._server.on('close', function() {
         closed = true;
       });
     });
 
-    it('should support nested requests', function(done){
+    it('should support nested requests', function(done) {
       var app = express();
       var test = request(app);
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('supertest FTW!');
       });
 
       test
       .get('/')
-      .end(function(){
+      .end(function() {
         test
         .get('/')
-        .end(function(err, res){
+        .end(function(err, res) {
           (err === null).should.be.true;
           res.status.should.equal(200);
           res.text.should.equal('supertest FTW!');
@@ -257,10 +260,10 @@ describe('request(app)', function(){
       });
     });
 
-    it('should include the response in the error callback', function(done){
+    it('should include the response in the error callback', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('whatever');
       });
 
@@ -269,7 +272,7 @@ describe('request(app)', function(){
       .expect(function() {
         throw new Error('Some error');
       })
-      .end(function(err, res){
+      .end(function(err, res) {
         should.exist(err);
         should.exist(res);
         // Duck-typing response, just in case.
@@ -280,15 +283,16 @@ describe('request(app)', function(){
 
     it('should set `this` to the test object when calling the error callback', function(done) {
       var app = express();
+      var test;
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('whatever');
       });
 
-      var test = request(app).get('/');
+      test = request(app).get('/');
       test.expect(function() {
         throw new Error('Some error');
-      }).end(function(err, res){
+      }).end(function(err, res) {
         should.exist(err);
         this.should.eql(test);
         done();
@@ -297,15 +301,16 @@ describe('request(app)', function(){
 
     it('should handle an undefined Response', function (done) {
       var app = express();
+      var server;
 
-      app.get('/', function(req, res){
-        setTimeout( function () {
+      app.get('/', function(req, res) {
+        setTimeout(function () {
           res.end();
         }, 20);
       });
 
-      var s = app.listen(function(){
-        var url = 'http://localhost:' + s.address().port;
+      server = app.listen(function() {
+        var url = 'http://localhost:' + server.address().port;
         request(url)
         .get('/')
         .timeout(1)
@@ -318,14 +323,15 @@ describe('request(app)', function(){
 
     it('should handle error returned when server goes down', function (done) {
       var app = express();
+      var server;
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.end();
       });
 
-      var s = app.listen(function(){
-        var url = 'http://localhost:' + s.address().port;
-        s.close();
+      server = app.listen(function() {
+        var url = 'http://localhost:' + server.address().port;
+        server.close();
         request(url)
         .get('/')
         .expect(200, function (err) {
@@ -336,18 +342,18 @@ describe('request(app)', function(){
     });
   });
 
-  describe('.expect(status[, fn])', function(){
-    it('should assert the response status', function(done){
+  describe('.expect(status[, fn])', function() {
+    it('should assert the response status', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hey');
       });
 
       request(app)
       .get('/')
       .expect(404)
-      .end(function(err, res){
+      .end(function(err, res) {
         err.message.should.equal('expected 404 "Not Found", got 200 "OK"');
         done();
       });
@@ -365,35 +371,35 @@ describe('request(app)', function(){
       request(app)
       .get('/')
       .expect(200)
-      .end(done)
+      .end(done);
     });
   });
 
-  describe('.expect(status, body[, fn])', function(){
-    it('should assert the response body and status', function(done){
+  describe('.expect(status, body[, fn])', function() {
+    it('should assert the response body and status', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('foo');
       });
 
       request(app)
       .get('/')
-      .expect(200, 'foo', done)
+      .expect(200, 'foo', done);
     });
 
-    describe("when the body argument is an empty string", function() {
-      it("should not quietly pass on failure", function(done) {
+    describe('when the body argument is an empty string', function() {
+      it('should not quietly pass on failure', function(done) {
         var app = express();
 
-        app.get('/', function(req, res){
+        app.get('/', function(req, res) {
           res.send('foo');
         });
 
         request(app)
         .get('/')
         .expect(200, '')
-        .end(function(err, res){
+        .end(function(err, res) {
           err.message.should.equal('expected \'\' response body, got \'foo\'');
           done();
         });
@@ -401,20 +407,20 @@ describe('request(app)', function(){
     });
   });
 
-  describe('.expect(body[, fn])', function(){
-    it('should assert the response body', function(done){
+  describe('.expect(body[, fn])', function() {
+    it('should assert the response body', function(done) {
       var app = express();
 
       app.set('json spaces', 0);
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send({ foo: 'bar' });
       });
 
       request(app)
       .get('/')
       .expect('hey')
-      .end(function(err, res){
+      .end(function(err, res) {
         err.message.should.equal('expected \'hey\' response body, got \'{"foo":"bar"}\'');
         done();
       });
@@ -425,7 +431,7 @@ describe('request(app)', function(){
 
       app.set('json spaces', 0);
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.status(500).send({ message: 'something went wrong' });
       });
 
@@ -433,18 +439,18 @@ describe('request(app)', function(){
       .get('/')
       .expect(200)
       .expect('hey')
-      .end(function(err, res){
-          err.message.should.equal('expected 200 \"OK"\, got 500 \"Internal Server Error\"');
+      .end(function(err, res) {
+        err.message.should.equal('expected 200 \"OK"\, got 500 \"Internal Server Error\"');
         done();
       });
     });
 
-    it('should assert the response text', function(done){
+    it('should assert the response text', function(done) {
       var app = express();
 
       app.set('json spaces', 0);
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send({ foo: 'bar' });
       });
 
@@ -453,19 +459,19 @@ describe('request(app)', function(){
       .expect('{"foo":"bar"}', done);
     });
 
-    it('should assert the parsed response body', function(done){
+    it('should assert the parsed response body', function(done) {
       var app = express();
 
       app.set('json spaces', 0);
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send({ foo: 'bar' });
       });
 
       request(app)
       .get('/')
       .expect({ foo: 'baz' })
-      .end(function(err, res){
+      .end(function(err, res) {
         err.message.should.equal('expected { foo: \'baz\' } response body, got { foo: \'bar\' }');
 
         request(app)
@@ -475,26 +481,26 @@ describe('request(app)', function(){
       });
     });
 
-    it('should support regular expressions', function(done){
+    it('should support regular expressions', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('foobar');
       });
 
       request(app)
       .get('/')
       .expect(/^bar/)
-      .end(function(err, res){
+      .end(function(err, res) {
         err.message.should.equal('expected body \'foobar\' to match /^bar/');
         done();
       });
     });
 
-    it('should assert response body multiple times', function(done){
+    it('should assert response body multiple times', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hey tj');
       });
 
@@ -509,10 +515,10 @@ describe('request(app)', function(){
       });
     });
 
-    it('should assert response body multiple times with no exception', function(done){
+    it('should assert response body multiple times with no exception', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hey tj');
       });
 
@@ -524,43 +530,44 @@ describe('request(app)', function(){
     });
   });
 
-  describe('.expect(field, value[, fn])', function(){
-    it('should assert the header field presence', function(done){
+  describe('.expect(field, value[, fn])', function() {
+    it('should assert the header field presence', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send({ foo: 'bar' });
       });
 
       request(app)
       .get('/')
       .expect('Content-Foo', 'bar')
-      .end(function(err, res){
+      .end(function(err, res) {
         err.message.should.equal('expected "Content-Foo" header field');
         done();
       });
     });
 
-    it('should assert the header field value', function(done){
+    it('should assert the header field value', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send({ foo: 'bar' });
       });
 
       request(app)
       .get('/')
       .expect('Content-Type', 'text/html')
-      .end(function(err, res){
-        err.message.should.equal('expected "Content-Type" of "text/html", got "application/json; charset=utf-8"');
+      .end(function(err, res) {
+        err.message.should.equal('expected "Content-Type" of "text/html", ' +
+          'got "application/json; charset=utf-8"');
         done();
       });
     });
 
-    it('should assert multiple fields', function(done){
+    it('should assert multiple fields', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hey');
       });
 
@@ -571,109 +578,111 @@ describe('request(app)', function(){
       .end(done);
     });
 
-    it('should support regular expressions', function(done){
+    it('should support regular expressions', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hey');
       });
 
       request(app)
       .get('/')
       .expect('Content-Type', /^application/)
-      .end(function(err){
-        err.message.should.equal('expected "Content-Type" matching /^application/, got "text/html; charset=utf-8"');
+      .end(function(err) {
+        err.message.should.equal('expected "Content-Type" matching /^application/, ' +
+          'got "text/html; charset=utf-8"');
         done();
       });
     });
 
-    it('should support numbers', function(done){
+    it('should support numbers', function(done) {
       var app = express();
 
-      app.get('/', function(req, res){
+      app.get('/', function(req, res) {
         res.send('hey');
       });
 
       request(app)
       .get('/')
       .expect('Content-Length', 4)
-      .end(function(err){
+      .end(function(err) {
         err.message.should.equal('expected "Content-Length" of "4", got "3"');
         done();
       });
     });
 
-    describe('handling arbitrary expect functions', function(){
+    describe('handling arbitrary expect functions', function() {
 
-
-      var app, get;
-      before(function(){
+      var app;
+      var get;
+      before(function() {
         app = express();
-        app.get('/', function(req, res){
+        app.get('/', function(req, res) {
           res.send('hey');
         });
       });
 
-      beforeEach(function(){
+      beforeEach(function() {
         get = request(app).get('/');
       });
 
-      it('reports errors',function(done) {
+      it('reports errors', function(done) {
         get
         .expect(function(res) {
-          throw new Error("failed")
+          throw new Error('failed');
         })
         .end(function(err) {
           err.message.should.equal('failed');
-          done()
+          done();
         });
       });
 
-      it('ensures truthy non-errors returned from asserts are not promoted to errors',function(done){
-        get
-        .expect(function(res) {
-          return "some descriptive error";
-        })
-        .end(function(err) {
-          should.not.exist(err);
-          done()
+      it('ensures truthy non-errors returned from asserts are not promoted to errors',
+        function(done) {
+          get
+          .expect(function(res) {
+            return 'some descriptive error';
+          })
+          .end(function(err) {
+            should.not.exist(err);
+            done();
+          });
         });
-      });
 
-      it('ensures truthy errors returned from asserts are throw to end',function(done){
+      it('ensures truthy errors returned from asserts are throw to end', function(done) {
         get
         .expect(function(res) {
-          return new Error("some descriptive error");
+          return new Error('some descriptive error');
         })
         .end(function(err) {
-          err.message.should.equal("some descriptive error");
+          err.message.should.equal('some descriptive error');
           (err instanceof Error).should.be.true;
           done();
         });
       });
 
-      it("doesn't create false negatives", function(done){
+      it("doesn't create false negatives", function(done) {
         get
         .expect(function(res) {})
         .end(done);
       });
 
-      it("handles multiple asserts", function(done){
+      it('handles multiple asserts', function(done) {
         var calls = [];
         get
-        .expect(function(res) { calls[0] = 1 })
-        .expect(function(res) { calls[1] = 1 })
-        .expect(function(res) { calls[2] = 1 })
+        .expect(function(res) { calls[0] = 1; })
+        .expect(function(res) { calls[1] = 1; })
+        .expect(function(res) { calls[2] = 1; })
         .end(function() {
-          var callCount = [0,1,2].reduce(function(count,i) {
-            return count + calls[i]
-          },0);
-          callCount.should.equal(3,"didn't see all assertions run");
+          var callCount = [0, 1, 2].reduce(function(count, i) {
+            return count + calls[i];
+          }, 0);
+          callCount.should.equal(3, "didn't see all assertions run");
           done();
         });
       });
 
-      it("plays well with normal assertions - no false positives", function(done){
+      it('plays well with normal assertions - no false positives', function(done) {
         get
         .expect(function(res) {})
         .expect('Content-Type', /json/)
@@ -683,21 +692,21 @@ describe('request(app)', function(){
         });
       });
 
-      it("plays well with normal assertions - no false negatives", function(done){
+      it('plays well with normal assertions - no false negatives', function(done) {
         get
         .expect(function(res) {})
         .expect('Content-Type', /html/)
         .expect(function(res) {})
         .expect('Content-Type', /text/)
-        .end(done)
+        .end(done);
       });
     });
 
-    describe('handling multiple assertions per field', function(){
+    describe('handling multiple assertions per field', function() {
 
-      it('should work', function(done){
+      it('should work', function(done) {
         var app = express();
-        app.get('/', function(req, res){
+        app.get('/', function(req, res) {
           res.send('hey');
         });
 
@@ -708,9 +717,9 @@ describe('request(app)', function(){
         .end(done);
       });
 
-      it('should return an error if the first one fails', function(done){
+      it('should return an error if the first one fails', function(done) {
         var app = express();
-        app.get('/', function(req, res){
+        app.get('/', function(req, res) {
           res.send('hey');
         });
 
@@ -718,15 +727,16 @@ describe('request(app)', function(){
         .get('/')
         .expect('Content-Type', /bloop/)
         .expect('Content-Type', /html/)
-        .end(function(err){
-          err.message.should.equal('expected "Content-Type" matching /bloop/, got "text/html; charset=utf-8"');
+        .end(function(err) {
+          err.message.should.equal('expected "Content-Type" matching /bloop/, ' +
+            'got "text/html; charset=utf-8"');
           done();
         });
       });
 
-      it('should return an error if a middle one fails', function(done){
+      it('should return an error if a middle one fails', function(done) {
         var app = express();
-        app.get('/', function(req, res){
+        app.get('/', function(req, res) {
           res.send('hey');
         });
 
@@ -735,15 +745,16 @@ describe('request(app)', function(){
         .expect('Content-Type', /text/)
         .expect('Content-Type', /bloop/)
         .expect('Content-Type', /html/)
-        .end(function(err){
-          err.message.should.equal('expected "Content-Type" matching /bloop/, got "text/html; charset=utf-8"');
+        .end(function(err) {
+          err.message.should.equal('expected "Content-Type" matching /bloop/, ' +
+            'got "text/html; charset=utf-8"');
           done();
         });
       });
 
-      it('should return an error if the last one fails', function(done){
+      it('should return an error if the last one fails', function(done) {
         var app = express();
-        app.get('/', function(req, res){
+        app.get('/', function(req, res) {
           res.send('hey');
         });
 
@@ -752,8 +763,9 @@ describe('request(app)', function(){
         .expect('Content-Type', /text/)
         .expect('Content-Type', /html/)
         .expect('Content-Type', /bloop/)
-        .end(function(err){
-          err.message.should.equal('expected "Content-Type" matching /bloop/, got "text/html; charset=utf-8"');
+        .end(function(err) {
+          err.message.should.equal('expected "Content-Type" matching /bloop/, ' +
+            'got "text/html; charset=utf-8"');
           done();
         });
       });
@@ -761,87 +773,86 @@ describe('request(app)', function(){
   });
 });
 
-describe('request.agent(app)', function(){
+describe('request.agent(app)', function() {
   var app = express();
+  var agent = request.agent(app);
 
   app.use(cookieParser());
 
-  app.get('/', function(req, res){
+  app.get('/', function(req, res) {
     res.cookie('cookie', 'hey');
     res.send();
   });
 
-  app.get('/return', function(req, res){
+  app.get('/return', function(req, res) {
     if (req.cookies.cookie) res.send(req.cookies.cookie);
-    else res.send(':(')
+    else res.send(':(');
   });
 
-  var agent = request.agent(app);
-
-  it('should save cookies', function(done){
+  it('should save cookies', function(done) {
     agent
     .get('/')
     .expect('set-cookie', 'cookie=hey; Path=/', done);
   });
 
-  it('should send cookies', function(done){
+  it('should send cookies', function(done) {
     agent
     .get('/return')
     .expect('hey', done);
   });
 });
 
-describe(".<http verb> works as expected", function(){
-    it(".delete should work", function (done){
-        var app = express();
-        app.delete('/', function(req, res){
-          res.sendStatus(200);
-        });
+describe('.<http verb> works as expected', function() {
+  it('.delete should work', function (done) {
+    var app = express();
+    app.delete('/', function(req, res) {
+      res.sendStatus(200);
+    });
 
-        request(app)
+    request(app)
         .delete('/')
         .expect(200, done);
+  });
+  it('.del should work', function (done) {
+    var app = express();
+    app.delete('/', function(req, res) {
+      res.sendStatus(200);
     });
-    it(".del should work", function (done){
-        var app = express();
-        app.delete('/', function(req, res){
-          res.sendStatus(200);
-        });
 
-        request(app)
+    request(app)
         .del('/')
         .expect(200, done);
+  });
+  it('.get should work', function (done) {
+    var app = express();
+    app.get('/', function(req, res) {
+      res.sendStatus(200);
     });
-    it(".get should work", function (done){
-        var app = express();
-        app.get('/', function(req, res){
-          res.sendStatus(200);
-        });
 
-        request(app)
+    request(app)
         .get('/')
         .expect(200, done);
+  });
+  it('.post should work', function (done) {
+    var app = express();
+    app.post('/', function(req, res) {
+      res.sendStatus(200);
     });
-    it(".post should work", function (done){
-        var app = express();
-        app.post('/', function(req, res){
-          res.sendStatus(200);
-        });
 
-        request(app)
+    request(app)
         .post('/')
         .expect(200, done);
+  });
+  it('.put should work', function (done) {
+    var app = express();
+    app.put('/', function(req, res) {
+      res.sendStatus(200);
     });
-    it(".put should work", function (done){
-        var app = express();
-        app.put('/', function(req, res){
-          res.sendStatus(200);
-        });
 
-        request(app)
+    request(app)
         .put('/')
         .expect(200, done);
-    });
+  });
 });
 
 describe('assert ordering by call order', function() {
@@ -851,7 +862,7 @@ describe('assert ordering by call order', function() {
     app.set('json spaces', 0);
 
     app.get('/', function(req, res) {
-      res.status(500).json({message: 'something went wrong'});
+      res.status(500).json({ message: 'something went wrong' });
     });
 
     request(app)
@@ -859,7 +870,8 @@ describe('assert ordering by call order', function() {
       .expect('hey')
       .expect(200)
       .end(function(err, res) {
-        err.message.should.equal('expected \'hey\' response body, got \'{"message":"something went wrong"}\'');
+        err.message.should.equal('expected \'hey\' response body, ' +
+          'got \'{"message":"something went wrong"}\'');
         done();
       });
   });
@@ -870,7 +882,7 @@ describe('assert ordering by call order', function() {
     app.set('json spaces', 0);
 
     app.get('/', function(req, res) {
-      res.status(500).json({message: 'something went wrong'});
+      res.status(500).json({ message: 'something went wrong' });
     });
 
     request(app)
@@ -889,7 +901,7 @@ describe('assert ordering by call order', function() {
     app.set('json spaces', 0);
 
     app.get('/', function(req, res) {
-      res.status(200).json({hello: 'world'});
+      res.status(200).json({ hello: 'world' });
     });
 
     request(app)
@@ -897,7 +909,8 @@ describe('assert ordering by call order', function() {
       .expect('content-type', /html/)
       .expect('hello')
       .end(function(err, res) {
-        err.message.should.equal('expected "content-type" matching /html/, got "application/json; charset=utf-8"');
+        err.message.should.equal('expected "content-type" matching /html/, ' +
+          'got "application/json; charset=utf-8"');
         done();
       });
   });
@@ -968,7 +981,7 @@ describe('assert ordering by call order', function() {
     var app = express();
 
     app.get('/', function(req, res) {
-      res.json({somebody: 'some body value'});
+      res.json({ somebody: 'some body value' });
     });
 
     request(app)
@@ -978,43 +991,43 @@ describe('assert ordering by call order', function() {
         res.body.somebody = 'nobody';
       })
       .expect(/some body value/)  // res.text should not be modified.
-      .expect({somebody: 'nobody'})
+      .expect({ somebody: 'nobody' })
       .expect(function(res) {
         res.text = 'gone';
       })
       .expect('gone')
       .expect(/gone/)
-      .expect({somebody: 'nobody'})  // res.body should not be modified
+      .expect({ somebody: 'nobody' })  // res.body should not be modified
       .expect('gone', done);
   });
 });
 
-describe("request.get(url).query(vals) works as expected", function(){
+describe('request.get(url).query(vals) works as expected', function() {
 
-  it("normal single query string value works", function(done) {
+  it('normal single query string value works', function(done) {
     var app = express();
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.status(200).send(req.query.val);
     });
 
     request(app)
     .get('/')
-    .query({val: "Test1"})
+    .query({ val: 'Test1' })
     .expect(200, function(err, res) {
       res.text.should.be.equal('Test1');
       done();
     });
   });
 
-  it("array query string value works", function(done) {
+  it('array query string value works', function(done) {
     var app = express();
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.status(200).send(Array.isArray(req.query.val));
     });
 
     request(app)
     .get('/')
-    .query({'val[]': ["Test1", "Test2"]})
+    .query({ 'val[]': ['Test1', 'Test2'] })
     .expect(200, function(err, res) {
       res.req.path.should.be.equal('/?val%5B%5D=Test1&val%5B%5D=Test2');
       res.text.should.be.equal('true');
@@ -1022,15 +1035,15 @@ describe("request.get(url).query(vals) works as expected", function(){
     });
   });
 
-  it("array query string value work even with single value", function(done) {
+  it('array query string value work even with single value', function(done) {
     var app = express();
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.status(200).send(Array.isArray(req.query.val));
     });
 
     request(app)
     .get('/')
-    .query({'val[]': ["Test1"]})
+    .query({ 'val[]': ['Test1'] })
     .expect(200, function(err, res) {
       res.req.path.should.be.equal('/?val%5B%5D=Test1');
       res.text.should.be.equal('true');
@@ -1038,15 +1051,15 @@ describe("request.get(url).query(vals) works as expected", function(){
     });
   });
 
-  it("object query string value works", function(done) {
+  it('object query string value works', function(done) {
     var app = express();
-    app.get('/', function(req, res){
+    app.get('/', function(req, res) {
       res.status(200).send(req.query.val.test);
     });
 
     request(app)
     .get('/')
-    .query({val: { test: 'Test1' } })
+    .query({ val: { test: 'Test1' } })
     .expect(200, function(err, res) {
       res.text.should.be.equal('Test1');
       done();
