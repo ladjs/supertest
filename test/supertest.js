@@ -612,9 +612,9 @@ describe('request(app)', function() {
     });
 
     describe('handling arbitrary expect functions', function() {
-
       var app;
       var get;
+
       before(function() {
         app = express();
         app.get('/', function(req, res) {
@@ -703,7 +703,6 @@ describe('request(app)', function() {
     });
 
     describe('handling multiple assertions per field', function() {
-
       it('should work', function(done) {
         var app = express();
         app.get('/', function(req, res) {
@@ -1003,7 +1002,6 @@ describe('assert ordering by call order', function() {
 });
 
 describe('request.get(url).query(vals) works as expected', function() {
-
   it('normal single query string value works', function(done) {
     var app = express();
     app.get('/', function(req, res) {

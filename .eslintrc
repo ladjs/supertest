@@ -8,21 +8,15 @@
     // disabled - disagree with airbnb
     "func-names": [0],
     "space-before-function-paren": [0],
-    "padded-blocks": [0],
     "consistent-return": [0],
 
     // Disabled but may want to refactor code eventually
     "no-proto": [1],
     "no-shadow": [1],
+    "no-use-before-define": [2, "nofunc"],
 
     // IMHO, more sensible overrides to existing airbnb error definitions
     "max-len": [2, 100, 4, {"ignoreComments": true, "ignoreUrls": true}],
-    "comma-dangle": [2, "never"],
-    "no-multi-spaces": [2, { "exceptions": { "VariableDeclarator": true, "Property": true } }],
-    "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }],
-    "no-use-before-define": [2, "nofunc"],
-    "no-param-reassign": [2, {"props": false}],
-    "no-cond-assign": [2, "except-parens"],
-    "no-return-assign": [2, "except-parens"]
+    "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }]
   }
 }

@@ -3,6 +3,8 @@
     // errors - disabled for chai test support
     "no-unused-expressions": [0],
     // allow function args for superagent
-    "no-unused-vars": [2, {"args": "none"}]
+    "no-unused-vars": [2, {"args": "none"}],
+    // allow updates to response for certain tests
+    "no-param-reassign": [2, {"props": false}]
   }
 }
