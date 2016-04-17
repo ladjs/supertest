@@ -1,4 +1,4 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest)
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest) [![Dependency Status](https://david-dm.org/visionmedia/supertest.svg)](https://david-dm.org/visionmedia/supertest)
 
   HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
 
@@ -26,12 +26,12 @@ npm install supertest --save-dev
   test framework at all:
 
 ```js
-var request = require('supertest')
-  , express = require('express');
+var request = require('supertest');
+var express = require('express');
 
 var app = express();
 
-app.get('/user', function(req, res){
+app.get('/user', function(req, res) {
   res.status(200).json({ name: 'tobi' });
 });
 
@@ -40,7 +40,7 @@ request(app)
   .expect('Content-Type', /json/)
   .expect('Content-Length', '15')
   .expect(200)
-  .end(function(err, res){
+  .end(function(err, res) {
     if (err) throw err;
   });
 ```
@@ -48,15 +48,15 @@ request(app)
   Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
-describe('GET /user', function(){
-  it('respond with json', function(done){
+describe('GET /user', function() {
+  it('respond with json', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
-  })
-})
+  });
+});
 ```
 
 One thing to note with the above statement is that superagent now sends any HTTP
@@ -68,13 +68,13 @@ you do not add a status code expect (i.e. `.expect(302)`).
   order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
 ```js
-describe('GET /users', function(){
-  it('respond with json', function(done){
+describe('GET /users', function() {
+  it('respond with json', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
       .expect(200)
-      .end(function(err, res){
+      .end(function(err, res) {
         if (err) return done(err);
         done();
       });
@@ -86,8 +86,8 @@ describe('GET /users', function(){
   to modify the response body or headers before executing an assertion.
 
 ```js
-describe('GET /user', function(){
-  it('user.name should be an case-insensitive match for "tobi"', function(done){
+describe('GET /user', function() {
+  it('user.name should be an case-insensitive match for "tobi"', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
@@ -101,7 +101,6 @@ describe('GET /user', function(){
       }, done);
   });
 });
-
 ```
 
   Anything you can do with superagent, you can do with supertest - for example multipart file uploads!

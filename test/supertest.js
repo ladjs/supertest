@@ -440,7 +440,7 @@ describe('request(app)', function() {
       .expect(200)
       .expect('hey')
       .end(function(err, res) {
-        err.message.should.equal('expected 200 \"OK"\, got 500 \"Internal Server Error\"');
+        err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
         done();
       });
     });
