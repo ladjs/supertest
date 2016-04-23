@@ -71,7 +71,7 @@ you do not add a status code expect (i.e. `.expect(302)`).
 describe('GET /users', function() {
   it('respond with json', function(done) {
     request(app)
-      .get('/user')
+      .get('/users')
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
