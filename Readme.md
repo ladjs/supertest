@@ -1,11 +1,11 @@
 # SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest) [![Dependency Status](https://david-dm.org/visionmedia/supertest.svg)](https://david-dm.org/visionmedia/supertest)
 
-  HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
+  HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
 
 ## About
 
   The motivation with this module is to provide a high-level abstraction for testing
-  HTTP, while still allowing you to drop down to the lower-level API provided by super-agent.
+  HTTP, while still allowing you to drop down to the lower-level API provided by superagent.
 
 ## Getting Started
 
@@ -170,7 +170,7 @@ describe('request.agent(app)', function(){
 
 ## API
 
-  You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
+  You may use any [superagent](http://github.com/visionmedia/superagent) methods,
   including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
   for lower-level needs.
 
