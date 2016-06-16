@@ -362,7 +362,7 @@ describe('request(app)', function() {
 
   describe('.expect(status)', function () {
     it('should handle connection error', function (done) {
-      var req = request.agent('http://localhost:1234')
+      var req = request.agent('http://localhost:1234');
 
       req
           .get('/')
