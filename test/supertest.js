@@ -481,6 +481,36 @@ describe('request(app)', function() {
       });
     });
 
+    it('should allow functions when asserting the parsed response body', function(done) {
+      var app = express();
+
+      app.set('json spaces', 0);
+
+      app.get('/', function(req, res) {
+        res.send({ foo: (new Date()).toString() });
+      });
+
+      request(app)
+        .get('/')
+        .expect({
+          foo: function () {
+            return false;
+          }
+        })
+        .end(function(err, res) {
+          should.exist(err);
+
+          request(app)
+            .get('/')
+            .expect({
+              foo: function (val) {
+                return !Number.isNaN(Date.parse(val));
+              }
+            })
+            .end(done);
+        });
+    });
+
     it('should support regular expressions', function(done) {
       var app = express();
 
