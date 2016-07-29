@@ -1,7 +1,7 @@
 {
   "name": "supertest",
-  "version": "1.2.0",
-  "description": "Super-agent driven library for testing HTTP servers",
+  "version": "2.0.0",
+  "description": "SuperAgent driven library for testing HTTP servers",
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
@@ -16,9 +16,9 @@
     "cookie-parser": "~1.4.1",
     "eslint": "^2.8.0",
     "eslint-config-airbnb": "^7.0.0",
-    "express": "~4.13.4",
-    "mocha": "~2.4.5",
-    "should": "~8.3.1"
+    "express": "~4.14.0",
+    "mocha": "~2.5.3",
+    "should": "~10.0.0"
   },
   "engines": {
     "node": ">=0.10.0"
