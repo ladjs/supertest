@@ -84,6 +84,8 @@ describe('GET /users', function() {
 
   Expectations are run in the order of definition. This characteristic can be used
   to modify the response body or headers before executing an assertion.
+  
+  Also - if you are using the `.end()` method - it closes the server, even if you initially provided it running.
 
 ```js
 describe('GET /user', function() {
@@ -210,6 +212,7 @@ describe('request.agent(app)', function(){
 ### .end(fn)
 
   Perform the request and invoke `fn(err, res)`.
+  If the call was created with an instance of a server - it **closes** the server, wether it was bound to a port or not.
 
 ## Notes
 
