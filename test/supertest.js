@@ -852,6 +852,26 @@ describe('.<http verb> works as expected', function() {
         .put('/')
         .expect(200, done);
   });
+  it('.head should work', function (done) {
+    var app = express();
+    app.head('/', function(req, res) {
+      res.statusCode = 200;
+      res.set('Content-Encoding', 'gzip');
+      res.set('Content-Length', '1024');
+      res.status(200);
+      res.end();
+    });
+
+    request(app)
+        .head('/')
+        .set('accept-encoding', 'gzip, deflate')
+        .end(function (err, res) {
+          if (err) return done(err);
+          res.should.have.property('statusCode', 200);
+          res.headers.should.have.property('content-length', '1024');
+          done();
+        });
+  });
 });
 
 describe('assert ordering by call order', function() {
