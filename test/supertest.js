@@ -361,6 +361,20 @@ describe('request(app)', function() {
   });
 
   describe('.expect(status)', function () {
+    it('should handle connection error', function (done) {
+      var req = request.agent('http://localhost:1234');
+
+      req
+          .get('/')
+          .expect(200)
+          .end(function (err, res) {
+            err.message.should.equal('ECONNREFUSED: Connection refused');
+            done();
+          });
+    });
+  });
+
+  describe('.expect(status)', function () {
     it('should assert only status', function (done) {
       var app = express();
 
