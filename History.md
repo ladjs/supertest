@@ -1,3 +1,9 @@
+2.0.0 / 2016-07-29
+===================
+
+  * PR-347 - Update to superagent ^2.0.0 (thanks @saintedlama)
+  * Proper es6 [promises support](http://visionmedia.github.io/superagent/#request-basics) was added in superagent 2.0.0, which means you can use it 
+  
 1.2.0 / 2016-02-11
 ===================
 
