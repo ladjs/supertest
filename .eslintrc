@@ -14,6 +14,7 @@
     "no-proto": [1],
     "no-shadow": [1],
     "no-use-before-define": [2, "nofunc"],
+    "no-underscore-dangle": [0],
 
     // IMHO, more sensible overrides to existing airbnb error definitions
     "max-len": [2, 100, 4, {"ignoreComments": true, "ignoreUrls": true}],
