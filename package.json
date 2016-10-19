@@ -1,6 +1,6 @@
 {
   "name": "supertest",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "SuperAgent driven library for testing HTTP servers",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "should": "~11.1.1"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.0.0"
   },
   "keywords": [
     "superagent",
