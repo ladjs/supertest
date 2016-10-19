@@ -103,7 +103,7 @@ describe('GET /user', function() {
 });
 ```
 
-  Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
+Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
 
 ```js
 request(app)
@@ -131,10 +131,10 @@ request.get('/').expect('heya', function(err){
   Here's an example with mocha that shows how to persist a request and its cookies:
 
 ```js
-var request = require('supertest')
-   , should = require('should')
-   , express = require('express')
-   , cookieParser = require('cookie-parser');
+var request = require('supertest');
+var should = require('should');
+var express = require('express');
+var cookieParser = require('cookie-parser');
 
 
 describe('request.agent(app)', function(){
