@@ -5,7 +5,7 @@
 ## About
 
   The motivation with this module is to provide a high-level abstraction for testing
-  HTTP, while still allowing you to drop down to the lower-level API provided by superagent.
+  HTTP, while still allowing you to drop down to the [lower-level API](https://visionmedia.github.io/superagent/) provided by superagent.
 
 ## Getting Started
 
@@ -14,7 +14,7 @@
 npm install supertest --save-dev
   ```
 
-  Once installed it can now be referenced by simply calling ```require("supertest");```
+  Once installed it can now be referenced by simply calling ```require('supertest');```
 
 ## Example
 
