@@ -4,6 +4,9 @@
     "node": true,
     "mocha": true
   },
+  "globals": {
+    "Promise": true
+  },
   "rules": {
     // disabled - disagree with airbnb
     "func-names": [0],
