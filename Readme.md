@@ -211,6 +211,10 @@ describe('request.agent(app)', function(){
 
   Perform the request and invoke `fn(err, res)`.
 
+### .then(onFulfilled, onRejected)
+
+  Perform the request and return a promise.
+
 ## Notes
 
   Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling.
