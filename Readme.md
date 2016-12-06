@@ -29,7 +29,7 @@ npm install supertest --save-dev
 var request = require('supertest');
 var express = require('express');
 
-var app = express();
+var app = require('../app');
 
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'tobi' });
