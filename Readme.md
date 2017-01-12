@@ -1,4 +1,4 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest) [![Dependency Status](https://david-dm.org/visionmedia/supertest.svg)](https://david-dm.org/visionmedia/supertest)
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest) [![Dependency Status](https://david-dm.org/visionmedia/supertest/status.svg)](https://david-dm.org/visionmedia/supertest)
 
   HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
 
@@ -78,6 +78,22 @@ describe('GET /users', function() {
         if (err) return done(err);
         done();
       });
+  });
+});
+```
+
+You can also use promises
+
+```js
+describe('GET /users', function() {
+  it('respond with json', function() {
+    return request(app)
+      .get('/users')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .then(response => {
+          assert(response.body.email, 'foo@bar.com')
+      })
   });
 });
 ```
