@@ -8,7 +8,7 @@
     "test": "eslint lib/**/*.js test/**/*.js && mocha --require should --reporter spec --check-leaks"
   },
   "dependencies": {
-    "superagent": "^2.0.0",
+    "superagent": "^3.0.0",
     "methods": "1.x"
   },
   "devDependencies": {
