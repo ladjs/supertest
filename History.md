@@ -1,3 +1,10 @@
+3.0.0 / 2017-01-29
+===================
+
+  * PR-373 - Allow TestAgent pass a cert and key to request (thanks @toefraz)
+  * PR-392 - Update readme with promise example (thanks @ajouve)
+  * PR-400 - Update to superagent 3 (thanks @alphashuro)
+
 2.0.1 / 2016-10-19
 ===================
 

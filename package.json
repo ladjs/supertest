@@ -1,6 +1,6 @@
 {
   "name": "supertest",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "SuperAgent driven library for testing HTTP servers",
   "main": "index.js",
   "scripts": {
@@ -9,19 +9,19 @@
   },
   "dependencies": {
     "superagent": "^3.0.0",
-    "methods": "1.x"
+    "methods": "~1.1.2"
   },
   "devDependencies": {
-    "body-parser": "~1.15.0",
+    "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.1",
-    "eslint": "^3.8.1",
+    "eslint": "^3.14.1",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-plugin-import": "1.16.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.4.1",
     "express": "~4.14.0",
-    "mocha": "~3.1.2",
-    "should": "~11.1.1"
+    "mocha": "~3.2.0",
+    "should": "~11.2.0"
   },
   "engines": {
     "node": ">=4.0.0"
