@@ -12,6 +12,7 @@
     "methods": "~1.1.2"
   },
   "devDependencies": {
+    "bluebird": "^3.4.7",
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.1",
     "eslint": "^3.14.1",
@@ -21,6 +22,7 @@
     "eslint-plugin-react": "6.4.1",
     "express": "~4.14.0",
     "mocha": "~3.2.0",
+    "native-or-bluebird": "^1.2.0",
     "should": "~11.2.0"
   },
   "engines": {
