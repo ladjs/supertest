@@ -183,6 +183,23 @@ describe('request.agent(app)', function() {
 ```
   There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
 
+  Here is an example where 2 cookies are set on the request.
+
+```js
+    agent(app)
+        .get('/api/content')
+        .set('Cookie', ['nameOne=valueOne;nameTwo=valueTwo'])
+        .send()
+        .expect(200)
+        .end((err, res) => {
+            if (err) {
+                return done(err);
+            }
+            expect(res.text).to.be.equal('hey');
+            return done();
+        });
+```
+
 ## API
 
   You may use any [superagent](http://github.com/visionmedia/superagent) methods,
