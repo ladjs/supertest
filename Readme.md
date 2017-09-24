@@ -215,7 +215,7 @@ describe('request.agent(app)', function(){
 
   Perform the request and invoke `fn(err, res)`.
   If the call was created with an instance of a server - it **closes** the server, wether it was bound to a port or not.
-  Also mind that the `this` context inside teh callback is set to the `supertest.Test` instance, and not the mocha test or any other context you're running in.
+  Also mind that the `this` context inside the callback is set to the `supertest.Test` instance, and not the mocha test or any other context you're running in.
 
 ## Notes
 
