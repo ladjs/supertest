@@ -8,8 +8,9 @@
     "test": "eslint lib/**/*.js test/**/*.js && mocha --require should --reporter spec --check-leaks"
   },
   "dependencies": {
-    "superagent": "^3.0.0",
-    "methods": "~1.1.2"
+    "deep-equal-with-regex": "^1.3.0",
+    "methods": "~1.1.2",
+    "superagent": "^3.0.0"
   },
   "devDependencies": {
     "body-parser": "~1.16.0",

@@ -511,6 +511,28 @@ describe('request(app)', function() {
       });
     });
 
+    it('should support embedded regular expressions', function(done) {
+      var app = express();
+
+      app.set('json spaces', 0);
+
+      app.get('/', function(req, res) {
+        res.send({ foo: 'bar' });
+      });
+
+      request(app)
+      .get('/')
+      .expect({ foo: /baz/ })
+      .end(function(err, res) {
+        err.message.should.equal('expected { foo: /baz/ } response body, got { foo: \'bar\' }');
+
+        request(app)
+        .get('/')
+        .expect({ foo: /bar/ })
+        .end(done);
+      });
+    });
+
     it('should assert response body multiple times', function(done) {
       var app = express();
 
