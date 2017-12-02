@@ -550,7 +550,29 @@ describe('request(app)', function() {
           .get('/')
           .expect(200)
           .end(function (err, res) {
-            err.message.should.equal('ECONNREFUSED: Connection refused');
+            err.message.should.equal(
+              'Error connecting to "http://localhost:1234/": Connection refused (ECONNREFUSED).' +
+              '\nRequests to the same server must start with "/", for example "/api/test".' +
+              '\nSee https://visionmedia.github.io/superagent/#request-basics'
+            );
+            done();
+          });
+    });
+  });
+
+  describe('.expect(status)', function () {
+    it('should handle error from path not starting with "/"', function (done) {
+      var req = request.agent('http://localhost:1234');
+
+      req
+          .get('hello')
+          .expect(200)
+          .end(function (err, res) {
+            err.message.should.equal(
+              'Error connecting to "http://localhost:1234hello": Connection refused (ECONNREFUSED).' +
+              '\nRequests to the same server must start with "/", for example "/api/test".' +
+              '\nSee https://visionmedia.github.io/superagent/#request-basics'
+            );
             done();
           });
     });
