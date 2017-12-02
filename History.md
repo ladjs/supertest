@@ -1,3 +1,8 @@
+3.0.1 / 2017-19-17
+===================
+
+  * PR-440 - Harden TestAgent against errors in superagent and add a friendly error message. Takes care of confusion in #303 and #348.
+
 3.0.0 / 2017-01-29
 ===================
 
