@@ -21,7 +21,6 @@
     "eslint-plugin-react": "6.4.1",
     "express": "~4.14.0",
     "mocha": "~3.2.0",
-    "nock": "^9.1.0",
     "should": "~11.2.0"
   },
   "engines": {
