@@ -6,6 +6,7 @@ var should = require('should');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var Promise = require('native-or-bluebird');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -342,7 +343,9 @@ describe('request(app)', function() {
     });
   });
 
+
   describe('.then(onFulfilled, onRejected)', function() {
+
     it('should close the server and return a Promise on a fullfilled result', function(done) {
       var app = express();
       var test;
@@ -382,6 +385,145 @@ describe('request(app)', function() {
     });
   });
 
+  describe('.expect(fn)', function() {
+    it('should handle a function failing', function() {
+      var myFunction = function(res) {
+        res.text.should.equal('not hey');
+      };
+      var app = express();
+
+      app.get('/', function(req, res) {
+        res.send('hey');
+      });
+
+      return request(app)
+        .get('/')
+        .expect(200)
+        .expect(myFunction)
+        .then(function(res) {
+          throw new Error('Test passed.');
+        })
+        .catch(function(err) {
+          err.message.should.equal('expected \'hey\' to be \'not hey\'');
+        });
+    });
+
+    it('should handle a function passing', function() {
+      var myFunction = function(res) {
+        res.text.should.equal('not hey');
+      };
+      var app = express();
+
+      app.get('/', function(req, res) {
+        res.send('hey');
+      });
+
+      return request(app)
+        .get('/')
+        .expect(200)
+        .expect(myFunction)
+        .then(function(res) {
+          res.text.should.equal('hey');
+        })
+        .catch(function(err) {
+          (err === null).should.be.true;
+        });
+    });
+
+    it('should handle function returning a failing promise', function() {
+      var myFunction = function(res) {
+        return new Promise(function(resolve, reject) {
+          reject(new Error('rejected'));
+        });
+      };
+      var app = express();
+
+      app.get('/', function(req, res) {
+        res.send('hey');
+      });
+
+      return request(app)
+        .get('/')
+        .expect(200)
+        .expect(myFunction)
+        .then(function(res) {
+          throw new Error('Test passed.');
+        })
+        .catch(function(err) {
+          err.message.should.equal('rejected');
+        });
+    });
+
+    it('should handle function returning a passing promise', function() {
+      var myFunction = function(res) {
+        return new Promise(function(resolve, reject) {
+          resolve(null);
+        });
+      };
+      var app = express();
+
+      app.get('/', function(req, res) {
+        res.send('hey');
+      });
+
+      return request(app)
+        .get('/')
+        .expect(200)
+        .expect(myFunction)
+        .then(function(res) {
+          res.text.should.equal('hey');
+        })
+        .catch(function(err) {
+          (err === null).should.be.true;
+        });
+    });
+
+    it('should handle promises with callback resolution', function(done) {
+      Promise.resolve(function(res) {
+        res.text.should.equal('hey');
+        throw new Error('Promise threw.');
+      }).then(function(myPromise) {
+        var app = express();
+
+        app.get('/', function(req, res) {
+          res.send('hey');
+        });
+
+        request(app)
+          .get('/')
+          .expect(200)
+          .expect(myPromise)
+          .end(function(err, res) {
+            err.message.should.equal('Promise threw.');
+            done();
+          });
+      });
+    });
+
+    it('should handle promises with promise resolution', function() {
+      return Promise.resolve(function(res) {
+        res.text.should.equal('hey');
+        throw new Error('Promise threw.');
+      }).then(function(myPromise) {
+        var app = express();
+
+        app.get('/', function(req, res) {
+          res.send('hey');
+        });
+
+        return request(app)
+          .get('/')
+          .expect(200)
+          .expect(myPromise)
+          .then(function(res) {
+            throw new Error('Test passed.');
+          })
+          .catch(function(err) {
+            err.message.should.equal('Promise threw.');
+          });
+      });
+    });
+  });
   describe('.expect(status[, fn])', function() {
     it('should assert the response status', function(done) {
       var app = express();
