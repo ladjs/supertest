@@ -815,6 +815,17 @@ describe('request.agent(app)', function() {
   });
 });
 
+describe('request.agent(app, {prefix})', function() {
+  it('should apply prefix', function(done) {
+    var app = express();
+    var agent = request.agent(app, { prefix: '/api' });
+
+    agent
+      .get('/dummy')
+      .expect(404, 'Cannot GET /api/dummy\n', done);
+  });
+});
+
 describe('.<http verb> works as expected', function() {
   it('.delete should work', function (done) {
     var app = express();
