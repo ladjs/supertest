@@ -1,3 +1,30 @@
+3.0.0 / 2017-01-29
+===================
+
+  * PR-373 - Allow TestAgent pass a cert and key to request (thanks @toefraz)
+  * PR-392 - Update readme with promise example (thanks @ajouve)
+  * PR-400 - Update to superagent 3 (thanks @alphashuro)
+
+2.0.1 / 2016-10-19
+===================
+
+  * PR-371 - node v6 - Fix bug to support HEAD method. Add uppercase on method value (thanks @seangarner)
+  * PR-348 - Handle server not running errors (thanks @santanu-biswas)
+
+2.0.0 / 2016-07-29
+===================
+
+  * PR-347 - Update to superagent ^2.0.0 (thanks @saintedlama)
+  * Proper es6 [promises support](http://visionmedia.github.io/superagent/#request-basics) was added in superagent 2.0.0, which means you can use it
+
+1.2.0 / 2016-02-11
+===================
+
+  * PR-302 - Update to superagent ^1.7.2
+  * PR-313 - Update node versions on Travis CI
+  * PR-223 - Remove Makefile for running tests
+  * PR-286 - Fix bug with redirects
+
 1.1.0 / 2015-08-26
 ===================
 

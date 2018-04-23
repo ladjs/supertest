@@ -1,11 +1,11 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest)
+# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest) [![Dependency Status](https://david-dm.org/visionmedia/supertest/status.svg)](https://david-dm.org/visionmedia/supertest)
 
-  HTTP assertions made easy via [super-agent](http://github.com/visionmedia/superagent).
+  HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
 
 ## About
 
   The motivation with this module is to provide a high-level abstraction for testing
-  HTTP, while still allowing you to drop down to the lower-level API provided by super-agent.
+  HTTP, while still allowing you to drop down to the [lower-level API](https://visionmedia.github.io/superagent/) provided by superagent.
 
 ## Getting Started
 
@@ -14,7 +14,7 @@
 npm install supertest --save-dev
   ```
 
-  Once installed it can now be referenced by simply calling ```require("supertest");```
+  Once installed it can now be referenced by simply calling ```require('supertest');```
 
 ## Example
 
@@ -26,21 +26,21 @@ npm install supertest --save-dev
   test framework at all:
 
 ```js
-var request = require('supertest')
-  , express = require('express');
+const request = require('supertest');
+const express = require('express');
 
-var app = express();
+const app = express();
 
-app.get('/user', function(req, res){
-  res.send(200, { name: 'john' });
+app.get('/user', function(req, res) {
+  res.status(200).json({ name: 'john' });
 });
 
 request(app)
   .get('/user')
   .expect('Content-Type', /json/)
-  .expect('Content-Length', '20')
+  .expect('Content-Length', '15')
   .expect(200)
-  .end(function(err, res){
+  .end(function(err, res) {
     if (err) throw err;
   });
 ```
@@ -48,15 +48,15 @@ request(app)
   Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
-describe('GET /user', function(){
-  it('respond with json', function(done){
+describe('GET /user', function() {
+  it('respond with json', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
-  })
-})
+  });
+});
 ```
 
 One thing to note with the above statement is that superagent now sends any HTTP
@@ -68,16 +68,32 @@ you do not add a status code expect (i.e. `.expect(302)`).
   order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
 ```js
-describe('GET /users', function(){
-  it('respond with json', function(done){
+describe('GET /users', function() {
+  it('respond with json', function(done) {
     request(app)
-      .get('/user')
+      .get('/users')
       .set('Accept', 'application/json')
       .expect(200)
-      .end(function(err, res){
+      .end(function(err, res) {
         if (err) return done(err);
         done();
       });
+  });
+});
+```
+
+You can also use promises
+
+```js
+describe('GET /users', function() {
+  it('respond with json', function() {
+    return request(app)
+      .get('/users')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .then(response => {
+          assert(response.body.email, 'foo@bar.com')
+      })
   });
 });
 ```
@@ -86,8 +102,8 @@ describe('GET /users', function(){
   to modify the response body or headers before executing an assertion.
 
 ```js
-describe('GET /user', function(){
-  it('user.name should be an case-insensitive match for "john"', function(done){
+describe('GET /user', function() {
+  it('user.name should be an case-insensitive match for "john"', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
@@ -101,10 +117,9 @@ describe('GET /user', function(){
       }, done);
   });
 });
-
 ```
 
-  Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
+Anything you can do with superagent, you can do with supertest - for example multipart file uploads!
 
 ```js
 request(app)
@@ -132,45 +147,45 @@ request.get('/').expect('heya', function(err){
   Here's an example with mocha that shows how to persist a request and its cookies:
 
 ```js
-var request = require('supertest')
-   , should = require('should')
-   , express = require('express');
+const request = require('supertest');
+const should = require('should');
+const express = require('express');
+const cookieParser = require('cookie-parser');
 
+describe('request.agent(app)', function() {
+  const app = express();
+  app.use(cookieParser());
 
-describe('request.agent(app)', function(){
-  var app = express();
-  app.use(express.cookieParser());
-
-  app.get('/', function(req, res){
+  app.get('/', function(req, res) {
     res.cookie('cookie', 'hey');
     res.send();
   });
 
-  app.get('/return', function(req, res){
+  app.get('/return', function(req, res) {
     if (req.cookies.cookie) res.send(req.cookies.cookie);
     else res.send(':(')
   });
 
-  var agent = request.agent(app);
+  const agent = request.agent(app);
 
-  it('should save cookies', function(done){
+  it('should save cookies', function(done) {
     agent
     .get('/')
     .expect('set-cookie', 'cookie=hey; Path=/', done);
-  })
+  });
 
-  it('should send cookies', function(done){
+  it('should send cookies', function(done) {
     agent
     .get('/return')
     .expect('hey', done);
-  })
+  });
 })
 ```
   There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
 
 ## API
 
-  You may use any [super-agent](http://github.com/visionmedia/superagent) methods,
+  You may use any [superagent](http://github.com/visionmedia/superagent) methods,
   including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
   for lower-level needs.
 
@@ -193,9 +208,7 @@ describe('request.agent(app)', function(){
 
 ### .expect(function(res) {})
 
-  Pass a custom assertion function. It'll be given the response object to check. If the response is ok, it should return falsy, most commonly by not returning anything. If the check fails, throw an error or return a truthy value like a string that'll be turned into an error.
-
-  Here the string or error throwing options are both demonstrated:
+  Pass a custom assertion function. It'll be given the response object to check. If the check fails, throw an error.
 
   ```js
   request(app)
@@ -204,7 +217,7 @@ describe('request.agent(app)', function(){
     .end(done);
 
   function hasPreviousAndNextKeys(res) {
-    if (!('next' in res.body)) return "missing next key";
+    if (!('next' in res.body)) throw new Error("missing next key");
     if (!('prev' in res.body)) throw new Error("missing prev key");
   }
   ```
