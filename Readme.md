@@ -148,7 +148,6 @@ request.get('/').expect('heya', function(err){
 
 ```js
 const request = require('supertest');
-const should = require('should');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 
