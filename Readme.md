@@ -32,7 +32,7 @@ const express = require('express');
 const app = express();
 
 app.get('/user', function(req, res) {
-  res.status(200).json({ name: 'tobi' });
+  res.status(200).json({ name: 'john' });
 });
 
 request(app)
@@ -72,7 +72,7 @@ describe('POST /users', function() {
   it('responds with json', function(done) {
     request(app)
       .post('/users')
-      .send({name: 'tobi'})
+      .send({name: 'john'})
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -104,10 +104,10 @@ describe('GET /users', function() {
 
 ```js
 describe('POST /user', function() {
-  it('user.name should be an case-insensitive match for "tobi"', function(done) {
+  it('user.name should be an case-insensitive match for "john"', function(done) {
     request(app)
       .post('/user')
-      .send('name=tobi') // x-www-form-urlencoded upload
+      .send('name=john') // x-www-form-urlencoded upload
       .set('Accept', 'application/json')
       .expect(function(res) {
         res.body.id = 'some fixed id';
@@ -115,7 +115,7 @@ describe('POST /user', function() {
       })
       .expect(200, {
         id: 'some fixed id',
-        name: 'TOBI'
+        name: 'john'
       }, done);
   });
 });
@@ -127,7 +127,7 @@ Anything you can do with superagent, you can do with supertest - for example mul
 request(app)
 .post('/')
 .field('name', 'my awesome avatar')
-.attach('avatar', 'test/fixtures/homeboy.jpg')
+.attach('avatar', 'test/fixtures/avatar.jpg')
 ...
 ```
 
@@ -150,6 +150,7 @@ request.get('/').expect('heya', function(err){
 
 ```js
 const request = require('supertest');
+const should = require('should');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 

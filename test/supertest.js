@@ -135,8 +135,8 @@ describe('request(app)', function() {
 
     request(app)
     .post('/')
-    .send({ name: 'tobi' })
-    .expect('tobi', done);
+    .send({ name: 'john' })
+    .expect('john', done);
   });
 
   it('should work when unbuffered', function(done) {
