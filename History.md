@@ -1,3 +1,14 @@
+3.1.0 / 2018-04-24
+===================
+
+  * PR-473 - Remove unused dependency in Readme (thanks @pedro-otero)
+  * PR-472 - Update travis node versions (thanks @rimiti)
+  * PR-470 - Upgrade the superagent node module to resolve security vulnerabilities & fix the __proto__ property deprecation (thanks @levioza)
+  * PR-446 - Fix bug, always pass on errors if no response (thanks @bkeepers)
+  * PR-418 - Add post() examples to the README (thanks @kevinburke)
+  * PR-297 - Add a .host() method to set a host other than 127.0.0.1 (thanks @mikec)
+  * PR-275 - Removed ambiguously misappropriated cultural references from readme (thanks @reallistic)
+
 3.0.0 / 2017-01-29
 ===================
 

@@ -32,7 +32,7 @@ const express = require('express');
 const app = express();
 
 app.get('/user', function(req, res) {
-  res.status(200).json({ name: 'tobi' });
+  res.status(200).json({ name: 'john' });
 });
 
 request(app)
@@ -68,10 +68,11 @@ you do not add a status code expect (i.e. `.expect(302)`).
   order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
 ```js
-describe('GET /users', function() {
-  it('respond with json', function(done) {
+describe('POST /users', function() {
+  it('responds with json', function(done) {
     request(app)
-      .get('/users')
+      .post('/users')
+      .send({name: 'john'})
       .set('Accept', 'application/json')
       .expect(200)
       .end(function(err, res) {
@@ -86,7 +87,7 @@ You can also use promises
 
 ```js
 describe('GET /users', function() {
-  it('respond with json', function() {
+  it('responds with json', function() {
     return request(app)
       .get('/users')
       .set('Accept', 'application/json')
@@ -102,10 +103,11 @@ describe('GET /users', function() {
   to modify the response body or headers before executing an assertion.
 
 ```js
-describe('GET /user', function() {
-  it('user.name should be an case-insensitive match for "tobi"', function(done) {
+describe('POST /user', function() {
+  it('user.name should be an case-insensitive match for "john"', function(done) {
     request(app)
-      .get('/user')
+      .post('/user')
+      .send('name=john') // x-www-form-urlencoded upload
       .set('Accept', 'application/json')
       .expect(function(res) {
         res.body.id = 'some fixed id';
@@ -113,7 +115,7 @@ describe('GET /user', function() {
       })
       .expect(200, {
         id: 'some fixed id',
-        name: 'TOBI'
+        name: 'john'
       }, done);
   });
 });
@@ -125,7 +127,7 @@ Anything you can do with superagent, you can do with supertest - for example mul
 request(app)
 .post('/')
 .field('name', 'my awesome avatar')
-.attach('avatar', 'test/fixtures/homeboy.jpg')
+.attach('avatar', 'test/fixtures/avatar.jpg')
 ...
 ```
 

@@ -6,6 +6,7 @@ var should = require('should');
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var nock = require('nock');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -134,8 +135,8 @@ describe('request(app)', function() {
 
     request(app)
     .post('/')
-    .send({ name: 'tobi' })
-    .expect('tobi', done);
+    .send({ name: 'john' })
+    .expect('john', done);
   });
 
   it('should work when unbuffered', function(done) {
@@ -815,6 +816,25 @@ describe('request.agent(app)', function() {
   });
 });
 
+describe('agent.host(host)', function() {
+  it('should set request hostname', function(done) {
+    var app = express();
+    var agent = request.agent(app);
+
+    app.get('/', function(req, res) {
+      res.send();
+    });
+
+    agent
+    .host('something.test')
+    .get('/')
+    .end(function(err, res) {
+      err.hostname.should.equal('something.test');
+      done();
+    });
+  });
+});
+
 describe('.<http verb> works as expected', function() {
   it('.delete should work', function (done) {
     var app = express();
@@ -1096,5 +1116,29 @@ describe('request.get(url).query(vals) works as expected', function() {
       res.text.should.be.equal('Test1');
       done();
     });
+  });
+
+  it('handles unknown errors', function(done) {
+    var app = express();
+
+    nock.disableNetConnect();
+
+    app.get('/', function(req, res) {
+      res.status(200).send('OK');
+    });
+
+    request(app)
+    .get('/')
+    // This expect should never get called, but exposes this issue with other
+    // errors being obscured by the response assertions
+    // https://github.com/visionmedia/supertest/issues/352
+    .expect(200)
+    .end(function(err, res) {
+      err.should.be.an.instanceof(Error);
+      err.message.should.match(/Nock: Not allow net connect/);
+      done();
+    });
+
+    nock.restore();
   });
 });
