@@ -82,6 +82,9 @@ describe('POST /users', function() {
   });
 });
 ```
+  Also mind:
+    - if you are using the `.end()` method - it closes the server, even if you initially provided it running.
+    - the `this` keyword in the callback passed to `.end()` is the instance of `supertest.Test` class that manages the test.
 
 You can also use promises
 
@@ -101,6 +104,7 @@ describe('GET /users', function() {
 
   Expectations are run in the order of definition. This characteristic can be used
   to modify the response body or headers before executing an assertion.
+  
 
 ```js
 describe('POST /user', function() {
@@ -227,6 +231,8 @@ describe('request.agent(app)', function() {
 ### .end(fn)
 
   Perform the request and invoke `fn(err, res)`.
+  If the call was created with an instance of a server - it **closes** the server, wether it was bound to a port or not.
+  Also mind that the `this` context inside the callback is set to the `supertest.Test` instance, and not the mocha test or any other context you're running in.
 
 ## Notes
 
