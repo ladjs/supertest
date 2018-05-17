@@ -49,10 +49,25 @@ request(app)
 
 ```js
 describe('GET /user', function() {
-  it('respond with json', function(done) {
+  it('responds with json', function(done) {
     request(app)
       .get('/user')
       .query({ foo: 'fooValue', bar: 'barValue' })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+});
+```
+
+  You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
+
+```js
+describe('GET /user', function() {
+  it('responds with json', function(done) {
+    request(app)
+      .get('/user')
+      .auth('username', 'password')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
