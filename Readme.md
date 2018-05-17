@@ -52,6 +52,8 @@ describe('GET /user', function() {
   it('respond with json', function(done) {
     request(app)
       .get('/user')
+      .query({ foo: 'fooValue', bar: 'barValue' })
+      .auth('username', 'password')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
