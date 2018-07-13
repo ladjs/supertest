@@ -88,7 +88,7 @@ You can also use promises
 ```js
 describe('GET /users', function() {
   it('responds with json', function() {
-    return request(app)
+    request(app)
       .get('/users')
       .set('Accept', 'application/json')
       .expect(200)
