@@ -4,6 +4,12 @@
 var methods = require('methods');
 var Test = require('./lib/test');
 var http = require('http');
+var http2;
+try {
+  http2 = require('http2'); // eslint-disable-line global-require
+} catch (_) {
+  // eslint-disable-line no-empty
+}
 
 /**
  * Test against the given `app`,
@@ -17,12 +23,20 @@ module.exports = function(app) {
   var obj = {};
 
   if (typeof app === 'function') {
-    app = http.createServer(app); // eslint-disable-line no-param-reassign
+    if (module.exports.http2) {
+      app = http2.createServer(app); // eslint-disable-line no-param-reassign
+    } else {
+      app = http.createServer(app); // eslint-disable-line no-param-reassign
+    }
   }
 
   methods.forEach(function(method) {
     obj[method] = function(url) {
-      return new Test(app, method, url);
+      var test = new Test(app, method, url);
+      if (module.exports.http2) {
+        test.http2();
+      }
+      return test;
     };
   });
 
@@ -36,6 +50,11 @@ module.exports = function(app) {
  * Expose `Test`
  */
 module.exports.Test = Test;
+
+/**
+ * Expose enable http2 property
+ */
+module.exports.http2 = false;
 
 /**
  * Expose the agent function

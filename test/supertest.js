@@ -1,4 +1,5 @@
 var request = require('..');
+var http = require('http');
 var https = require('https');
 var fs = require('fs');
 var path = require('path');
@@ -7,6 +8,13 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var nock = require('nock');
+var doesNotSupportedOnHttp2 = true;
+
+if (process.env.HTTP2_TEST) {
+  request.http2 = true;
+  doesNotSupportedOnHttp2 = false;
+  http = require('http2'); // eslint-disable-line global-require
+}
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -19,7 +27,8 @@ describe('request(url)', function() {
       res.send('hello');
     });
 
-    s = app.listen(function() {
+    s = http.createServer(app);
+    s = s.listen(function() {
       var url = 'http://localhost:' + s.address().port;
       request(url)
         .get('/')
@@ -36,7 +45,8 @@ describe('request(url)', function() {
         res.send('hello');
       });
 
-      s = app.listen(function() {
+      s = http.createServer(app);
+      s = s.listen(function() {
         var url = 'http://localhost:' + s.address().port;
         var test = request(url).get('/');
         test.end(function(err, res) {
@@ -73,7 +83,8 @@ describe('request(app)', function() {
       res.send('hey');
     });
 
-    server = app.listen(4000, function() {
+    server = http.createServer(app);
+    server = server.listen(4000, function() {
       request(server)
         .get('/')
         .end(function(err, res) {
@@ -91,7 +102,7 @@ describe('request(app)', function() {
       res.send('hey');
     });
 
-    app.listen(4001, function() {
+    http.createServer(app).listen(4001, function() {
       request('http://localhost:4001')
         .get('/')
         .end(function(err, res) {
@@ -105,10 +116,17 @@ describe('request(app)', function() {
   it('should work with a https server', function(done) {
     var app = express();
     var fixtures = path.join(__dirname, 'fixtures');
-    var server = https.createServer({
+    var server;
+
+    var opts = {
       key: fs.readFileSync(path.join(fixtures, 'test_key.pem')),
       cert: fs.readFileSync(path.join(fixtures, 'test_cert.pem'))
-    }, app);
+    };
+    if (process.env.HTTP2_TEST) {
+      server = http.createSecureServer(opts, app);
+    } else {
+      server = https.createServer(opts, app);
+    }
 
     app.get('/', function(req, res) {
       res.send('hey');
@@ -185,20 +203,22 @@ describe('request(app)', function() {
       });
   });
 
-  it('should handle socket errors', function(done) {
-    var app = express();
+  if (doesNotSupportedOnHttp2) {
+    it('should handle socket errors', function(done) {
+      var app = express();
 
-    app.get('/', function(req, res) {
-      res.destroy();
-    });
-
-    request(app)
-      .get('/')
-      .end(function(err) {
-        should.exist(err);
-        done();
+      app.get('/', function(req, res) {
+        res.destroy();
       });
-  });
+
+      request(app)
+        .get('/')
+        .end(function(err) {
+          should.exist(err);
+          done();
+        });
+    });
+  }
 
   describe('.end(fn)', function() {
     it('should close server', function(done) {
@@ -310,7 +330,8 @@ describe('request(app)', function() {
         }, 20);
       });
 
-      server = app.listen(function() {
+      server = http.createServer(app);
+      server = server.listen(function() {
         var url = 'http://localhost:' + server.address().port;
         request(url)
           .get('/')
@@ -330,7 +351,8 @@ describe('request(app)', function() {
         res.end();
       });
 
-      server = app.listen(function() {
+      server = http.createServer(app);
+      server = server.listen(function() {
         var url = 'http://localhost:' + server.address().port;
         server.close();
         request(url)
@@ -1120,27 +1142,29 @@ describe('request.get(url).query(vals) works as expected', function() {
       });
   });
 
-  it('handles unknown errors', function(done) {
-    var app = express();
+  if (doesNotSupportedOnHttp2) {
+    it('handles unknown errors', function(done) {
+      var app = express();
 
-    nock.disableNetConnect();
+      nock.disableNetConnect();
 
-    app.get('/', function(req, res) {
-      res.status(200).send('OK');
-    });
-
-    request(app)
-      .get('/')
-    // This expect should never get called, but exposes this issue with other
-    // errors being obscured by the response assertions
-    // https://github.com/visionmedia/supertest/issues/352
-      .expect(200)
-      .end(function(err, res) {
-        err.should.be.an.instanceof(Error);
-        err.message.should.match(/Nock: Not allow net connect/);
-        done();
+      app.get('/', function(req, res) {
+        res.status(200).send('OK');
       });
 
-    nock.restore();
-  });
+      request(app)
+        .get('/')
+      // This expect should never get called, but exposes this issue with other
+      // errors being obscured by the response assertions
+      // https://github.com/visionmedia/supertest/issues/352
+        .expect(200)
+        .end(function(err, res) {
+          err.should.be.an.instanceof(Error);
+          err.message.should.match(/Nock: Not allow net connect/);
+          done();
+        });
+
+      nock.restore();
+    });
+  }
 });
