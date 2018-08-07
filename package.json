@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "methods": "~1.1.2",
-    "superagent": "git+https://github.com/sogaani/superagent.git#http2"
+    "superagent": "git+https://github.com/visionmedia/superagent.git"
   },
   "devDependencies": {
     "body-parser": "^1.18.2",
