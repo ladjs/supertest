@@ -4,6 +4,7 @@
 [![Build Status][travis-badge]][travis]
 [![Dependencies][dependencies-badge]][dependencies]
 [![PRs Welcome][prs-badge]][prs]
+[![MIT License][license-badge]][license]
 
   HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
 
@@ -249,3 +250,5 @@ describe('request.agent(app)', function() {
 [dependencies]: https://david-dm.org/visionmedia/supertest
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+[license]: https://github.com/visionmedia/supertest/blob/master/LICENSE
