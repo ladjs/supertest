@@ -573,8 +573,8 @@ describe('request(app)', function() {
         .get('/')
         .expect('Content-Type', 'text/html')
         .end(function(err, res) {
-          err.message.should.equal('expected "Content-Type" of "text/html", ' +
-          'got "application/json; charset=utf-8"');
+          err.message.should.equal('expected "Content-Type" of "text/html", '
+          + 'got "application/json; charset=utf-8"');
           done();
         });
     });
@@ -604,8 +604,8 @@ describe('request(app)', function() {
         .get('/')
         .expect('Content-Type', /^application/)
         .end(function(err) {
-          err.message.should.equal('expected "Content-Type" matching /^application/, ' +
-          'got "text/html; charset=utf-8"');
+          err.message.should.equal('expected "Content-Type" matching /^application/, '
+          + 'got "text/html; charset=utf-8"');
           done();
         });
     });
@@ -744,8 +744,8 @@ describe('request(app)', function() {
           .expect('Content-Type', /bloop/)
           .expect('Content-Type', /html/)
           .end(function(err) {
-            err.message.should.equal('expected "Content-Type" matching /bloop/, ' +
-            'got "text/html; charset=utf-8"');
+            err.message.should.equal('expected "Content-Type" matching /bloop/, '
+            + 'got "text/html; charset=utf-8"');
             done();
           });
       });
@@ -762,8 +762,8 @@ describe('request(app)', function() {
           .expect('Content-Type', /bloop/)
           .expect('Content-Type', /html/)
           .end(function(err) {
-            err.message.should.equal('expected "Content-Type" matching /bloop/, ' +
-            'got "text/html; charset=utf-8"');
+            err.message.should.equal('expected "Content-Type" matching /bloop/, '
+            + 'got "text/html; charset=utf-8"');
             done();
           });
       });
@@ -780,8 +780,8 @@ describe('request(app)', function() {
           .expect('Content-Type', /html/)
           .expect('Content-Type', /bloop/)
           .end(function(err) {
-            err.message.should.equal('expected "Content-Type" matching /bloop/, ' +
-            'got "text/html; charset=utf-8"');
+            err.message.should.equal('expected "Content-Type" matching /bloop/, '
+            + 'got "text/html; charset=utf-8"');
             done();
           });
       });
@@ -925,8 +925,8 @@ describe('assert ordering by call order', function() {
       .expect('hey')
       .expect(200)
       .end(function(err, res) {
-        err.message.should.equal('expected \'hey\' response body, ' +
-          'got \'{"message":"something went wrong"}\'');
+        err.message.should.equal('expected \'hey\' response body, '
+          + 'got \'{"message":"something went wrong"}\'');
         done();
       });
   });
@@ -964,8 +964,8 @@ describe('assert ordering by call order', function() {
       .expect('content-type', /html/)
       .expect('hello')
       .end(function(err, res) {
-        err.message.should.equal('expected "content-type" matching /html/, ' +
-          'got "application/json; charset=utf-8"');
+        err.message.should.equal('expected "content-type" matching /html/, '
+          + 'got "application/json; charset=utf-8"');
         done();
       });
   });
