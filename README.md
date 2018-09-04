@@ -1,4 +1,9 @@
-# SuperTest [![Build Status](https://travis-ci.org/visionmedia/supertest.svg?branch=master)](https://travis-ci.org/visionmedia/supertest) [![npm version](https://badge.fury.io/js/supertest.svg)](https://www.npmjs.com/package/supertest) [![Dependency Status](https://david-dm.org/visionmedia/supertest/status.svg)](https://david-dm.org/visionmedia/supertest)
+# SuperTest 
+
+[![Coveralls][coverage-badge]][coverage]
+[![Build Status][travis-badge]][travis]
+[![Dependencies][dependencies-badge]][dependencies]
+[![PRs Welcome][prs-badge]][prs]
 
   HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
 
@@ -235,3 +240,12 @@ describe('request.agent(app)', function() {
 ## License
 
   MIT
+
+[coverage-badge]: https://coveralls.io/repos/github/visionmedia/supertest/badge.svg?branch=master
+[coverage]: https://coveralls.io/github/visionmedia/supertest?branch=master
+[travis-badge]: https://travis-ci.org/visionmedia/supertest.svg?branch=master
+[travis]: https://travis-ci.org/visionmedia/supertest
+[dependencies-badge]: https://david-dm.org/visionmedia/supertest/status.svg
+[dependencies]: https://david-dm.org/visionmedia/supertest
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[prs]: http://makeapullrequest.com
