@@ -1,3 +1,13 @@
+3.2.0 / 2018-09-05
+===================
+
+  * PR-507 - Ignore coverage folder (thanks @rimiti)
+  * PR-506 - Fix Coveralls timeouts on Travis (thanks @rimiti)
+  * PR-505 - Use node 10 instead of node 9 (thanks @rimiti)
+  * PR-504 - Coverage + Coveralls integration (thanks @rimiti)
+  * PR-503 - Dependencies updated (thanks @rimiti)
+  * PR-495 - Fix example in README.md (thanks @Otto-AA)
+  
 3.1.0 / 2018-04-24
 ===================
 
