@@ -117,7 +117,7 @@ describe('POST /user', function() {
       .set('Accept', 'application/json')
       .expect(function(res) {
         res.body.id = 'some fixed id';
-        res.body.name = res.body.name.toUpperCase();
+        res.body.name = res.body.name.toLowerCase();
       })
       .expect(200, {
         id: 'some fixed id',
