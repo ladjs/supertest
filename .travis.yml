@@ -4,7 +4,4 @@ node_js:
   - 8
   - 10
 
-before_install:
-  - npm install -g coveralls
-
-after_success: coveralls
+after_success: npm run coverage
