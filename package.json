@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
-    "test": "eslint lib/**/*.js test/**/*.js index.js && nyc mocha --exit --require should --reporter spec --check-leaks"
+    "test": "eslint lib/**/*.js test/**/*.js index.js && nyc --reporter=html --reporter=text mocha --exit --require should --reporter spec --check-leaks",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
     "methods": "~1.1.2",
@@ -14,6 +15,7 @@
   "devDependencies": {
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "coveralls": "^3.0.2",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "2.11.0",
