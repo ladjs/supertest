@@ -3,3 +3,8 @@ node_js:
   - 6
   - 8
   - 10
+
+before_install:
+  - npm install -g coveralls
+
+after_success: coveralls

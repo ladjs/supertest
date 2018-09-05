@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "npm install",
-    "test": "eslint lib/**/*.js test/**/*.js index.js && mocha --exit --require should --reporter spec --check-leaks"
+    "test": "eslint lib/**/*.js test/**/*.js index.js && nyc mocha --exit --require should --reporter spec --check-leaks"
   },
   "dependencies": {
     "methods": "~1.1.2",
@@ -20,6 +20,7 @@
     "express": "^4.16.3",
     "mocha": "^5.1.1",
     "nock": "^9.2.5",
+    "nyc": "^13.0.1",
     "should": "^13.2.1"
   },
   "engines": {
