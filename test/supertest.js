@@ -496,6 +496,37 @@ describe('request(app)', function() {
         });
     });
 
+    it('should test response object types', function (done) {
+      var app = express();
+      app.get('/', function (req, res) {
+        res.status(200).json({ stringValue: 'foo', numberValue: 3 });
+      });
+
+      request(app)
+        .get('/')
+        .expect({ stringValue: 'foo', numberValue: 3 }, done);
+    });
+
+    it('should deep test response object types', function (done) {
+      var app = express();
+      app.get('/', function (req, res) {
+        res.status(200)
+          .json({ stringValue: 'foo', numberValue: 3, nestedObject: { innerString: '5' } });
+      });
+
+      request(app)
+        .get('/')
+        .expect({ stringValue: 'foo', numberValue: 3, nestedObject: { innerString: 5 } })
+        .end(function(err, res) {
+          err.message.should.equal('expected { stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: 5 } } response body, got { stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: \'5\' } }'); // eslint-disable-line max-len
+
+          request(app)
+            .get('/')
+            .expect({ stringValue: 'foo', numberValue: 3, nestedObject: { innerString: '5' } })
+            .end(done);
+        });
+    });
+
     it('should support regular expressions', function(done) {
       var app = express();
 
