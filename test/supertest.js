@@ -343,6 +343,46 @@ describe('request(app)', function() {
     });
   });
 
+  describe('.then(onFulfilled, onRejected)', function() {
+    it('should close the server and return a Promise on a fullfilled result', function(done) {
+      var app = express();
+      var test;
+
+      app.get('/', function(req, res) {
+        res.send('promises FTW!');
+      });
+
+      test = request(app)
+      .get('/')
+      .expect(200);
+
+      test.then(function() {}).should.be.an.instanceOf(Promise);
+
+      test._server.on('close', function() {
+        done();
+      });
+    });
+
+    it('should close the server and return a Promise on a rejected result', function(done) {
+      var app = express();
+      var test;
+
+      app.get('/', function(req, res) {
+        res.send('promises FTW!');
+      });
+
+      test = request(app)
+      .get('/')
+      .expect(404);
+
+      test.then(function () {}, function() {}).should.be.an.instanceOf(Promise);
+
+      test._server.on('close', function() {
+        done();
+      });
+    });
+  });
+
   describe('.expect(status[, fn])', function() {
     it('should assert the response status', function(done) {
       var app = express();
