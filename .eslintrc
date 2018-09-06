@@ -4,6 +4,9 @@
     "node": true,
     "mocha": true
   },
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
   "rules": {
     // disabled - disagree with airbnb
     "func-names": [0],
