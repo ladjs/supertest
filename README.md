@@ -188,6 +188,16 @@ describe('request.agent(app)', function() {
     .expect('hey', done);
   });
 })
+
+Another use could be to automatically send an Authorization header by default:
+
+
+    var apiAgent = request.agent(app).set('Authorization', 'Bearer SOMETOKEN');
+
+    // Now run lots of tests against API that requires authetnication.
+    apiAgent.get(...)
+
+
 ```
   There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
 

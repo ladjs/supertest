@@ -847,6 +847,15 @@ describe('request.agent(app)', function () {
     else res.send(':(');
   });
 
+  // Echo back the authorization header we receive to test set() defaults
+  app.get('/set', function(req, res) {
+    if (req.get('authorization')) {
+      res.send(req.get('authorization'));
+    } else {
+      res.send(':(');
+    }
+  });
+
   it('should save cookies', function (done) {
     agent
       .get('/')
@@ -857,6 +866,15 @@ describe('request.agent(app)', function () {
     agent
       .get('/return')
       .expect('hey', done);
+  });
+
+
+  it('should support set() defaults', function(done) {
+    var defaultsAgent = request.agent(app).set('Authorization', 'Bearer');
+
+    defaultsAgent
+      .get('/set')
+      .expect('Bearer', done);
   });
 });
 
