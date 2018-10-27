@@ -1,20 +1,36 @@
+3.3.0 / 2018-09-06
+===================
+
+* PR-509 - Fix #486, bug in _assertBody, switch to `deepStrictEqual`  (thanks @mikelax)
+* PR-510 - Refactor test files to use const/let (thanks @rimiti)
+
+3.2.0 / 2018-09-05
+===================
+
+* PR-507 - Ignore coverage folder (thanks @rimiti)
+* PR-506 - Fix Coveralls timeouts on Travis (thanks @rimiti)
+* PR-505 - Use node 10 instead of node 9 (thanks @rimiti)
+* PR-504 - Coverage + Coveralls integration (thanks @rimiti)
+* PR-503 - Dependencies updated (thanks @rimiti)
+* PR-495 - Fix example in README.md (thanks @Otto-AA)
+
 3.1.0 / 2018-04-24
 ===================
 
-  * PR-473 - Remove unused dependency in Readme (thanks @pedro-otero)
-  * PR-472 - Update travis node versions (thanks @rimiti)
-  * PR-470 - Upgrade the superagent node module to resolve security vulnerabilities & fix the __proto__ property deprecation (thanks @levioza)
-  * PR-446 - Fix bug, always pass on errors if no response (thanks @bkeepers)
-  * PR-418 - Add post() examples to the README (thanks @kevinburke)
-  * PR-297 - Add a .host() method to set a host other than 127.0.0.1 (thanks @mikec)
-  * PR-275 - Removed ambiguously misappropriated cultural references from readme (thanks @reallistic)
+* PR-473 - Remove unused dependency in Readme (thanks @pedro-otero)
+* PR-472 - Update travis node versions (thanks @rimiti)
+* PR-470 - Upgrade the superagent node module to resolve security vulnerabilities & fix the __proto__ property deprecation (thanks @levioza)
+* PR-446 - Fix bug, always pass on errors if no response (thanks @bkeepers)
+* PR-418 - Add post() examples to the README (thanks @kevinburke)
+* PR-297 - Add a .host() method to set a host other than 127.0.0.1 (thanks @mikec)
+* PR-275 - Removed ambiguously misappropriated cultural references from readme (thanks @reallistic)
 
 3.0.0 / 2017-01-29
 ===================
 
-  * PR-373 - Allow TestAgent pass a cert and key to request (thanks @toefraz)
-  * PR-392 - Update readme with promise example (thanks @ajouve)
-  * PR-400 - Update to superagent 3 (thanks @alphashuro)
+* PR-373 - Allow TestAgent pass a cert and key to request (thanks @toefraz)
+* PR-392 - Update readme with promise example (thanks @ajouve)
+* PR-400 - Update to superagent 3 (thanks @alphashuro)
 
 2.0.1 / 2016-10-19
 ===================
