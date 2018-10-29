@@ -55,7 +55,7 @@ request(app)
 
 ```js
 describe('GET /user', function() {
-  it('respond with json', function(done) {
+  it('responds with json', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
