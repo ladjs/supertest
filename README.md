@@ -65,6 +65,19 @@ describe('GET /user', function() {
 });
 ```
 
+  You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
+ ```js
+describe('GET /user', function() {
+  it('responds with json', function(done) {
+    request(app)
+      .get('/user')
+      .auth('username', 'password')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+});
+
 One thing to note with the above statement is that superagent now sends any HTTP
 error (anything other than a 2XX response code) to the callback as the first argument if
 you do not add a status code expect (i.e. `.expect(302)`).
