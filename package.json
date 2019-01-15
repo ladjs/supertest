@@ -3,27 +3,11 @@
   "version": "3.3.0",
   "description": "SuperAgent driven library for testing HTTP servers",
   "main": "index.js",
-  "scripts": {
-    "pretest": "npm install",
-    "test": "eslint lib/**/*.js test/**/*.js index.js && nyc --reporter=html --reporter=text mocha --exit --require should --reporter spec --check-leaks",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
-  },
-  "dependencies": {
-    "methods": "^1.1.2",
-    "superagent": "^3.8.3"
-  },
-  "devDependencies": {
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.3",
-    "coveralls": "^3.0.2",
-    "eslint": "^5.5.0",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "express": "^4.16.3",
-    "mocha": "^5.2.0",
-    "nock": "^9.6.1",
-    "nyc": "^13.0.1",
-    "should": "^13.2.3"
+  "author": "TJ Holowaychuk",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/visionmedia/supertest.git"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -37,10 +21,25 @@
     "test",
     "testing"
   ],
-  "author": "TJ Holowaychuk",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/visionmedia/supertest.git"
+  "scripts": {
+    "pretest": "npm install",
+    "test": "eslint lib/**/*.js test/**/*.js index.js && nyc --reporter=html --reporter=text mocha --exit --require should --reporter spec --check-leaks",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
+  },
+  "dependencies": {
+    "methods": "^1.1.2",
+    "superagent": "^4.1.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "express": "^4.16.4",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "should": "^13.2.3"
   }
 }
