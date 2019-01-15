@@ -1,3 +1,10 @@
+3.4.0 / 2019-01-15
+===================
+
+* PR-532 - Packages updated, pipeline more explicit, documentation updated (thanks @rimiti)
+* PR-517 - Documentation updated (thanks @oprogramador)
+* PR-513 - Use more robust Array instance check (thanks @rubendg)
+
 3.3.0 / 2018-09-06
 ===================
 
