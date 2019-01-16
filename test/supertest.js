@@ -1179,7 +1179,7 @@ describe('request.get(url).query(vals) works as expected', function () {
       .expect(200)
       .end(function (err, res) {
         err.should.be.an.instanceof(Error);
-        err.message.should.match(/Nock: Not allow net connect/);
+        err.message.should.match(/Nock: Disallowed net connect/);
         done();
       });
 
