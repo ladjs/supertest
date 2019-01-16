@@ -1,3 +1,9 @@
+3.4.1 / 2019-01-16
+===================
+
+* PR-535 - Fix #534 - Superagent downgrading (thanks @rimiti)
+* PR-533 - Only publish necessary files (thanks @rimiti)
+
 3.4.0 / 2019-01-15
 ===================
 
