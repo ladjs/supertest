@@ -1,8 +1,8 @@
 .editorconfig
 .eslintrc
 .travis.yml
-History.md
-test/.eslintrc
-test/fixtures/test_cert.pem
-test/fixtures/test_key.pem
-test/supertest.js
+.idea
+.vscode
+.nyc_output
+test
+coverage
