@@ -55,7 +55,7 @@ request(app)
 
 ```js
 describe('GET /user', function() {
-  it('respond with json', function(done) {
+  it('responds with json', function(done) {
     request(app)
       .get('/user')
       .set('Accept', 'application/json')
@@ -64,6 +64,19 @@ describe('GET /user', function() {
   });
 });
 ```
+
+  You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
+ ```js
+describe('GET /user', function() {
+  it('responds with json', function(done) {
+    request(app)
+      .get('/user')
+      .auth('username', 'password')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+});
 
 One thing to note with the above statement is that superagent now sends any HTTP
 error (anything other than a 2XX response code) to the callback as the first argument if
@@ -190,6 +203,23 @@ describe('request.agent(app)', function() {
 })
 ```
   There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
+  
+  Here is an example where 2 cookies are set on the request.
+
+ ```js
+  agent(app)
+    .get('/api/content')
+    .set('Cookie', ['nameOne=valueOne;nameTwo=valueTwo'])
+    .send()
+    .expect(200)
+    .end((err, res) => {
+      if (err) {
+        return done(err);
+      }
+      expect(res.text).to.be.equal('hey');
+      return done();
+    });
+```
 
 ## API
 
