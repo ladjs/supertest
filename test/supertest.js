@@ -833,7 +833,8 @@ describe('request(app)', function () {
 
 describe('request.agent(app)', function () {
   const app = express();
-  const agent = request.agent(app);
+  const agent = request.agent(app)
+    .set('header', 'hey');
 
   app.use(cookieParser());
 
@@ -842,8 +843,13 @@ describe('request.agent(app)', function () {
     res.send();
   });
 
-  app.get('/return', function (req, res) {
+  app.get('/return_cookies', function (req, res) {
     if (req.cookies.cookie) res.send(req.cookies.cookie);
+    else res.send(':(');
+  });
+
+  app.get('/return_headers', function (req, res) {
+    if (req.get('header')) res.send(req.get('header'));
     else res.send(':(');
   });
 
@@ -855,7 +861,13 @@ describe('request.agent(app)', function () {
 
   it('should send cookies', function (done) {
     agent
-      .get('/return')
+      .get('/return_cookies')
+      .expect('hey', done);
+  });
+
+  it('should send global agent headers', function (done) {
+    agent
+      .get('/return_headers')
       .expect('hey', done);
   });
 });
