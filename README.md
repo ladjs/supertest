@@ -77,10 +77,11 @@ describe('GET /user', function() {
       .expect(200, done);
   });
 });
+```
 
-One thing to note with the above statement is that superagent now sends any HTTP
-error (anything other than a 2XX response code) to the callback as the first argument if
-you do not add a status code expect (i.e. `.expect(302)`).
+  One thing to note with the above statement is that superagent now sends any HTTP
+  error (anything other than a 2XX response code) to the callback as the first argument if
+  you do not add a status code expect (i.e. `.expect(302)`).
 
   If you are using the `.end()` method `.expect()` assertions that fail will
   not throw - they will return the assertion as an error to the `.end()` callback. In
