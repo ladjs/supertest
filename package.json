@@ -4,6 +4,9 @@
   "description": "SuperAgent driven library for testing HTTP servers",
   "main": "index.js",
   "author": "TJ Holowaychuk",
+  "contributors": [
+    "Dimitri DO BAIRRO <dimitri.dobairro@dimsolution.com>"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -22,8 +25,10 @@
     "testing"
   ],
   "scripts": {
-    "pretest": "npm install",
-    "test": "eslint lib/**/*.js test/**/*.js index.js && nyc --reporter=html --reporter=text mocha --exit --require should --reporter spec --check-leaks",
+    "lint": "eslint lib/**/*.js test/**/*.js index.js",
+    "lint:fix": "eslint --fix lib/**/*.js test/**/*.js index.js",
+    "pretest": "npm run lint",
+    "test": "nyc --reporter=html --reporter=text mocha --exit --require should --reporter spec --check-leaks",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
