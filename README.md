@@ -6,30 +6,31 @@
 [![PRs Welcome][prs-badge]][prs]
 [![MIT License][license-badge]][license]
 
-  HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
+HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
 
 ## About
 
-  The motivation with this module is to provide a high-level abstraction for testing
-  HTTP, while still allowing you to drop down to the [lower-level API](https://visionmedia.github.io/superagent/) provided by superagent.
+The motivation with this module is to provide a high-level abstraction for testing
+HTTP, while still allowing you to drop down to the [lower-level API](https://visionmedia.github.io/superagent/) provided by superagent.
 
 ## Getting Started
 
-  Install SuperTest as an npm module and save it to your package.json file as a development dependency:
-  ```
+Install SuperTest as an npm module and save it to your package.json file as a development dependency:
+
+```bash
 npm install supertest --save-dev
-  ```
+```
 
   Once installed it can now be referenced by simply calling ```require('supertest');```
 
 ## Example
 
-  You may pass an `http.Server`, or a `Function` to `request()` - if the server is not
-  already listening for connections then it is bound to an ephemeral port for you so
-  there is no need to keep track of ports.
+You may pass an `http.Server`, or a `Function` to `request()` - if the server is not
+already listening for connections then it is bound to an ephemeral port for you so
+there is no need to keep track of ports.
 
-  SuperTest works with any test framework, here is an example without using any
-  test framework at all:
+SuperTest works with any test framework, here is an example without using any
+test framework at all:
 
 ```js
 const request = require('supertest');
@@ -51,7 +52,7 @@ request(app)
   });
 ```
 
-  Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
+Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
 describe('GET /user', function() {
@@ -65,7 +66,8 @@ describe('GET /user', function() {
 });
 ```
 
-  You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
+You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
+
  ```js
 describe('GET /user', function() {
   it('responds with json', function(done) {
@@ -77,14 +79,15 @@ describe('GET /user', function() {
       .expect(200, done);
   });
 });
+```
 
 One thing to note with the above statement is that superagent now sends any HTTP
 error (anything other than a 2XX response code) to the callback as the first argument if
 you do not add a status code expect (i.e. `.expect(302)`).
 
-  If you are using the `.end()` method `.expect()` assertions that fail will
-  not throw - they will return the assertion as an error to the `.end()` callback. In
-  order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
+If you are using the `.end()` method `.expect()` assertions that fail will
+not throw - they will return the assertion as an error to the `.end()` callback. In
+order to fail the test case, you will need to rethrow or pass `err` to `done()`, as follows:
 
 ```js
 describe('POST /users', function() {
@@ -102,7 +105,7 @@ describe('POST /users', function() {
 });
 ```
 
-You can also use promises
+You can also use promises:
 
 ```js
 describe('GET /users', function() {
@@ -118,8 +121,8 @@ describe('GET /users', function() {
 });
 ```
 
-  Expectations are run in the order of definition. This characteristic can be used
-  to modify the response body or headers before executing an assertion.
+Expectations are run in the order of definition. This characteristic can be used
+to modify the response body or headers before executing an assertion.
 
 ```js
 describe('POST /user', function() {
@@ -144,15 +147,15 @@ Anything you can do with superagent, you can do with supertest - for example mul
 
 ```js
 request(app)
-.post('/')
-.field('name', 'my awesome avatar')
-.attach('avatar', 'test/fixtures/avatar.jpg')
-...
+  .post('/')
+  .field('name', 'my awesome avatar')
+  .attach('avatar', 'test/fixtures/avatar.jpg')
+  ...
 ```
 
-  Passing the app or url each time is not necessary, if you're testing
-  the same host you may simply re-assign the request variable with the
-  initialization app or url, a new `Test` is created per `request.VERB()` call.
+Passing the app or url each time is not necessary, if you're testing
+the same host you may simply re-assign the request variable with the
+initialization app or url, a new `Test` is created per `request.VERB()` call.
 
 ```js
 request = request('http://localhost:5555');
@@ -165,7 +168,8 @@ request.get('/').expect('heya', function(err){
   console.log(err);
 });
 ```
-  Here's an example with mocha that shows how to persist a request and its cookies:
+
+Here's an example with mocha that shows how to persist a request and its cookies:
 
 ```js
 const request = require('supertest');
@@ -200,77 +204,78 @@ describe('request.agent(app)', function() {
     .get('/return')
     .expect('hey', done);
   });
-})
+});
 ```
-  There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
   
-  Here is an example where 2 cookies are set on the request.
+There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
+  
+Here is an example where 2 cookies are set on the request.
 
  ```js
-  agent(app)
-    .get('/api/content')
-    .set('Cookie', ['nameOne=valueOne;nameTwo=valueTwo'])
-    .send()
-    .expect(200)
-    .end((err, res) => {
-      if (err) {
-        return done(err);
-      }
-      expect(res.text).to.be.equal('hey');
-      return done();
-    });
+agent(app)
+  .get('/api/content')
+  .set('Cookie', ['nameOne=valueOne;nameTwo=valueTwo'])
+  .send()
+  .expect(200)
+  .end((err, res) => {
+    if (err) {
+      return done(err);
+    }
+    expect(res.text).to.be.equal('hey');
+    return done();
+  });
 ```
 
 ## API
 
-  You may use any [superagent](http://github.com/visionmedia/superagent) methods,
-  including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
-  for lower-level needs.
+You may use any [superagent](http://github.com/visionmedia/superagent) methods,
+including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
+for lower-level needs.
 
 ### .expect(status[, fn])
 
-  Assert response `status` code.
+Assert response `status` code.
 
 ### .expect(status, body[, fn])
 
-  Assert response `status` code and `body`.
+Assert response `status` code and `body`.
 
 ### .expect(body[, fn])
 
-  Assert response `body` text with a string, regular expression, or
-  parsed body object.
+Assert response `body` text with a string, regular expression, or
+parsed body object.
 
 ### .expect(field, value[, fn])
 
-  Assert header `field` `value` with a string or regular expression.
+Assert header `field` `value` with a string or regular expression.
 
 ### .expect(function(res) {})
 
-  Pass a custom assertion function. It'll be given the response object to check. If the check fails, throw an error.
+Pass a custom assertion function. It'll be given the response object to check. If the check fails, throw an error.
 
-  ```js
-  request(app)
-    .get('/')
-    .expect(hasPreviousAndNextKeys)
-    .end(done);
+```js
+request(app)
+  .get('/')
+  .expect(hasPreviousAndNextKeys)
+  .end(done);
 
-  function hasPreviousAndNextKeys(res) {
-    if (!('next' in res.body)) throw new Error("missing next key");
-    if (!('prev' in res.body)) throw new Error("missing prev key");
-  }
-  ```
+function hasPreviousAndNextKeys(res) {
+  if (!('next' in res.body)) throw new Error("missing next key");
+  if (!('prev' in res.body)) throw new Error("missing prev key");
+}
+```
 
 ### .end(fn)
 
-  Perform the request and invoke `fn(err, res)`.
+Perform the request and invoke `fn(err, res)`.
 
 ## Notes
 
-  Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling.
+Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling.
 
 ## License
 
-  MIT
+MIT
 
 [coverage-badge]: https://coveralls.io/repos/github/visionmedia/supertest/badge.svg?branch=master
 [coverage]: https://coveralls.io/github/visionmedia/supertest?branch=master
