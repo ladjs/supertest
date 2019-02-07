@@ -21,7 +21,7 @@ Install SuperTest as an npm module and save it to your package.json file as a de
 npm install supertest --save-dev
 ```
 
-  Once installed it can now be referenced by simply calling ```require('supertest');```
+Once installed it can now be referenced by simply calling ```require('supertest');```
 
 ## Example
 
@@ -225,6 +225,9 @@ agent(app)
     return done();
   });
 ```
+
+### Note about testing against HTTPS servers
+If you get an error along the lines of `Hostname/IP doesn't match certificate's altnames`, it's because by default, Node.js tries to validate the server certificate. The workaround for this is to set the environmental variable `NODE_TLS_REJECT_UNAUTHORIZED` to 0. However, this has **serious security implications**, as it lends itself to easier man-in-the-middle attacks, despite the data being encrypted. Use with caution!
 
 ## API
 
