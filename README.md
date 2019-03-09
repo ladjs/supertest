@@ -1,4 +1,4 @@
-# SuperTest 
+# SuperTest
 
 [![Coveralls][coverage-badge]][coverage]
 [![Build Status][travis-badge]][travis]
@@ -74,6 +74,21 @@ describe('GET /user', function() {
     request(app)
       .get('/user')
       .auth('username', 'password')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+});
+```
+
+If you need to test with HTTPS against localhost, you can use superagent's `.trustLocalhost()`, which let's you bypass any errors related to broken/insecure HTTPS on localhost.
+
+```js
+describe('GET /user', function() {
+  it('responds with json via HTTPS on localhost', function(done) {
+    request(app)
+      .get('/user')
+      .trustLocalhost()
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
@@ -206,9 +221,9 @@ describe('request.agent(app)', function() {
   });
 });
 ```
-  
+
 There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
-  
+
 Here is an example where 2 cookies are set on the request.
 
  ```js
