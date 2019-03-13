@@ -1201,12 +1201,12 @@ describe('request.get(url).query(vals) works as expected', function () {
     const app = express();
 
     app.get('/', function (req, res) {
-      res.status(200).send({ promise: true });
+      res.status(400).send({ promise: true });
     });
 
     request(app)
       .get('/')
-      .expect(200)
+      .expect(400)
       .then((res) => {
         res.body.promise.should.be.equal(true);
         done();
