@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const nock = require('nock');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 describe('request(url)', function () {
   it('should be supported', function (done) {
     const app = express();
@@ -114,7 +116,6 @@ describe('request(app)', function () {
 
     request(server)
       .get('/')
-      .trustLocalhost()
       .end(function (err, res) {
         if (err) return done(err);
         res.status.should.equal(200);
