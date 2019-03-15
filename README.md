@@ -111,6 +111,7 @@ describe('POST /users', function() {
       .post('/users')
       .send({name: 'john'})
       .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
@@ -128,6 +129,7 @@ describe('GET /users', function() {
     return request(app)
       .get('/users')
       .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
       .expect(200)
       .then(response => {
           assert(response.body.email, 'foo@bar.com')
