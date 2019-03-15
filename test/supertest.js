@@ -8,6 +8,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const nock = require('nock');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 describe('request(url)', function () {
   it('should be supported', function (done) {
     const app = express();
@@ -114,7 +116,6 @@ describe('request(app)', function () {
 
     request(server)
       .get('/')
-      .trustLocalhost()
       .end(function (err, res) {
         if (err) return done(err);
         res.status.should.equal(200);
@@ -1195,5 +1196,21 @@ describe('request.get(url).query(vals) works as expected', function () {
       });
 
     nock.restore();
+  });
+
+  it('should assert using promises', function (done) {
+    const app = express();
+
+    app.get('/', function (req, res) {
+      res.status(400).send({ promise: true });
+    });
+
+    request(app)
+      .get('/')
+      .expect(400)
+      .then((res) => {
+        res.body.promise.should.be.equal(true);
+        done();
+      });
   });
 });
