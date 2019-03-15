@@ -81,21 +81,6 @@ describe('GET /user', function() {
 });
 ```
 
-If you need to test with HTTPS against localhost, you can use superagent's `.trustLocalhost()`, which let's you bypass any errors related to broken/insecure HTTPS on localhost.
-
-```js
-describe('GET /user', function() {
-  it('responds with json via HTTPS on localhost', function(done) {
-    request(app)
-      .get('/user')
-      .trustLocalhost()
-      .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  });
-});
-```
-
 One thing to note with the above statement is that superagent now sends any HTTP
 error (anything other than a 2XX response code) to the callback as the first argument if
 you do not add a status code expect (i.e. `.expect(302)`).
