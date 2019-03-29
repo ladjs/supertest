@@ -1,6 +1,7 @@
 const request = require('..');
 const https = require('https');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const should = require('should');
 const express = require('express');
@@ -876,18 +877,16 @@ describe('agent.host(host)', function () {
   it('should set request hostname', function (done) {
     const app = express();
     const agent = request.agent(app);
+    const localhostyName = os.hostname().toLowerCase();
 
     app.get('/', function (req, res) {
-      res.send();
+      res.send(req.hostname);
     });
 
     agent
-      .host('something.test')
+      .host(localhostyName)
       .get('/')
-      .end(function (err, res) {
-        err.hostname.should.equal('something.test');
-        done();
-      });
+      .expect(localhostyName, done);
   });
 });
 
