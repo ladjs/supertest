@@ -1,8 +1,11 @@
 {
-  "extends": "airbnb/legacy",
+  "extends": "airbnb-base/legacy",
   "env": {
     "node": true,
     "mocha": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
   },
   "rules": {
     // disabled - disagree with airbnb
@@ -11,7 +14,6 @@
     "consistent-return": [0],
 
     // Disabled but may want to refactor code eventually
-    "no-proto": [1],
     "no-shadow": [1],
     "no-use-before-define": [2, "nofunc"],
     "no-underscore-dangle": [0],

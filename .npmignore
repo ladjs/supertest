@@ -1,0 +1,8 @@
+.editorconfig
+.eslintrc
+.travis.yml
+.idea
+.vscode
+.nyc_output
+test
+coverage
