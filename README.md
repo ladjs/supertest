@@ -228,6 +228,22 @@ agent(app)
   });
 ```
 
+Here is an example to set proxy 
+
+```js
+agent(app)
+  .get('/api/content')
+  .proxy('http://proxyUrl.com')
+  .send()
+  .expect(200)
+  .end((err, res) => {
+    if (err) {
+      return done(err);
+    }
+    expect(res.text).to.be.equal('hey');
+    return done();
+  });
+```
 ## API
 
 You may use any [superagent](http://github.com/visionmedia/superagent) methods,
