@@ -1,3 +1,5 @@
+'use strict';
+
 const request = require('..');
 const https = require('https');
 const fs = require('fs');
