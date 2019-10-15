@@ -123,6 +123,22 @@ describe('GET /users', function() {
 });
 ```
 
+In this example, we can use `async/await` syntax. We capture the `response` object and make an assertion.
+
+```js
+describe('GET /users', function() {
+  it('should return correct email address', async function() {
+    const response = await request(app)
+      .get('/users')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200);
+
+    expect(response.body.email).toBe('foo@bar.com');
+  });
+});
+```
+
 Expectations are run in the order of definition. This characteristic can be used
 to modify the response body or headers before executing an assertion.
 
