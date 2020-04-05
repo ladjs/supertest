@@ -289,3 +289,10 @@ MIT
 [prs]: http://makeapullrequest.com
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
 [license]: https://github.com/visionmedia/supertest/blob/master/LICENSE
+
+## Badge
+[![SuperTest](https://img.shields.io/badge/tested%20with-SuperTest-5890AD.svg)](https://github.com/visionmedia/supertest)
+### Github markup
+```
+[![SuperTest](https://img.shields.io/badge/tested%20with-SuperTest-5890AD.svg)](https://github.com/visionmedia/supertest)
+```
