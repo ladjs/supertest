@@ -292,6 +292,7 @@ MIT
 
 ## Badge
 [![SuperTest](https://img.shields.io/badge/tested%20with-SuperTest-5890AD.svg)](https://github.com/visionmedia/supertest)
+
 #### Github markup
 ```
 [![SuperTest](https://img.shields.io/badge/tested%20with-SuperTest-5890AD.svg)](https://github.com/visionmedia/supertest)
