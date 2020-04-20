@@ -11,7 +11,7 @@ var http = require('http');
  * Test against the given `app`,
  * returning a new `Test`.
  *
- * @param {Function|Server} app
+ * @param {Function|Server|String} app
  * @return {Test}
  * @api public
  */
