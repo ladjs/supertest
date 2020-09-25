@@ -14,7 +14,6 @@
     "consistent-return": [0],
 
     // Disabled but may want to refactor code eventually
-    "no-shadow": [1],
     "no-use-before-define": [2, "nofunc"],
     "no-underscore-dangle": [0],
 
