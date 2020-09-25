@@ -521,7 +521,7 @@ describe('request(app)', function () {
         .get('/')
         .expect({ stringValue: 'foo', numberValue: 3, nestedObject: { innerString: 5 } })
         .end(function (err, res) {
-          err.message.should.equal('expected { stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: 5 } } response body, got { stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: \'5\' } }'); // eslint-disable-line max-len
+          err.message.should.equal('expected {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: 5 }\n} response body, got {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: \'5\' }\n}'); // eslint-disable-line max-len
 
           request(app)
             .get('/')
