@@ -32,8 +32,8 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "dependencies": {
-    "methods": "1.1.2",
-    "superagent": "6.1.0"
+    "methods": "^1.1.2",
+    "superagent": "^6.1.0"
   },
   "devDependencies": {
     "body-parser": "1.19.0",
