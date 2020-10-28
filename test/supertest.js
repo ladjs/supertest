@@ -880,14 +880,15 @@ describe('agent.host(host)', function () {
     const agent = request.agent(app);
 
     app.get('/', function (req, res) {
-      res.send();
+      res.send({ hostname: req.hostname });
     });
 
     agent
       .host('something.test')
       .get('/')
       .end(function (err, res) {
-        err.hostname.should.equal('something.test');
+        if (err) return done(err);
+        res.body.hostname.should.equal('something.test');
         done();
       });
   });
