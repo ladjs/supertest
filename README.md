@@ -68,7 +68,7 @@ describe('GET /user', function() {
 
 You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
 
- ```js
+```js
 describe('GET /user', function() {
   it('responds with json', function(done) {
     request(app)
@@ -213,7 +213,7 @@ There is another example that is introduced by the file [agency.js](https://gith
 
 Here is an example where 2 cookies are set on the request.
 
- ```js
+```js
 agent(app)
   .get('/api/content')
   .set('Cookie', ['nameOne=valueOne;nameTwo=valueTwo'])
