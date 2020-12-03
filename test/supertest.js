@@ -359,6 +359,7 @@ describe('request(app)', function () {
         .expect(404)
         .end(function (err, res) {
           err.message.should.equal('expected 404 "Not Found", got 200 "OK"');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -419,6 +420,7 @@ describe('request(app)', function () {
           .expect(200, '')
           .end(function (err, res) {
             err.message.should.equal('expected \'\' response body, got \'foo\'');
+            err.stack.should.match(/test\/supertest.js:/);
             done();
           });
       });
@@ -440,6 +442,7 @@ describe('request(app)', function () {
         .expect('hey')
         .end(function (err, res) {
           err.message.should.equal('expected \'hey\' response body, got \'{"foo":"bar"}\'');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -459,6 +462,7 @@ describe('request(app)', function () {
         .expect('hey')
         .end(function (err, res) {
           err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -491,6 +495,7 @@ describe('request(app)', function () {
         .expect({ foo: 'baz' })
         .end(function (err, res) {
           err.message.should.equal('expected { foo: \'baz\' } response body, got { foo: \'bar\' }');
+          err.stack.should.match(/test\/supertest.js:/);
 
           request(app)
             .get('/')
@@ -522,6 +527,7 @@ describe('request(app)', function () {
         .expect({ stringValue: 'foo', numberValue: 3, nestedObject: { innerString: 5 } })
         .end(function (err, res) {
           err.message.should.equal('expected {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: 5 }\n} response body, got {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: \'5\' }\n}'); // eslint-disable-line max-len
+          err.stack.should.match(/test\/supertest.js:/);
 
           request(app)
             .get('/')
@@ -542,6 +548,7 @@ describe('request(app)', function () {
         .expect(/^bar/)
         .end(function (err, res) {
           err.message.should.equal('expected body \'foobar\' to match /^bar/');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -560,6 +567,7 @@ describe('request(app)', function () {
         .expect('hey tj')
         .end(function (err, res) {
           err.message.should.equal("expected 'hey' response body, got 'hey tj'");
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -592,6 +600,7 @@ describe('request(app)', function () {
         .expect('Content-Foo', 'bar')
         .end(function (err, res) {
           err.message.should.equal('expected "Content-Foo" header field');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -609,6 +618,7 @@ describe('request(app)', function () {
         .end(function (err, res) {
           err.message.should.equal('expected "Content-Type" of "text/html", '
             + 'got "application/json; charset=utf-8"');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -640,6 +650,7 @@ describe('request(app)', function () {
         .end(function (err) {
           err.message.should.equal('expected "Content-Type" matching /^application/, '
             + 'got "text/html; charset=utf-8"');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -656,6 +667,7 @@ describe('request(app)', function () {
         .expect('Content-Length', 4)
         .end(function (err) {
           err.message.should.equal('expected "Content-Length" of "4", got "3"');
+          err.stack.should.match(/test\/supertest.js:/);
           done();
         });
     });
@@ -682,6 +694,7 @@ describe('request(app)', function () {
           })
           .end(function (err) {
             err.message.should.equal('failed');
+            err.stack.should.match(/test\/supertest.js:/);
             done();
           });
       });
@@ -707,6 +720,7 @@ describe('request(app)', function () {
           })
           .end(function (err) {
             err.message.should.equal('some descriptive error');
+            err.stack.should.match(/test\/supertest.js:/);
             (err instanceof Error).should.be.true;
             done();
           });
@@ -747,6 +761,7 @@ describe('request(app)', function () {
           .expect('Content-Type', /json/)
           .end(function (err) {
             err.message.should.match(/Content-Type/);
+            err.stack.should.match(/test\/supertest.js:/);
             done();
           });
       });
@@ -790,6 +805,7 @@ describe('request(app)', function () {
           .end(function (err) {
             err.message.should.equal('expected "Content-Type" matching /bloop/, '
               + 'got "text/html; charset=utf-8"');
+            err.stack.should.match(/test\/supertest.js:/);
             done();
           });
       });
@@ -808,6 +824,7 @@ describe('request(app)', function () {
           .end(function (err) {
             err.message.should.equal('expected "Content-Type" matching /bloop/, '
               + 'got "text/html; charset=utf-8"');
+            err.stack.should.match(/test\/supertest.js:/);
             done();
           });
       });
@@ -826,6 +843,7 @@ describe('request(app)', function () {
           .end(function (err) {
             err.message.should.equal('expected "Content-Type" matching /bloop/, '
               + 'got "text/html; charset=utf-8"');
+            err.stack.should.match(/test\/supertest.js:/);
             done();
           });
       });
@@ -984,6 +1002,7 @@ describe('assert ordering by call order', function () {
       .end(function (err, res) {
         err.message.should.equal('expected \'hey\' response body, '
           + 'got \'{"message":"something went wrong"}\'');
+        err.stack.should.match(/test\/supertest.js:/);
         done();
       });
   });
@@ -1003,6 +1022,7 @@ describe('assert ordering by call order', function () {
       .expect('hey')
       .end(function (err, res) {
         err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
+        err.stack.should.match(/test\/supertest.js:/);
         done();
       });
   });
@@ -1023,6 +1043,7 @@ describe('assert ordering by call order', function () {
       .end(function (err, res) {
         err.message.should.equal('expected "content-type" matching /html/, '
           + 'got "application/json; charset=utf-8"');
+        err.stack.should.match(/test\/supertest.js:/);
         done();
       });
   });
@@ -1195,6 +1216,7 @@ describe('request.get(url).query(vals) works as expected', function () {
       .end(function (err, res) {
         err.should.be.an.instanceof(Error);
         err.message.should.match(/Nock: Disallowed net connect/);
+        err.stack.should.match(/test\/supertest.js:/);
         done();
       });
 
