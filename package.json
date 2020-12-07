@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "methods": "1.1.2",
+    "spdy": "^4.0.2",
     "superagent": "6.1.0"
   },
   "devDependencies": {

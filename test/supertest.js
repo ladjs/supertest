@@ -2,6 +2,7 @@
 
 const request = require('..');
 const https = require('https');
+const spdy = require('spdy');
 const fs = require('fs');
 const path = require('path');
 const should = require('should');
@@ -11,6 +12,34 @@ const cookieParser = require('cookie-parser');
 const nock = require('nock');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+describe('http2', function() {
+  it('should work with a http2 server', function (done) {
+    this.timeout(40000);
+
+    const app = express();
+    const fixtures = path.join(__dirname, 'fixtures');
+    const server = spdy.createServer({
+      key: fs.readFileSync(path.join(fixtures, 'test_key.pem')),
+      cert: fs.readFileSync(path.join(fixtures, 'test_cert.pem'))
+    }, app);
+
+    app.get('/', function (req, res) {
+      res.send('hey');
+    });
+
+    request(server, { http2: true })
+      .get('/')
+      .expect(':status', 200)
+      .end(function (err, res) {
+        if (err) return done(err);
+        res.request._enableHttp2.should.equal(true);
+        res.status.should.equal(200);
+        res.text.should.equal('hey');
+        done();
+      });
+  });
+});
 
 describe('request(url)', function () {
   it('should be supported', function (done) {

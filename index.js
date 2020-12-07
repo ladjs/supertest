@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var methods = require('methods');
-var Test = require('./lib/test');
-var http = require('http');
+const methods = require('methods');
+const Test = require('./lib/test');
+const http = require('http');
+const http2 = require('http2');
 
 /**
  * Test against the given `app`,
@@ -15,16 +16,24 @@ var http = require('http');
  * @return {Test}
  * @api public
  */
-module.exports = function(app) {
+module.exports = function(app, options = {}) {
   var obj = {};
 
   if (typeof app === 'function') {
-    app = http.createServer(app); // eslint-disable-line no-param-reassign
+    if (options.http2) {
+      app = http2.createServer(app); // eslint-disable-line no-param-reassign
+    } else {
+      app = http.createServer(app); // eslint-disable-line no-param-reassign
+    }
   }
 
   methods.forEach(function(method) {
     obj[method] = function(url) {
-      return new Test(app, method, url);
+      var test = new Test(app, method, url);
+      if (options.http2) {
+        test.http2();
+      }
+      return test;
     };
   });
 

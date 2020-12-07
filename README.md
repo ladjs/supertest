@@ -52,6 +52,28 @@ request(app)
   });
 ```
 
+> To enable http2 support simply append an options to request to enable it
+
+```js
+const request = require('supertest');
+const express = require('express');
+
+const app = express();
+
+app.get('/user', function(req, res) {
+  res.status(200).json({ name: 'john' });
+});
+
+request(app, { http2: true })
+  .get('/user')
+  .expect('Content-Type', /json/)
+  .expect('Content-Length', '15')
+  .expect(200)
+  .end(function(err, res) {
+    if (err) throw err;
+  });
+```
+
 Here's an example with mocha, note how you can pass `done` straight to any of the `.expect()` calls:
 
 ```js
