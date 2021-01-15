@@ -100,7 +100,7 @@ describe('POST /users', function() {
       .expect(200)
       .end(function(err, res) {
         if (err) return done(err);
-        done();
+        return done();
       });
   });
 });
