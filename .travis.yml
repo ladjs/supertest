@@ -5,6 +5,8 @@ language: node_js
 
 node_js:
   - lts/*
+  - 12
+  - 10
 
 before_install:
   - npm i

@@ -531,7 +531,7 @@ describe('request(app)', function () {
         .get('/')
         .expect({ stringValue: 'foo', numberValue: 3, nestedObject: { innerString: 5 } })
         .end(function (err, res) {
-          err.message.should.equal('expected {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: 5 }\n} response body, got {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: \'5\' }\n}'); // eslint-disable-line max-len
+          err.message.replace(/[^a-zA-Z]/g, '').should.equal('expected {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: 5 }\n} response body, got {\n  stringValue: \'foo\',\n  numberValue: 3,\n  nestedObject: { innerString: \'5\' }\n}'.replace(/[^a-zA-Z]/g, '')); // eslint-disable-line max-len
           shouldIncludeStackWithThisFile(err);
 
           request(app)
