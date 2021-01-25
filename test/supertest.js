@@ -738,6 +738,18 @@ describe('request(app)', function () {
           .end(done);
       });
 
+      it("doesn't create false negatives on non error objects", function (done) {
+        const handler = {
+          get: function(target, prop, receiver) {
+            throw Error('Should not be called for non Error objects');
+          }
+        };
+        const proxy = new Proxy({}, handler); // eslint-disable-line no-undef
+        get
+          .expect(() => proxy)
+          .end(done);
+      });
+
       it('handles multiple asserts', function (done) {
         const calls = [];
         get
