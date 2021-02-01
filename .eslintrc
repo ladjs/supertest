@@ -18,7 +18,7 @@
     "no-underscore-dangle": [0],
 
     // IMHO, more sensible overrides to existing airbnb error definitions
-    "max-len": [2, 100, 4, {"ignoreComments": true, "ignoreUrls": true}],
+    "max-len": [2, 115, 4, {"ignoreComments": true, "ignoreUrls": true}],
     "no-unused-expressions": [2, { "allowShortCircuit": true, "allowTernary": true }]
   }
 }

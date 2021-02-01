@@ -363,7 +363,9 @@ describe('request(app)', function () {
         .get('/')
         .expect(404)
         .end(function (err, res) {
-          err.message.should.equal('expected 404 "Not Found", got 200 "OK"');
+          err.message.should.equal(
+            `expected 404 "Not Found", got 200 "OK", with response: ${JSON.stringify(res, null, 2)}`
+          );
           shouldIncludeStackWithThisFile(err);
           done();
         });
@@ -466,7 +468,9 @@ describe('request(app)', function () {
         .expect(200)
         .expect('hey')
         .end(function (err, res) {
-          err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
+          err.message.should.equal(
+            `expected 200 "OK", got 500 "Internal Server Error", with response: ${JSON.stringify(res, null, 2)}`
+          );
           shouldIncludeStackWithThisFile(err);
           done();
         });
@@ -1038,7 +1042,9 @@ describe('assert ordering by call order', function () {
       .expect(200)
       .expect('hey')
       .end(function (err, res) {
-        err.message.should.equal('expected 200 "OK", got 500 "Internal Server Error"');
+        err.message.should.equal(
+          `expected 200 "OK", got 500 "Internal Server Error", with response: ${JSON.stringify(res, null, 2)}`
+        );
         shouldIncludeStackWithThisFile(err);
         done();
       });
