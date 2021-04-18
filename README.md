@@ -130,7 +130,7 @@ Or async/await syntax:
 ```js
 describe('GET /users', function() {
   it('responds with json', async function() {
-    const response = request(app)
+    const response = await request(app)
       .get('/users')
       .set('Accept', 'application/json')
     expect(response.headers["Content-Type"]).toMatch(/json/);
