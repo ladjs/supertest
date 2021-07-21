@@ -399,6 +399,38 @@ describe('request(app)', function () {
     });
   });
 
+  describe('.expect(statusArray)', function () {
+    it('should assert only status', function (done) {
+      const app = express();
+
+      app.get('/', function (req, res) {
+        res.send('hey');
+      });
+
+      request(app)
+        .get('/')
+        .expect([200, 404])
+        .end(done);
+    });
+
+    it('should reject if status is not in valid statuses array', function (done) {
+      const app = express();
+
+      app.get('/', function (req, res) {
+        res.send('hey');
+      });
+
+      request(app)
+        .get('/')
+        .expect([500, 404])
+        .end(function (err, res) {
+          err.message.should.equal('expected one of "500, 404", got 200 "OK"');
+          shouldIncludeStackWithThisFile(err);
+          done();
+        });
+    });
+  });
+
   describe('.expect(status, body[, fn])', function () {
     it('should assert the response body and status', function (done) {
       const app = express();
