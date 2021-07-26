@@ -573,6 +573,17 @@ describe('request(app)', function () {
         });
     });
 
+    it('should support parsed response arrays', function (done) {
+      const app = express();
+      app.get('/', function (req, res) {
+        res.status(200).json(['a', { id: 1 }]);
+      });
+
+      request(app)
+        .get('/')
+        .expect(['a', { id: 1 }], done);
+    });
+
     it('should support regular expressions', function (done) {
       const app = express();
 
