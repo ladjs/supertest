@@ -584,6 +584,17 @@ describe('request(app)', function () {
         .expect(['a', { id: 1 }], done);
     });
 
+    it('should support empty array responses', function (done) {
+      const app = express();
+      app.get('/', function (req, res) {
+        res.status(200).json([]);
+      });
+
+      request(app)
+        .get('/')
+        .expect([], done);
+    });
+
     it('should support regular expressions', function (done) {
       const app = express();
 
