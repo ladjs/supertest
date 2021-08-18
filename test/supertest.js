@@ -349,6 +349,24 @@ describe('request(app)', function () {
           });
       });
     });
+
+    it('should close server if the app was manually started', function (done) {
+      const app = express();
+      let test;
+
+      app.get('/', function (req, res) {
+        res.send('supertest FTW!');
+      });
+
+      test = request(app.listen())
+        .get('/')
+        .end(function () {
+        });
+
+      test._server.on('close', function () {
+        done();
+      });
+    });
   });
 
   describe('.expect(status[, fn])', function () {
