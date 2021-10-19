@@ -4,6 +4,7 @@ const request = require('..');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const { Readable } = require('stream');
 const should = require('should');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -144,6 +145,28 @@ describe('request(app)', function () {
       .post('/')
       .send({ name: 'john' })
       .expect('john', done);
+  });
+
+  it('should work with pipe', function (done) {
+    const app = express();
+
+    app.use(express.json());
+
+    app.post('/', function (req, res) {
+      res.send(req.body.name);
+    });
+
+    const body = Readable.from(JSON.stringify({ name: 'john' }));
+    const req = request(app)
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .on('response', function (res) {
+        should.exist(res);
+        res.status.should.be.equal(200);
+        res.text.should.be.equal('john');
+        done();
+      });
+    body.pipe(req);
   });
 
   it('should work when unbuffered', function (done) {
