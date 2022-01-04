@@ -17,7 +17,7 @@ const agent = require('./lib/agent.js');
  * @api public
  */
 module.exports = function(app) {
-  var obj = {};
+  const obj = {};
 
   if (typeof app === 'function') {
     app = http.createServer(app); // eslint-disable-line no-param-reassign
