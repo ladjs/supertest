@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var methods = require('methods');
-var Test = require('./lib/test');
-var http = require('http');
+const methods = require('methods');
+const http = require('http');
+const Test = require('./lib/test.js');
+const agent = require('./lib/agent.js');
 
 /**
  * Test against the given `app`,
@@ -42,4 +43,4 @@ module.exports.Test = Test;
 /**
  * Expose the agent function
  */
-module.exports.agent = require('./lib/agent');
+module.exports.agent = agent
