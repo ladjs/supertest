@@ -43,4 +43,4 @@ module.exports.Test = Test;
 /**
  * Expose the agent function
  */
-module.exports.agent = agent
+module.exports.agent = agent;
