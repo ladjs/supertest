@@ -125,6 +125,21 @@ describe('GET /users', function() {
 });
 ```
 
+Or async/await syntax:
+
+```js
+describe('GET /users', function() {
+  it('responds with json', async function() {
+    const response = await request(app)
+      .get('/users')
+      .set('Accept', 'application/json')
+    expect(response.headers["Content-Type"]).toMatch(/json/);
+    expect(response.status).toEqual(200);
+    expect(response.body.email).toEqual('foo@bar.com');
+  });
+});
+```
+
 Expectations are run in the order of definition. This characteristic can be used
 to modify the response body or headers before executing an assertion.
 
