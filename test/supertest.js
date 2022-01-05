@@ -983,6 +983,24 @@ describe('agent.host(host)', function () {
   });
 });
 
+describe('request.agent(app, {prefix})', function () {
+  it('should apply prefix', function(done) {
+    var app = express();
+    var agent = request.agent(app, { prefix: '/api' });
+    app.use('/api/something', function(err, res) {
+      res.send();
+    });
+
+    agent
+      .get('/dummy')
+      .expect(404, 'Cannot GET /api/dummy\n');
+
+    agent
+      .get('/something')
+      .expect(200, done);
+  });
+});
+
 describe('.<http verb> works as expected', function () {
   it('.delete should work', function (done) {
     const app = express();
