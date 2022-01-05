@@ -1,6 +1,5 @@
 'use strict';
 
-const request = require('..');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
@@ -9,6 +8,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const nock = require('nock');
+const request = require('../index.js');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 

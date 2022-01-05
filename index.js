@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-var methods = require('methods');
-var Test = require('./lib/test');
-var http = require('http');
+const methods = require('methods');
+const http = require('http');
+const Test = require('./lib/test.js');
+const agent = require('./lib/agent.js');
 
 /**
  * Test against the given `app`,
@@ -16,7 +17,7 @@ var http = require('http');
  * @api public
  */
 module.exports = function(app) {
-  var obj = {};
+  const obj = {};
 
   if (typeof app === 'function') {
     app = http.createServer(app); // eslint-disable-line no-param-reassign
@@ -42,4 +43,4 @@ module.exports.Test = Test;
 /**
  * Expose the agent function
  */
-module.exports.agent = require('./lib/agent');
+module.exports.agent = agent;
