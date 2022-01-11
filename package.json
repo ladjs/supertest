@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "methods": "^1.1.2",
-    "superagent": "^7.0.1"
+    "superagent": "^7.0.2"
   },
   "devDependencies": {
     "body-parser": "^1.19.1",
@@ -44,7 +44,7 @@
     "eslint-plugin-import": "^2.25.4",
     "express": "^4.17.2",
     "mocha": "^9.1.3",
-    "nock": "^13.2.1",
+    "nock": "^13.2.2",
     "nyc": "^15.1.0",
     "should": "^13.2.3"
   }
