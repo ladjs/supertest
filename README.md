@@ -169,6 +169,7 @@ Anything you can do with superagent, you can do with supertest - for example mul
 request(app)
   .post('/')
   .field('name', 'my awesome avatar')
+  .field('complex_object', '{"attribute": "value"}', {contentType: 'application/json'})
   .attach('avatar', 'test/fixtures/avatar.jpg')
   ...
 ```
