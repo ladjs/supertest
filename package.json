@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "methods": "^1.1.2",
-    "superagent": "^7.1.0"
+    "superagent": "^7.1.0 <7.1.2 || >7.1.2"
   },
   "devDependencies": {
     "body-parser": "^1.19.1",
