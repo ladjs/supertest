@@ -13,7 +13,7 @@
     "url": "https://github.com/visionmedia/supertest.git"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=6.4.0"
   },
   "keywords": [
     "superagent",
