@@ -1,6 +1,6 @@
 {
   "name": "supertest",
-  "version": "6.2.3",
+  "version": "6.2.4",
   "description": "SuperAgent driven library for testing HTTP servers",
   "main": "index.js",
   "author": "TJ Holowaychuk",
