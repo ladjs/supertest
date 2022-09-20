@@ -80,7 +80,7 @@ describe('request(app)', function () {
       res.send('hey');
     });
 
-    server = app.listen(4000, function () {
+    server = app.listen(function () {
       request(server)
         .get('/')
         .end(function (err, res) {
@@ -99,8 +99,9 @@ describe('request(app)', function () {
       res.send('hey');
     });
 
-    server = app.listen(4001, function () {
-      request('http://localhost:4001')
+    server = app.listen(function () {
+      const url = 'http://localhost:' + server.address().port;
+      request(url)
         .get('/')
         .end(function (err, res) {
           res.status.should.equal(200);
