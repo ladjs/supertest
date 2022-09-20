@@ -20,14 +20,14 @@ function shouldIncludeStackWithThisFile(err) {
 describe('request(url)', function () {
   it('should be supported', function (done) {
     const app = express();
-    let s;
+    let server;
 
     app.get('/', function (req, res) {
       res.send('hello');
     });
 
-    s = app.listen(function () {
-      const url = 'http://localhost:' + s.address().port;
+    server = app.listen(function () {
+      const url = 'http://localhost:' + server.address().port;
       request(url)
         .get('/')
         .expect('hello', done);
@@ -37,14 +37,14 @@ describe('request(url)', function () {
   describe('.end(cb)', function () {
     it('should set `this` to the test object when calling cb', function (done) {
       const app = express();
-      let s;
+      let server;
 
       app.get('/', function (req, res) {
         res.send('hello');
       });
 
-      s = app.listen(function () {
-        const url = 'http://localhost:' + s.address().port;
+      server = app.listen(function () {
+        const url = 'http://localhost:' + server.address().port;
         const test = request(url).get('/');
         test.end(function (err, res) {
           this.should.eql(test);
@@ -93,12 +93,13 @@ describe('request(app)', function () {
 
   it('should work with remote server', function (done) {
     const app = express();
+    let server;
 
     app.get('/', function (req, res) {
       res.send('hey');
     });
 
-    app.listen(4001, function () {
+    server = app.listen(4001, function () {
       request('http://localhost:4001')
         .get('/')
         .end(function (err, res) {
