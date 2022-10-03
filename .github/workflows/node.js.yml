@@ -1,0 +1,40 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        include:
+          - node-version: 10.x
+            test-on-old-node: 1
+          - node-version: 12.x
+            test-on-old-node: 1
+          - node-version: 14.x
+          - node-version: 16.x
+          - node-version: 18.x
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Install Dependencies On Old Node ${{ matrix.node-version }}
+      if: ${{ matrix.test-on-old-node == '1' }}
+      run: node ci/remove-deps-4-old-node.js && yarn install --ignore-scripts
+    - name: Install Dependencies On Node ${{ matrix.node-version }}
+      if: ${{ matrix.test-on-old-node != '1' }}
+      run: yarn install
+    - run: npm test
+    - name: Coverage On Node ${{ matrix.node-version }}
+      run:
+        npm run coverage

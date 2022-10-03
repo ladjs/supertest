@@ -20,14 +20,14 @@ function shouldIncludeStackWithThisFile(err) {
 describe('request(url)', function () {
   it('should be supported', function (done) {
     const app = express();
-    let s;
+    let server;
 
     app.get('/', function (req, res) {
       res.send('hello');
     });
 
-    s = app.listen(function () {
-      const url = 'http://localhost:' + s.address().port;
+    server = app.listen(function () {
+      const url = 'http://localhost:' + server.address().port;
       request(url)
         .get('/')
         .expect('hello', done);
@@ -37,14 +37,14 @@ describe('request(url)', function () {
   describe('.end(cb)', function () {
     it('should set `this` to the test object when calling cb', function (done) {
       const app = express();
-      let s;
+      let server;
 
       app.get('/', function (req, res) {
         res.send('hello');
       });
 
-      s = app.listen(function () {
-        const url = 'http://localhost:' + s.address().port;
+      server = app.listen(function () {
+        const url = 'http://localhost:' + server.address().port;
         const test = request(url).get('/');
         test.end(function (err, res) {
           this.should.eql(test);
@@ -80,7 +80,7 @@ describe('request(app)', function () {
       res.send('hey');
     });
 
-    server = app.listen(4000, function () {
+    server = app.listen(function () {
       request(server)
         .get('/')
         .end(function (err, res) {
@@ -93,13 +93,15 @@ describe('request(app)', function () {
 
   it('should work with remote server', function (done) {
     const app = express();
+    let server;
 
     app.get('/', function (req, res) {
       res.send('hey');
     });
 
-    app.listen(4001, function () {
-      request('http://localhost:4001')
+    server = app.listen(function () {
+      const url = 'http://localhost:' + server.address().port;
+      request(url)
         .get('/')
         .end(function (err, res) {
           res.status.should.equal(200);
@@ -1269,7 +1271,7 @@ describe('request.get(url).query(vals) works as expected', function () {
       });
   });
 
-  it('handles unknown errors', function (done) {
+  it('handles unknown errors (err without res)', function (done) {
     const app = express();
 
     nock.disableNetConnect();
@@ -1285,6 +1287,8 @@ describe('request.get(url).query(vals) works as expected', function () {
       // https://github.com/visionmedia/supertest/issues/352
       .expect(200)
       .end(function (err, res) {
+        should.exist(err);
+        should.not.exist(res);
         err.should.be.an.instanceof(Error);
         err.message.should.match(/Nock: Disallowed net connect/);
         shouldIncludeStackWithThisFile(err);
@@ -1292,6 +1296,35 @@ describe('request.get(url).query(vals) works as expected', function () {
       });
 
     nock.restore();
+  });
+
+  // this scenario should never happen
+  // there shouldn't be any res if there is an err
+  // meant for test coverage for lib/test.js#169
+  // https://github.com/visionmedia/supertest/blob/5543d674cf9aa4547927ba6010d31d9474950dec/lib/test.js#L169
+  it('handles unknown errors (err with res)', function (done) {
+    const app = express();
+
+    app.get('/', function (req, res) {
+      res.status(200).send('OK');
+    });
+
+    const resError = new Error();
+    resError.status = 400;
+
+    const serverRes = { status: 200 };
+
+    request(app)
+      .get('/')
+      // private api
+      .assert(resError, serverRes, function (err, res) {
+        should.exist(err);
+        should.exist(res);
+        err.should.equal(resError);
+        res.should.equal(serverRes);
+        // close the server explicitly (as we are not using expect/end/then)
+        this.end(done);
+      });
   });
 
   it('should assert using promises', function (done) {
