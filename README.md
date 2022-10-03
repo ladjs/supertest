@@ -1,6 +1,6 @@
 # SuperTest
 
-[![Coveralls][coverage-badge]][coverage]
+[![code coverage][coverage-badge]][coverage]
 [![Build Status][travis-badge]][travis]
 [![Dependencies][dependencies-badge]][dependencies]
 [![PRs Welcome][prs-badge]][prs]
@@ -296,8 +296,8 @@ Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling
 
 MIT
 
-[coverage-badge]: https://coveralls.io/repos/github/visionmedia/supertest/badge.svg?branch=master
-[coverage]: https://coveralls.io/github/visionmedia/supertest?branch=master
+[coverage-badge]: https://img.shields.io/codecov/c/github/visionmedia/supertest.svg
+[coverage]: https://codecov.io/gh/visionmedia/supertest
 [travis-badge]: https://travis-ci.org/visionmedia/supertest.svg?branch=master
 [travis]: https://travis-ci.org/visionmedia/supertest
 [dependencies-badge]: https://david-dm.org/visionmedia/supertest/status.svg
