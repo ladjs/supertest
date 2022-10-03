@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const nock = require('nock');
 const request = require('../index.js');
+const throwError = require('./throwError');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
@@ -750,9 +751,7 @@ describe('request(app)', function () {
 
       it('reports errors', function (done) {
         get
-          .expect(function (res) {
-            throw new Error('failed');
-          })
+          .expect(throwError('failed'))
           .end(function (err) {
             err.message.should.equal('failed');
             shouldIncludeStackWithThisFile(err);
@@ -776,9 +775,7 @@ describe('request(app)', function () {
 
       it('ensures truthy errors returned from asserts are throw to end', function (done) {
         get
-          .expect(function (res) {
-            return new Error('some descriptive error');
-          })
+          .expect(throwError('some descriptive error'))
           .end(function (err) {
             err.message.should.equal('some descriptive error');
             shouldIncludeStackWithThisFile(err);
