@@ -1,6 +1,12 @@
 'use strict';
 
 const https = require('https');
+let http2;
+try {
+  http2 = require('http2'); // eslint-disable-line global-require
+} catch (_) {
+  // eslint-disable-line no-empty
+}
 const fs = require('fs');
 const path = require('path');
 const should = require('should');
@@ -1338,5 +1344,64 @@ describe('request.get(url).query(vals) works as expected', function () {
         res.body.promise.should.be.equal(true);
         done();
       });
+  });
+});
+
+const describeHttp2 = (http2) ? describe : describe.skip;
+describeHttp2('http2', function() {
+  // eslint-disable-next-line global-require
+  const proxyquire = require('proxyquire');
+
+  const tests = [
+    {
+      title: 'request(app)',
+      api: request,
+      mockApi: proxyquire('../index.js', { http2: null })
+    },
+    {
+      title: 'request.agent(app)',
+      api: request.agent,
+      mockApi: proxyquire('../lib/agent.js', { http2: null })
+    }
+  ];
+
+  tests.forEach(({ title, api, mockApi }) => {
+    describe(title, function () {
+      const app = function(req, res) {
+        res.end('hey');
+      };
+
+      it('should fire up the app on an ephemeral port', function (done) {
+        api(app, { http2: true })
+          .get('/')
+          .end(function (err, res) {
+            res.status.should.equal(200);
+            res.text.should.equal('hey');
+            done();
+          });
+      });
+
+      it('should work with an active server', function (done) {
+        const server = http2.createServer(app);
+
+        server.listen(function () {
+          api(server)
+            .get('/')
+            .http2()
+            .end(function (err, res) {
+              res.status.should.equal(200);
+              res.text.should.equal('hey');
+              // close the external server explictly
+              server.close(done);
+            });
+        });
+      });
+
+      it('should throw error if http2 is not supported', function() {
+        (function() {
+          mockApi(app, { http2: true });
+        }).should.throw('supertest: this version of Node.js does not support http2');
+      });
+    });
   });
 });
