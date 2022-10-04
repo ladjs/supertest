@@ -759,6 +759,25 @@ describe('request(app)', function () {
           });
       });
 
+      // this scenario should never happen after https://github.com/visionmedia/supertest/pull/767
+      // meant for test coverage for lib/test.js#287
+      // https://github.com/visionmedia/supertest/blob/e064b5ae71e1dfa3e1a74745fda527ac542e1878/lib/test.js#L287
+      it('_assertFunction should catch and return error', function (done) {
+        const error = new Error('failed');
+        const returnedError = get
+          // private api
+          ._assertFunction(function (res) {
+            throw error;
+          });
+        get
+          .end(function () {
+            returnedError.should.equal(error);
+            returnedError.message.should.equal('failed');
+            shouldIncludeStackWithThisFile(returnedError);
+            done();
+          });
+      });
+
       it(
         'ensures truthy non-errors returned from asserts are not promoted to errors',
         function (done) {
