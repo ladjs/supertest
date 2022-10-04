@@ -29,7 +29,7 @@
     "lint:fix": "eslint --fix lib/**/*.js test/**/*.js index.js",
     "pretest": "npm run lint --if-present",
     "test": "nyc --reporter=html --reporter=text mocha --exit --require should --reporter spec --check-leaks",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov"
   },
   "dependencies": {
     "methods": "^1.1.2",
@@ -38,7 +38,6 @@
   "devDependencies": {
     "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
-    "coveralls": "^3.1.1",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
