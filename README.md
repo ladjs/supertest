@@ -6,12 +6,12 @@
 [![PRs Welcome][prs-badge]][prs]
 [![MIT License][license-badge]][license]
 
-HTTP assertions made easy via [superagent](http://github.com/visionmedia/superagent).
+HTTP assertions made easy via [superagent](http://github.com/ladjs/superagent).
 
 ## About
 
 The motivation with this module is to provide a high-level abstraction for testing
-HTTP, while still allowing you to drop down to the [lower-level API](https://visionmedia.github.io/superagent/) provided by superagent.
+HTTP, while still allowing you to drop down to the [lower-level API](https://ladjs.github.io/superagent/) provided by superagent.
 
 ## Getting Started
 
@@ -98,7 +98,7 @@ describe('GET /user', function() {
 });
 ```
 
-You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://visionmedia.github.io/superagent/#authentication):
+You can use `auth` method to pass HTTP username and password in the same way as in the [superagent](http://ladjs.github.io/superagent/#authentication):
 
 ```js
 describe('GET /user', function() {
@@ -257,7 +257,7 @@ describe('request.agent(app)', function() {
 });
 ```
 
-There is another example that is introduced by the file [agency.js](https://github.com/visionmedia/superagent/blob/master/test/node/agency.js)
+There is another example that is introduced by the file [agency.js](https://github.com/ladjs/superagent/blob/master/test/node/agency.js)
 
 Here is an example where 2 cookies are set on the request.
 
@@ -278,7 +278,7 @@ agent(app)
 
 ## API
 
-You may use any [superagent](http://github.com/visionmedia/superagent) methods,
+You may use any [superagent](http://github.com/ladjs/superagent) methods,
 including `.write()`, `.pipe()` etc and perform assertions in the `.end()` callback
 for lower-level needs.
 
@@ -327,13 +327,13 @@ Inspired by [api-easy](https://github.com/flatiron/api-easy) minus vows coupling
 
 MIT
 
-[coverage-badge]: https://img.shields.io/codecov/c/github/visionmedia/supertest.svg
-[coverage]: https://codecov.io/gh/visionmedia/supertest
-[travis-badge]: https://travis-ci.org/visionmedia/supertest.svg?branch=master
-[travis]: https://travis-ci.org/visionmedia/supertest
-[dependencies-badge]: https://david-dm.org/visionmedia/supertest/status.svg
-[dependencies]: https://david-dm.org/visionmedia/supertest
+[coverage-badge]: https://img.shields.io/codecov/c/github/ladjs/supertest.svg
+[coverage]: https://codecov.io/gh/ladjs/supertest
+[travis-badge]: https://travis-ci.org/ladjs/supertest.svg?branch=master
+[travis]: https://travis-ci.org/ladjs/supertest
+[dependencies-badge]: https://david-dm.org/ladjs/supertest/status.svg
+[dependencies]: https://david-dm.org/ladjs/supertest
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
-[license]: https://github.com/visionmedia/supertest/blob/master/LICENSE
+[license]: https://github.com/ladjs/supertest/blob/master/LICENSE
