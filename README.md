@@ -6,7 +6,7 @@
 [![PRs Welcome][prs-badge]][prs]
 [![MIT License][license-badge]][license]
 
-HTTP assertions made easy via [superagent](http://github.com/ladjs/superagent).
+> HTTP assertions made easy via [superagent](http://github.com/ladjs/superagent).  Maintained for [Forward Email](https://github.com/forwardemail) and [Lad](https://github.com/ladjs).
 
 ## About
 
