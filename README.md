@@ -148,7 +148,7 @@ describe('GET /users', function() {
       .expect('Content-Type', /json/)
       .expect(200)
       .then(response => {
-          assert(response.body.email, 'foo@bar.com')
+         expect(response.body.email).toEqual('foo@bar.com');
       })
   });
 });
