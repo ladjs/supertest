@@ -1,4 +1,4 @@
-# [SuperTest](https://visionmedia.github.io/superagent/)
+# [SuperTest](https://ladjs.github.io/superagent/)
 
 [![code coverage][coverage-badge]][coverage]
 [![Build Status][travis-badge]][travis]
