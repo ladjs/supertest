@@ -27,7 +27,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
     - name: Install Dependencies On Old Node ${{ matrix.node-version }}
       if: ${{ matrix.test-on-old-node == '1' }}
       run: node ci/remove-deps-4-old-node.js && yarn install --ignore-scripts
