@@ -41,7 +41,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/visionmedia/supertest.git"
+    "url": "https://github.com/ladjs/supertest.git"
   },
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov",
