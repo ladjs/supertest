@@ -765,9 +765,9 @@ describe('request(app)', function () {
           });
       });
 
-      // this scenario should never happen after https://github.com/visionmedia/supertest/pull/767
+      // this scenario should never happen after https://github.com/ladjs/supertest/pull/767
       // meant for test coverage for lib/test.js#287
-      // https://github.com/visionmedia/supertest/blob/e064b5ae71e1dfa3e1a74745fda527ac542e1878/lib/test.js#L287
+      // https://github.com/ladjs/supertest/blob/e064b5ae71e1dfa3e1a74745fda527ac542e1878/lib/test.js#L287
       it('_assertFunction should catch and return error', function (done) {
         const error = new Error('failed');
         const returnedError = get
@@ -1306,7 +1306,7 @@ describe('request.get(url).query(vals) works as expected', function () {
       .get('/')
       // This expect should never get called, but exposes this issue with other
       // errors being obscured by the response assertions
-      // https://github.com/visionmedia/supertest/issues/352
+      // https://github.com/ladjs/supertest/issues/352
       .expect(200)
       .end(function (err, res) {
         should.exist(err);
@@ -1323,7 +1323,7 @@ describe('request.get(url).query(vals) works as expected', function () {
   // this scenario should never happen
   // there shouldn't be any res if there is an err
   // meant for test coverage for lib/test.js#169
-  // https://github.com/visionmedia/supertest/blob/5543d674cf9aa4547927ba6010d31d9474950dec/lib/test.js#L169
+  // https://github.com/ladjs/supertest/blob/5543d674cf9aa4547927ba6010d31d9474950dec/lib/test.js#L169
   it('handles unknown errors (err with res)', function (done) {
     const app = express();
 
