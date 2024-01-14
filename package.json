@@ -6,10 +6,10 @@
   "contributors": [],
   "dependencies": {
     "methods": "^1.1.2",
-    "superagent": "^8.0.8"
+    "superagent": "^8.1.2"
   },
   "devDependencies": {
-    "body-parser": "^1.20.1",
+    "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "eslint": "^8.32.0",
     "eslint-config-airbnb-base": "^15.0.0",
